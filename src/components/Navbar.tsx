@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, Trophy, Library } from "lucide-react";
 import { useRouter } from "next/navigation";
 import AuthButton from "./AuthButton";
 import { useAuth } from "./AuthProvider";
@@ -50,11 +50,21 @@ export default function Navbar() {
                 Categories
               </Link>
               <Link
-                href="/about"
-                className="text-sm text-stone-500 transition-colors hover:text-stone-900"
+                href="/leaderboard"
+                className="flex items-center gap-1 text-sm text-stone-500 transition-colors hover:text-stone-900"
               >
-                About
+                <Trophy className="h-3.5 w-3.5" />
+                Leaderboard
               </Link>
+              {user && (
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-1 text-sm text-stone-500 transition-colors hover:text-stone-900"
+                >
+                  <Library className="h-3.5 w-3.5" />
+                  Your Library
+                </Link>
+              )}
               {isAdmin && (
                 <Link
                   href="/admin"
@@ -131,21 +141,30 @@ export default function Navbar() {
                 Categories
               </Link>
               <Link
+                href="/leaderboard"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Trophy className="h-3.5 w-3.5" />
+                Leaderboard
+              </Link>
+              {user && (
+                <Link
+                  href="/profile"
+                  className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Library className="h-3.5 w-3.5" />
+                  Your Library
+                </Link>
+              )}
+              <Link
                 href="/about"
                 className="rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
               </Link>
-              {user && (
-                <Link
-                  href="/profile"
-                  className="rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Saved Prompts
-                </Link>
-              )}
               {isAdmin && (
                 <Link
                   href="/admin"

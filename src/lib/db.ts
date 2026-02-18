@@ -406,6 +406,57 @@ export async function getUserSavedPromptIds(
 }
 
 // ============================================
+// LEADERBOARD
+// ============================================
+
+export interface LeaderboardPrompt extends DbPrompt {
+  weekly_saves: number;
+}
+
+export async function getLeaderboardPrompts(
+  limit: number = 20
+): Promise<LeaderboardPrompt[]> {
+  if (!isSupabaseConfigured()) {
+    // Fallback: return top prompts by saves_count with fake weekly_saves
+    return [...fallbackPrompts]
+      .sort((a, b) => b.saves_count - a.saves_count)
+      .slice(0, limit)
+      .map((p, i) => ({
+        ...p,
+        weekly_saves: Math.max(0, p.saves_count - i * 10),
+      }));
+  }
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("get_weekly_leaderboard", {
+      limit_count: limit,
+    });
+
+    if (error || !data || data.length === 0) {
+      // If no weekly saves, fall back to top prompts by total saves
+      const { data: topPrompts } = await supabase
+        .from("prompts")
+        .select("*")
+        .eq("is_published", true)
+        .order("saves_count", { ascending: false })
+        .limit(limit);
+
+      return (topPrompts ?? []).map((p) => ({
+        ...p,
+        weekly_saves: 0,
+      }));
+    }
+
+    return data as LeaderboardPrompt[];
+  } catch {
+    return [...fallbackPrompts]
+      .sort((a, b) => b.saves_count - a.saves_count)
+      .slice(0, limit)
+      .map((p) => ({ ...p, weekly_saves: 0 }));
+  }
+}
+
+// ============================================
 // PROFILES
 // ============================================
 

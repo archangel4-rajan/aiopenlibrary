@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus, Edit, Trash2, Eye, EyeOff, Shield } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, Shield, Inbox } from "lucide-react";
 import { isAdmin } from "@/lib/auth";
 import { getAllPromptsAdmin } from "@/lib/db";
 import AdminDeleteButton from "@/components/AdminDeleteButton";
@@ -33,13 +33,22 @@ export default async function AdminPage() {
               </p>
             </div>
           </div>
-          <Link
-            href="/admin/prompts/new"
-            className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-          >
-            <Plus className="h-4 w-4" />
-            New Prompt
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/admin/submissions"
+              className="inline-flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50"
+            >
+              <Inbox className="h-4 w-4" />
+              Submissions
+            </Link>
+            <Link
+              href="/admin/prompts/new"
+              className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
+            >
+              <Plus className="h-4 w-4" />
+              New Prompt
+            </Link>
+          </div>
         </div>
 
         {/* Stats */}

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
 import type { DbPrompt } from "@/lib/types";
 import PromptCard from "@/components/PromptCard";
+import { useAuth } from "@/components/AuthProvider";
 import { Suspense } from "react";
 
 function SearchContent() {
@@ -13,6 +14,18 @@ function SearchContent() {
   const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<DbPrompt[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [savedIds, setSavedIds] = useState<string[]>([]);
+  const { user } = useAuth();
+
+  // Fetch saved IDs when user is available
+  useEffect(() => {
+    if (user) {
+      fetch("/api/user/saved-ids")
+        .then((res) => res.json())
+        .then((ids) => setSavedIds(ids))
+        .catch(() => {});
+    }
+  }, [user]);
 
   const fetchResults = useCallback(async (q: string) => {
     setIsLoading(true);
@@ -67,7 +80,11 @@ function SearchContent() {
         {results.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {results.map((prompt) => (
-              <PromptCard key={prompt.slug} prompt={prompt} />
+              <PromptCard
+                key={prompt.slug}
+                prompt={prompt}
+                isSaved={savedIds.includes(prompt.id)}
+              />
             ))}
           </div>
         ) : !isLoading ? (

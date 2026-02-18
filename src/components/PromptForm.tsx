@@ -364,6 +364,57 @@ export default function PromptForm({
         </button>
       </div>
 
+      {/* References */}
+      <div>
+        <label className="mb-2 block text-sm font-medium text-stone-700">
+          References
+        </label>
+        {references.map((ref, i) => (
+          <div key={i} className="mb-2 flex gap-2">
+            <input
+              type="text"
+              value={ref.title}
+              onChange={(e) => {
+                const newRefs = [...references];
+                newRefs[i] = { ...newRefs[i], title: e.target.value };
+                setReferences(newRefs);
+              }}
+              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              placeholder="Reference title"
+            />
+            <input
+              type="url"
+              value={ref.url}
+              onChange={(e) => {
+                const newRefs = [...references];
+                newRefs[i] = { ...newRefs[i], url: e.target.value };
+                setReferences(newRefs);
+              }}
+              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              placeholder="https://..."
+            />
+            <button
+              type="button"
+              onClick={() =>
+                setReferences(references.filter((_, j) => j !== i))
+              }
+              className="rounded-lg p-2 text-stone-400 hover:text-red-500"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() =>
+            setReferences([...references, { title: "", url: "" }])
+          }
+          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
+        >
+          <Plus className="h-3 w-3" /> Add reference
+        </button>
+      </div>
+
       {/* Published toggle */}
       <div className="flex items-center gap-3">
         <label className="relative inline-flex cursor-pointer items-center">

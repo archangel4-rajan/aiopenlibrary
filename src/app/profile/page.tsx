@@ -1,13 +1,14 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Bookmark, ArrowRight } from "lucide-react";
+import { Library, ArrowRight, Search } from "lucide-react";
 import { getUser } from "@/lib/auth";
 import { getUserProfile, getUserSavedPrompts, getUserSavedPromptIds } from "@/lib/db";
 import PromptCard from "@/components/PromptCard";
+import LibraryFilter from "@/components/LibraryFilter";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Saved Prompts - AIOpenLibrary",
+  title: "Your Library - AIOpenLibrary",
 };
 
 export default async function ProfilePage() {
@@ -49,34 +50,26 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        {/* Saved Prompts */}
+        {/* Your Library */}
         <div>
           <div className="mb-6 flex items-center gap-2">
-            <Bookmark className="h-5 w-5 text-stone-600" />
-            <h2 className="text-xl font-bold text-stone-900">Saved Prompts</h2>
+            <Library className="h-5 w-5 text-stone-600" />
+            <h2 className="text-xl font-bold text-stone-900">Your Library</h2>
             <span className="rounded-full bg-stone-200 px-2.5 py-0.5 text-xs font-medium text-stone-600">
               {savedPrompts.length}
             </span>
           </div>
 
           {savedPrompts.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {savedPrompts.map((prompt) => (
-                <PromptCard
-                  key={prompt.slug}
-                  prompt={prompt}
-                  isSaved={savedIds.includes(prompt.id)}
-                />
-              ))}
-            </div>
+            <LibraryFilter prompts={savedPrompts} savedIds={savedIds} />
           ) : (
             <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center">
-              <Bookmark className="mx-auto h-10 w-10 text-stone-300" />
+              <Library className="mx-auto h-10 w-10 text-stone-300" />
               <p className="mt-3 text-base text-stone-400">
-                You haven&apos;t saved any prompts yet.
+                Your library is empty.
               </p>
               <p className="mt-1 text-sm text-stone-400">
-                Browse prompts and click the bookmark icon to save them here.
+                Browse prompts and click the bookmark icon to save them to your library.
               </p>
               <Link
                 href="/categories"

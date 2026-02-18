@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut, Bookmark, Shield, ChevronDown } from "lucide-react";
+import { LogOut, Library, Shield, ChevronDown } from "lucide-react";
 import { useAuth } from "./AuthProvider";
 import { createClient } from "@/lib/supabase/client";
 
@@ -93,8 +93,8 @@ export default function AuthButton() {
               onClick={() => setMenuOpen(false)}
               className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 hover:text-stone-900"
             >
-              <Bookmark className="h-4 w-4" />
-              Saved Prompts
+              <Library className="h-4 w-4" />
+              Your Library
             </Link>
 
             {isAdmin && (

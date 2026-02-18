@@ -1,12 +1,149 @@
-import { Send } from "lucide-react";
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Submit a Prompt - AIOpenLibrary",
-  description: "Share your best AI prompts with the community.",
-};
+import { useState, useEffect } from "react";
+import { Send, CheckCircle, LogIn } from "lucide-react";
+import Link from "next/link";
+import { useAuth } from "@/components/AuthProvider";
+import type { DbCategory } from "@/lib/types";
+
+type SubmitState = "idle" | "submitting" | "success" | "error";
 
 export default function SubmitPage() {
+  const { user } = useAuth();
+  const [categories, setCategories] = useState<DbCategory[]>([]);
+  const [state, setState] = useState<SubmitState>("idle");
+  const [error, setError] = useState("");
+
+  const [title, setTitle] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [description, setDescription] = useState("");
+  const [prompt, setPrompt] = useState("");
+  const [recommendedModel, setRecommendedModel] = useState("");
+  const [modelIcon, setModelIcon] = useState("");
+  const [tagsStr, setTagsStr] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => {});
+  }, []);
+
+  const selectedCategory = categories.find((c) => c.id === categoryId);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setState("submitting");
+    setError("");
+
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          description,
+          category_id: categoryId,
+          category_name: selectedCategory?.name || "",
+          category_slug: selectedCategory?.slug || "",
+          prompt,
+          tags: tagsStr
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
+          recommended_model: recommendedModel,
+          model_icon: modelIcon,
+          submitter_email: email,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to submit");
+      }
+
+      setState("success");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+      setState("error");
+    }
+  };
+
+  if (!user) {
+    return (
+      <div className="bg-stone-50">
+        <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
+          <div className="text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600">
+              <LogIn className="h-5 w-5" />
+            </div>
+            <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl">
+              Sign in to Submit
+            </h1>
+            <p className="mt-3 text-base text-stone-500">
+              You need to be signed in to submit a prompt to the community.
+            </p>
+            <Link
+              href="/auth/login"
+              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800"
+            >
+              Sign In
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (state === "success") {
+    return (
+      <div className="bg-stone-50">
+        <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
+          <div className="text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-green-200 bg-green-50 text-green-600">
+              <CheckCircle className="h-5 w-5" />
+            </div>
+            <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl">
+              Prompt Submitted!
+            </h1>
+            <p className="mt-3 text-base text-stone-500">
+              Thank you for your submission. Our team will review it and
+              publish it once approved.
+            </p>
+            <div className="mt-8 flex justify-center gap-4">
+              <button
+                onClick={() => {
+                  setState("idle");
+                  setTitle("");
+                  setCategoryId("");
+                  setDescription("");
+                  setPrompt("");
+                  setRecommendedModel("");
+                  setModelIcon("");
+                  setTagsStr("");
+                  setEmail("");
+                }}
+                className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800"
+              >
+                Submit Another
+              </button>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-white px-6 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50"
+              >
+                Back to Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const inputClass =
+    "mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200";
+
   return (
     <div className="bg-stone-50">
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
@@ -46,54 +183,71 @@ export default function SubmitPage() {
           </ul>
         </div>
 
-        <form className="mt-8 space-y-6">
+        {error && (
+          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div>
             <label className="block text-sm font-medium text-stone-700">
-              Prompt Title
+              Prompt Title *
             </label>
             <input
               type="text"
+              required
               placeholder="e.g., Senior Developer Code Review"
-              className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className={inputClass}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-stone-700">
-              Category
+              Category *
             </label>
-            <select className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200">
+            <select
+              required
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className={inputClass}
+            >
               <option value="">Select a category</option>
-              <option>Software Engineering</option>
-              <option>Writing & Content</option>
-              <option>Data Science & Analysis</option>
-              <option>Marketing</option>
-              <option>Design & UX</option>
-              <option>Education</option>
-              <option>Product Management</option>
-              <option>Research</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.icon} {c.name}
+                </option>
+              ))}
             </select>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-stone-700">
-              Description
+              Description *
             </label>
             <textarea
+              required
               rows={3}
               placeholder="Brief description of what this prompt does and when to use it..."
-              className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className={inputClass}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-stone-700">
-              Prompt
+              Prompt *
             </label>
             <textarea
+              required
               rows={10}
               placeholder="Enter your full prompt here. Use {{variable_name}} for customizable parts..."
-              className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 font-mono text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className={`${inputClass} font-mono`}
             />
           </div>
 
@@ -101,7 +255,25 @@ export default function SubmitPage() {
             <label className="block text-sm font-medium text-stone-700">
               Recommended AI Model
             </label>
-            <select className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200">
+            <select
+              value={recommendedModel}
+              onChange={(e) => {
+                setRecommendedModel(e.target.value);
+                if (
+                  e.target.value.includes("Claude") ||
+                  e.target.value.includes("Haiku")
+                ) {
+                  setModelIcon("anthropic");
+                } else if (e.target.value.includes("GPT")) {
+                  setModelIcon("openai");
+                } else if (e.target.value.includes("Gemini")) {
+                  setModelIcon("google");
+                } else {
+                  setModelIcon("");
+                }
+              }}
+              className={inputClass}
+            >
               <option value="">Select a model</option>
               <option>Claude Opus 4</option>
               <option>Claude Sonnet 4</option>
@@ -120,26 +292,33 @@ export default function SubmitPage() {
             <input
               type="text"
               placeholder="e.g., code-review, debugging, best-practices"
-              className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200"
+              value={tagsStr}
+              onChange={(e) => setTagsStr(e.target.value)}
+              className={inputClass}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-stone-700">
-              Your Email (optional)
+              Your Email (optional, for attribution)
             </label>
             <input
               type="email"
               placeholder="For attribution and updates"
-              className="mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputClass}
             />
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800"
+            disabled={state === "submitting"}
+            className="w-full rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 disabled:opacity-50"
           >
-            Submit Prompt for Review
+            {state === "submitting"
+              ? "Submitting..."
+              : "Submit Prompt for Review"}
           </button>
           <p className="text-center text-xs text-stone-400">
             Submitted prompts are reviewed before being published. We&apos;ll
