@@ -278,34 +278,6 @@ export async function isPromptSavedByUser(
   }
 }
 
-/** Returns all published prompts saved by a user. */
-export async function getUserSavedPrompts(
-  userId: string
-): Promise<DbPrompt[]> {
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("saved_prompts")
-      .select("prompt_id")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false });
-
-    if (error || !data || data.length === 0) return [];
-
-    const promptIds = data.map((s) => s.prompt_id);
-    const { data: prompts, error: promptsError } = await supabase
-      .from("prompts")
-      .select("*")
-      .in("id", promptIds)
-      .eq("is_published", true);
-
-    if (promptsError) return [];
-    return prompts ?? [];
-  } catch {
-    return [];
-  }
-}
-
 /** Returns an array of prompt IDs saved by a user. */
 export async function getUserSavedPromptIds(
   userId: string
@@ -522,98 +494,6 @@ export async function searchPromptsWithFilters(
     return data ?? [];
   } catch {
     return [];
-  }
-}
-
-// ============================================
-// COLLECTIONS
-// ============================================
-
-export interface DbCollection {
-  id: string;
-  user_id: string;
-  name: string;
-  description: string;
-  created_at: string;
-  updated_at: string;
-}
-
-/** Returns all collections for a user. */
-export async function getUserCollections(
-  userId: string
-): Promise<DbCollection[]> {
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("collections")
-      .select("*")
-      .eq("user_id", userId)
-      .order("updated_at", { ascending: false });
-
-    if (error) return [];
-    return (data ?? []) as DbCollection[];
-  } catch {
-    return [];
-  }
-}
-
-/** Returns prompt IDs in a specific collection. */
-export async function getCollectionPromptIds(
-  collectionId: string
-): Promise<string[]> {
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("collection_prompts")
-      .select("prompt_id")
-      .eq("collection_id", collectionId)
-      .order("added_at", { ascending: false });
-
-    if (error) return [];
-    return (data ?? []).map((r) => r.prompt_id);
-  } catch {
-    return [];
-  }
-}
-
-/** Returns prompts in a specific collection. */
-export async function getCollectionPrompts(
-  collectionId: string
-): Promise<DbPrompt[]> {
-  try {
-    const promptIds = await getCollectionPromptIds(collectionId);
-    if (promptIds.length === 0) return [];
-
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("prompts")
-      .select("*")
-      .in("id", promptIds)
-      .eq("is_published", true);
-
-    if (error) return [];
-    return data ?? [];
-  } catch {
-    return [];
-  }
-}
-
-/** Returns a single collection by ID, or null. */
-export async function getCollectionById(
-  collectionId: string
-): Promise<DbCollection | null> {
-  try {
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("collections")
-      .select("*")
-      .eq("id", collectionId)
-      .single();
-
-    if (error) return null;
-    return data as DbCollection;
-  } catch {
-    return null;
   }
 }
 

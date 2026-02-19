@@ -55,7 +55,7 @@ export default function PromptCustomizer({
   const renderPromptSegments = useMemo(() => {
     const segments: { text: string; type: "text" | "filled" | "unfilled" }[] =
       [];
-    let remaining = promptText;
+    const remaining = promptText;
 
     // Build a regex matching all variable placeholders
     if (variables.length === 0) {

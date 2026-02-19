@@ -108,10 +108,13 @@ function SearchContent() {
     });
   }, [debouncedQuery, categoryFilter, difficultyFilter, modelFilter, router]);
 
-  // Sync from URL params (e.g. when clicking a TagLink)
+  // Sync from URL params (e.g. when clicking a TagLink).
+  // `query` is intentionally excluded — including it causes an infinite loop
+  // because setQuery updates query which would re-trigger this effect.
   useEffect(() => {
     const q = searchParams.get("q");
     if (q !== null && q !== query) setQuery(q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const hasActiveFilters = !!(categoryFilter || difficultyFilter || modelFilter);

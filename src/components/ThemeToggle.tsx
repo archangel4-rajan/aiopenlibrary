@@ -1,41 +1,57 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore, useCallback } from "react";
 import { Sun, Moon } from "lucide-react";
 
+function getThemeSnapshot(): "dark" | "light" {
+  if (typeof window === "undefined") return "light";
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+function getServerSnapshot(): "dark" | "light" {
+  return "light";
+}
+
+/** Initialise the theme from localStorage / system preference. */
+function initTheme(): void {
+  const stored = localStorage.getItem("theme");
+  const prefersDark =
+    !stored &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (stored === "dark" || prefersDark) {
+    document.documentElement.classList.add("dark");
+  }
+}
+
+function subscribeToTheme(callback: () => void): () => void {
+  // Initialise theme on first subscription (runs once in the browser)
+  initTheme();
+
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+}
+
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const theme = useSyncExternalStore(
+    subscribeToTheme,
+    getThemeSnapshot,
+    getServerSnapshot,
+  );
+  const dark = theme === "dark";
 
-  useEffect(() => {
-    setMounted(true);
-    const stored = localStorage.getItem("theme");
-    if (stored === "dark" || (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-      setDark(true);
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
-
-  const toggle = () => {
-    const next = !dark;
-    setDark(next);
-    if (next) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
+  const toggle = useCallback(() => {
+    if (dark) {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     }
-  };
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return (
-      <button className="rounded-lg p-2 text-stone-400">
-        <Sun className="h-4 w-4" />
-      </button>
-    );
-  }
+  }, [dark]);
 
   return (
     <button

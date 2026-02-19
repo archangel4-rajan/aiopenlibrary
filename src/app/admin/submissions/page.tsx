@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Check, X, Clock, Eye, Home, Shield } from "lucide-react";
+import { ArrowLeft, Check, X, Eye, Home, Shield } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 
 interface Submission {

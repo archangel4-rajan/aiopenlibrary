@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ExternalLink,
-  Tag,
   ImageIcon,
 } from "lucide-react";
 import {
@@ -144,7 +143,6 @@ export default async function PromptPage({
             <ShareButtons
               url={`https://aiopenlibrary.com/prompts/${prompt.slug}`}
               title={prompt.title}
-              description={prompt.description}
             />
           </div>
         </div>

@@ -30,8 +30,8 @@ export default function Logo({
   if (fallback === "gif") {
     // Use a plain <img> tag for the animated GIF to bypass Next.js
     // image optimization, which can strip animation frames.
-    // eslint-disable-next-line @next/next/no-img-element
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src="/logo.gif"
         alt="AIOpenLibrary"

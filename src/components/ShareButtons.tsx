@@ -6,23 +6,19 @@ import { Link2, Check } from "lucide-react";
 interface ShareButtonsProps {
   url: string;
   title: string;
-  description?: string;
 }
 
 export default function ShareButtons({
   url,
   title,
-  description,
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
-
-  const fullUrl = typeof window !== "undefined" ? url : url;
 
   const handleCopyLink = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     try {
-      await navigator.clipboard.writeText(fullUrl);
+      await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -32,10 +28,10 @@ export default function ShareButtons({
 
   const twitterUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(
     `${title} — check out this AI prompt on AIOpenLibrary`
-  )}&url=${encodeURIComponent(fullUrl)}`;
+  )}&url=${encodeURIComponent(url)}`;
 
   const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-    fullUrl
+    url
   )}`;
 
   return (
