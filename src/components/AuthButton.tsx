@@ -67,6 +67,7 @@ export default function AuthButton() {
         className="flex items-center gap-2 rounded-lg p-1.5 transition-colors hover:bg-stone-100"
       >
         {avatarUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={avatarUrl}
             alt={displayName}

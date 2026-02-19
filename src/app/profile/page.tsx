@@ -30,6 +30,7 @@ export default async function ProfilePage() {
         {/* Profile Header */}
         <div className="mb-10 flex items-center gap-4">
           {profile?.avatar_url ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={profile.avatar_url}
               alt={profile.display_name || "User"}
