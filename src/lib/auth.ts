@@ -1,8 +1,14 @@
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
+/**
+ * Authentication helpers for AIOpenLibrary.
+ *
+ * Wraps Supabase auth to provide typed user and profile access.
+ */
+
+import { createClient } from "@/lib/supabase/server";
 import type { DbProfile } from "@/lib/types";
 
+/** Returns the currently authenticated Supabase user, or null. */
 export async function getUser() {
-  if (!isSupabaseConfigured()) return null;
   try {
     const supabase = await createClient();
     const {
@@ -14,6 +20,7 @@ export async function getUser() {
   }
 }
 
+/** Returns the profile for the currently authenticated user, or null. */
 export async function getProfile(): Promise<DbProfile | null> {
   const user = await getUser();
   if (!user) return null;
@@ -28,6 +35,7 @@ export async function getProfile(): Promise<DbProfile | null> {
   return data;
 }
 
+/** Returns true if the currently authenticated user has the admin role. */
 export async function isAdmin(): Promise<boolean> {
   const profile = await getProfile();
   return profile?.role === "admin";

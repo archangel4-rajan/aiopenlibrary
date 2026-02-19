@@ -12,6 +12,10 @@ export default function ModelBadge({
       ? "◆"
       : icon === "google"
       ? "●"
+      : icon === "xai"
+      ? "✕"
+      : icon === "meta"
+      ? "◈"
       : "◇";
 
   return (

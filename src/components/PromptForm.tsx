@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, X, Save } from "lucide-react";
 import type { DbPrompt, DbCategory } from "@/lib/types";
+import { MODELS, getModelIcon } from "@/lib/models";
 
 interface PromptFormProps {
   prompt?: DbPrompt;
@@ -184,24 +185,17 @@ export default function PromptForm({
           <select
             value={recommendedModel}
             onChange={(e) => {
-              setRecommendedModel(e.target.value);
-              if (e.target.value.includes("Claude") || e.target.value.includes("Haiku")) {
-                setModelIcon("anthropic");
-              } else if (e.target.value.includes("GPT")) {
-                setModelIcon("openai");
-              } else if (e.target.value.includes("Gemini")) {
-                setModelIcon("google");
-              }
+              const selected = e.target.value;
+              setRecommendedModel(selected);
+              setModelIcon(getModelIcon(selected));
             }}
             className={inputClass}
           >
-            <option>Claude Opus 4</option>
-            <option>Claude Sonnet 4</option>
-            <option>Claude Haiku 3.5</option>
-            <option>GPT-4o</option>
-            <option>GPT-4o mini</option>
-            <option>Gemini 2.5 Pro</option>
-            <option>Gemini 2.0 Flash</option>
+            {Object.values(MODELS).map((m) => (
+              <option key={m.name} value={m.name}>
+                {m.name}
+              </option>
+            ))}
           </select>
         </div>
         <div>

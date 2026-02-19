@@ -18,6 +18,8 @@ export interface DbPrompt {
   tips: string[] | null;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   saves_count: number;
+  likes_count: number;
+  dislikes_count: number;
   is_published: boolean;
   created_by: string | null;
   created_at: string;
@@ -30,6 +32,15 @@ export interface DbCategory {
   slug: string;
   icon: string;
   description: string;
+  created_at: string;
+}
+
+/** A user's vote on a prompt (like or dislike). */
+export interface DbPromptVote {
+  id: string;
+  user_id: string;
+  prompt_id: string;
+  vote_type: "like" | "dislike";
   created_at: string;
 }
 
