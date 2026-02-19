@@ -4,9 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { Search, Menu, X, Trophy, Library } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import AuthButton from "./AuthButton";
 import { useAuth } from "./AuthProvider";
 import Logo from "./Logo";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -14,6 +16,7 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { user, isAdmin } = useAuth();
+  const pathname = usePathname();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,14 +27,47 @@ export default function Navbar() {
     }
   };
 
+  const isActive = (href: string): boolean => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    if (href === "/categories") {
+      return pathname.startsWith("/categories") || pathname.startsWith("/category/");
+    }
+    if (href === "/leaderboard") {
+      return pathname.startsWith("/leaderboard");
+    }
+    if (href === "/profile") {
+      return pathname.startsWith("/profile");
+    }
+    if (href === "/admin") {
+      return pathname.startsWith("/admin");
+    }
+    return false;
+  };
+
+  const getLinkClassName = (href: string): string => {
+    const baseClass = "text-sm transition-colors";
+    const activeClass = "text-stone-900 font-medium dark:text-stone-100";
+    const inactiveClass = "text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100";
+    return `${baseClass} ${isActive(href) ? activeClass : inactiveClass}`;
+  };
+
+  const getMobileMenuItemClassName = (href: string): string => {
+    const baseClass = "rounded-lg px-3 py-2 text-sm transition-colors";
+    const activeClass = "text-stone-900 font-medium dark:text-stone-100 bg-stone-100 dark:bg-stone-900";
+    const inactiveClass = "text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-900 hover:text-stone-900 dark:hover:text-stone-100";
+    return `${baseClass} ${isActive(href) ? activeClass : inactiveClass}`;
+  };
+
   return (
-    <nav className="sticky top-0 z-50 border-b border-stone-200 bg-stone-50/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-stone-200 dark:border-stone-800 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between sm:h-20">
           <div className="flex items-center gap-4 sm:gap-8">
             <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5">
               <Logo size={64} className="h-9 w-9 sm:h-16 sm:w-16" />
-              <span className="text-lg font-semibold tracking-tight text-stone-900 sm:text-4xl">
+              <span className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100 sm:text-4xl">
                 AIOpenLibrary
               </span>
             </Link>
@@ -39,19 +75,19 @@ export default function Navbar() {
             <div className="hidden items-center gap-6 md:flex">
               <Link
                 href="/"
-                className="text-sm text-stone-500 transition-colors hover:text-stone-900"
+                className={getLinkClassName("/")}
               >
                 Home
               </Link>
               <Link
                 href="/categories"
-                className="text-sm text-stone-500 transition-colors hover:text-stone-900"
+                className={getLinkClassName("/categories")}
               >
                 Categories
               </Link>
               <Link
                 href="/leaderboard"
-                className="flex items-center gap-1 text-sm text-stone-500 transition-colors hover:text-stone-900"
+                className={`${getLinkClassName("/leaderboard")} flex items-center gap-1`}
               >
                 <Trophy className="h-3.5 w-3.5" />
                 Leaderboard
@@ -59,7 +95,7 @@ export default function Navbar() {
               {user && (
                 <Link
                   href="/profile"
-                  className="flex items-center gap-1 text-sm text-stone-500 transition-colors hover:text-stone-900"
+                  className={`${getLinkClassName("/profile")} flex items-center gap-1`}
                 >
                   <Library className="h-3.5 w-3.5" />
                   Your Library
@@ -68,7 +104,7 @@ export default function Navbar() {
               {isAdmin && (
                 <Link
                   href="/admin"
-                  className="text-sm text-stone-500 transition-colors hover:text-stone-900"
+                  className={getLinkClassName("/admin")}
                 >
                   Admin
                 </Link>
@@ -84,13 +120,13 @@ export default function Navbar() {
                   placeholder="Search prompts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-32 rounded-lg border border-stone-300 bg-white px-3 py-1.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200 sm:w-64"
+                  className="w-32 rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-1.5 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-500 dark:focus:border-stone-600 focus:ring-1 focus:ring-stone-200 dark:focus:ring-stone-800 sm:w-64"
                   autoFocus
                 />
                 <button
                   type="button"
                   onClick={() => setSearchOpen(false)}
-                  className="ml-2 text-stone-400 hover:text-stone-600"
+                  className="ml-2 text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-400"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -98,21 +134,23 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => setSearchOpen(true)}
-                className="flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-3 py-1.5 text-sm text-stone-400 transition-colors hover:border-stone-300 hover:text-stone-600"
+                className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-900 px-3 py-1.5 text-sm text-stone-400 dark:text-stone-500 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:text-stone-600 dark:hover:text-stone-400"
               >
                 <Search className="h-4 w-4" />
                 <span className="hidden sm:inline">Search...</span>
-                <kbd className="hidden rounded border border-stone-200 bg-stone-50 px-1.5 py-0.5 font-mono text-[10px] text-stone-400 sm:inline">
+                <kbd className="hidden rounded border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 px-1.5 py-0.5 font-mono text-[10px] text-stone-400 dark:text-stone-500 sm:inline">
                   /
                 </kbd>
               </button>
             )}
 
+            <ThemeToggle />
+
             <AuthButton />
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-lg p-2 text-stone-600 hover:bg-stone-100 md:hidden"
+              className="rounded-lg p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 md:hidden"
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -124,25 +162,25 @@ export default function Navbar() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="border-t border-stone-100 py-4 md:hidden">
+          <div className="border-t border-stone-100 dark:border-stone-800 py-4 md:hidden dark:bg-stone-950/50">
             <div className="flex flex-col gap-3">
               <Link
                 href="/"
-                className="rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                className={getMobileMenuItemClassName("/")}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/categories"
-                className="rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                className={getMobileMenuItemClassName("/categories")}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Categories
               </Link>
               <Link
                 href="/leaderboard"
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                className={`${getMobileMenuItemClassName("/leaderboard")} flex items-center gap-1.5`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <Trophy className="h-3.5 w-3.5" />
@@ -151,7 +189,7 @@ export default function Navbar() {
               {user && (
                 <Link
                   href="/profile"
-                  className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                  className={`${getMobileMenuItemClassName("/profile")} flex items-center gap-1.5`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <Library className="h-3.5 w-3.5" />
@@ -160,7 +198,7 @@ export default function Navbar() {
               )}
               <Link
                 href="/about"
-                className="rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                className={getMobileMenuItemClassName("/about")}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 About
@@ -168,7 +206,7 @@ export default function Navbar() {
               {isAdmin && (
                 <Link
                   href="/admin"
-                  className="rounded-lg px-3 py-2 text-sm text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                  className={getMobileMenuItemClassName("/admin")}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Admin Dashboard

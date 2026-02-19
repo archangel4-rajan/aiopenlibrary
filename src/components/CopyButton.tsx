@@ -23,8 +23,8 @@ export default function CopyButton({
       onClick={handleCopy}
       className={`inline-flex items-center gap-2 rounded-lg transition-all ${
         copied
-          ? "bg-stone-600 text-white"
-          : "bg-stone-900 text-white hover:bg-stone-800"
+          ? "bg-stone-600 text-white dark:bg-stone-700"
+          : "bg-stone-900 text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
       } ${className}`}
     >
       {copied ? (

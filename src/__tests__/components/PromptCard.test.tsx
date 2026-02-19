@@ -40,6 +40,8 @@ const mockPrompt: DbPrompt = {
   tips: null,
   difficulty: "Intermediate",
   saves_count: 42,
+  likes_count: 15,
+  dislikes_count: 3,
   is_published: true,
   created_by: null,
   created_at: "2024-01-01T00:00:00Z",

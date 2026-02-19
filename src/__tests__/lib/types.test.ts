@@ -23,6 +23,8 @@ describe("Type definitions", () => {
       tips: ["tip 1"],
       difficulty: "Intermediate",
       saves_count: 0,
+      likes_count: 0,
+      dislikes_count: 0,
       is_published: true,
       created_by: null,
       created_at: "2024-01-01T00:00:00Z",

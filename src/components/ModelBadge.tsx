@@ -19,7 +19,7 @@ export default function ModelBadge({
       : "◇";
 
   return (
-    <span className="inline-flex items-center gap-1.5 self-start rounded-md border border-stone-200 bg-stone-50 px-2 py-0.5 text-[11px] font-medium text-stone-600">
+    <span className="inline-flex items-center gap-1.5 self-start rounded-md border border-stone-200 bg-stone-50 px-2 py-0.5 text-[11px] font-medium text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300">
       <span className="text-xs">{logoText}</span>
       {model}
     </span>

@@ -109,12 +109,12 @@ export default function PromptCustomizer({
       {variables.length > 0 && (
         <div className="mb-8">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-lg font-semibold text-stone-900">
-              <Variable className="h-5 w-5 text-stone-500" />
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-stone-900 dark:text-stone-100">
+              <Variable className="h-5 w-5 text-stone-500 dark:text-stone-400" />
               Variables to Customize
             </h2>
             {variables.length > 0 && (
-              <span className="text-xs text-stone-400">
+              <span className="text-xs text-stone-400 dark:text-stone-500">
                 {filledCount}/{variables.length} filled
               </span>
             )}
@@ -123,24 +123,24 @@ export default function PromptCustomizer({
             {variables.map((v) => (
               <div
                 key={v.name}
-                className="rounded-lg border border-stone-200 bg-white p-4"
+                className="rounded-lg border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800"
               >
                 <div className="mb-2 flex items-start justify-between gap-2 sm:items-center">
                   <label
                     htmlFor={`var-${v.name}`}
                     className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2"
                   >
-                    <code className="shrink-0 rounded bg-stone-100 px-2 py-0.5 font-mono text-[11px] text-stone-700 sm:text-xs">
+                    <code className="shrink-0 rounded bg-stone-100 px-2 py-0.5 font-mono text-[11px] text-stone-700 dark:bg-stone-700 dark:text-stone-200 sm:text-xs">
                       {`{{${v.name}}}`}
                     </code>
-                    <span className="text-[11px] leading-tight text-stone-400 sm:text-xs">
+                    <span className="text-[11px] leading-tight text-stone-400 dark:text-stone-500 sm:text-xs">
                       {v.description}
                     </span>
                   </label>
                   {values[v.name]?.trim() && (
                     <button
                       onClick={() => handleClear(v.name)}
-                      className="rounded p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+                      className="rounded p-1 text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:text-stone-500 dark:hover:bg-stone-700 dark:hover:text-stone-300"
                       aria-label={`Clear ${v.name}`}
                     >
                       <X className="h-3.5 w-3.5" />
@@ -153,7 +153,7 @@ export default function PromptCustomizer({
                   value={values[v.name] || ""}
                   onChange={(e) => handleChange(v.name, e.target.value)}
                   placeholder={v.description}
-                  className="w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-900 placeholder-stone-400 outline-none transition-colors focus:border-stone-400 focus:bg-white focus:ring-1 focus:ring-stone-200"
+                  className="w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-900 placeholder-stone-400 outline-none transition-colors focus:border-stone-400 focus:bg-white focus:ring-1 focus:ring-stone-200 dark:border-stone-700 dark:bg-stone-700 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-stone-600 dark:focus:bg-stone-600 dark:focus:ring-stone-700"
                 />
               </div>
             ))}
@@ -164,20 +164,20 @@ export default function PromptCustomizer({
       {/* Use Cases */}
       {useCases.length > 0 && (
         <div className="mb-8">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900">
-            <Lightbulb className="h-5 w-5 text-stone-500" />
+          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900 dark:text-stone-100">
+            <Lightbulb className="h-5 w-5 text-stone-500 dark:text-stone-400" />
             Use Cases
           </h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {useCases.map((useCase) => (
               <div
                 key={useCase}
-                className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3"
+                className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3 dark:border-stone-700 dark:bg-stone-800"
               >
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-100 text-xs text-stone-600">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-100 text-xs text-stone-600 dark:bg-stone-700 dark:text-stone-300">
                   &#10003;
                 </div>
-                <span className="text-sm text-stone-600">{useCase}</span>
+                <span className="text-sm text-stone-600 dark:text-stone-300">{useCase}</span>
               </div>
             ))}
           </div>
@@ -185,12 +185,12 @@ export default function PromptCustomizer({
       )}
 
       {/* Prompt Content with live preview */}
-      <div className="rounded-lg border border-stone-200 bg-white p-4 sm:p-8">
+      <div className="rounded-lg border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800 sm:p-8">
         <div className="mb-4 flex items-center justify-between gap-2">
-          <h2 className="text-[10px] font-medium uppercase tracking-widest text-stone-400 sm:text-xs">
+          <h2 className="text-[10px] font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500 sm:text-xs">
             Prompt
             {filledCount > 0 && (
-              <span className="ml-2 normal-case tracking-normal text-stone-500">
+              <span className="ml-2 normal-case tracking-normal text-stone-500 dark:text-stone-400">
                 — customized with your values
               </span>
             )}
@@ -200,13 +200,13 @@ export default function PromptCustomizer({
             className="px-4 py-2 text-sm font-medium"
           />
         </div>
-        <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs leading-relaxed text-stone-700 sm:p-5 sm:text-sm">
+        <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs leading-relaxed text-stone-700 dark:border-stone-700 dark:bg-stone-700 dark:text-stone-200 sm:p-5 sm:text-sm">
           {renderPromptSegments.map((seg, i) => {
             if (seg.type === "filled") {
               return (
                 <span
                   key={i}
-                  className="rounded bg-emerald-100 px-0.5 font-semibold text-emerald-800"
+                  className="rounded bg-emerald-100 px-0.5 font-semibold text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
                 >
                   {seg.text}
                 </span>
@@ -216,7 +216,7 @@ export default function PromptCustomizer({
               return (
                 <span
                   key={i}
-                  className="rounded bg-amber-100 px-0.5 text-amber-700"
+                  className="rounded bg-amber-100 px-0.5 text-amber-700 dark:bg-amber-900 dark:text-amber-200"
                 >
                   {seg.text}
                 </span>

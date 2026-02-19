@@ -8,6 +8,7 @@ import {
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import PromptCard from "@/components/PromptCard";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export async function generateMetadata({
   params,
@@ -42,29 +43,31 @@ export default async function CategoryPage({
   const savedIds = user ? await getUserSavedPromptIds(user.id) : [];
 
   return (
-    <div className="bg-stone-50">
+    <div className="bg-stone-50 dark:bg-stone-900">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <Link
-          href="/categories"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-stone-400 hover:text-stone-600"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          All Categories
-        </Link>
+        <div className="mb-6">
+          <Breadcrumb
+            items={[
+              { label: "Home", href: "/" },
+              { label: "Categories", href: "/categories" },
+              { label: category.name },
+            ]}
+          />
+        </div>
 
         <div className="mb-10">
           <div className="flex items-center gap-3">
             <span className="text-4xl">{category.icon}</span>
             <div>
-              <h1 className="text-3xl font-bold text-stone-900">
+              <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100">
                 {category.name}
               </h1>
-              <p className="mt-1 text-base text-stone-500">
+              <p className="mt-1 text-base text-stone-500 dark:text-stone-400">
                 {category.description}
               </p>
             </div>
           </div>
-          <p className="mt-4 text-sm text-stone-400">
+          <p className="mt-4 text-sm text-stone-400 dark:text-stone-500">
             {categoryPrompts.length} prompt
             {categoryPrompts.length !== 1 ? "s" : ""} available
           </p>
@@ -81,13 +84,13 @@ export default async function CategoryPage({
             ))}
           </div>
         ) : (
-          <div className="rounded-lg border-2 border-dashed border-stone-200 p-12 text-center">
-            <p className="text-stone-400">
+          <div className="rounded-lg border-2 border-dashed border-stone-200 dark:border-stone-700 p-12 text-center">
+            <p className="text-stone-400 dark:text-stone-500">
               No prompts in this category yet. Be the first to contribute!
             </p>
             <Link
               href="/submit"
-              className="mt-4 inline-flex rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
+              className="mt-4 inline-flex rounded-lg bg-stone-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-100"
             >
               Submit a Prompt
             </Link>

@@ -412,6 +412,212 @@ export async function getLeaderboardPrompts(
 }
 
 // ============================================
+// RECENTLY ADDED
+// ============================================
+
+/** Returns the most recently published prompts. */
+export async function getRecentPrompts(
+  limit: number = 6
+): Promise<DbPrompt[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      console.error("Error fetching recent prompts:", error);
+      return [];
+    }
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+// ============================================
+// CROSS-CATEGORY RELATED PROMPTS
+// ============================================
+
+/** Returns prompts from other categories that share tags with the given prompt. */
+export async function getRelatedPromptsByTags(
+  promptId: string,
+  tags: string[],
+  categorySlug: string,
+  limit: number = 3
+): Promise<DbPrompt[]> {
+  try {
+    if (tags.length === 0) return [];
+
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("is_published", true)
+      .neq("id", promptId)
+      .neq("category_slug", categorySlug)
+      .overlaps("tags", tags)
+      .order("saves_count", { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      console.error("Error fetching related prompts:", error);
+      return [];
+    }
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+// ============================================
+// FILTERED SEARCH
+// ============================================
+
+/** Searches published prompts with optional filters. */
+export async function searchPromptsWithFilters(
+  query: string,
+  filters: {
+    category?: string;
+    difficulty?: string;
+    model?: string;
+  } = {}
+): Promise<DbPrompt[]> {
+  try {
+    const supabase = await createClient();
+    let builder = supabase
+      .from("prompts")
+      .select("*")
+      .eq("is_published", true);
+
+    const q = query.trim();
+    if (q) {
+      const sanitized = sanitizeSearchQuery(q);
+      builder = builder.or(
+        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%`
+      );
+    }
+
+    if (filters.category) {
+      builder = builder.eq("category_slug", filters.category);
+    }
+    if (filters.difficulty) {
+      builder = builder.eq("difficulty", filters.difficulty);
+    }
+    if (filters.model) {
+      builder = builder.eq("recommended_model", filters.model);
+    }
+
+    const { data, error } = await builder
+      .order("saves_count", { ascending: false })
+      .limit(50);
+
+    if (error) {
+      console.error("Error searching prompts:", error);
+      return [];
+    }
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+// ============================================
+// COLLECTIONS
+// ============================================
+
+export interface DbCollection {
+  id: string;
+  user_id: string;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Returns all collections for a user. */
+export async function getUserCollections(
+  userId: string
+): Promise<DbCollection[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("collections")
+      .select("*")
+      .eq("user_id", userId)
+      .order("updated_at", { ascending: false });
+
+    if (error) return [];
+    return (data ?? []) as DbCollection[];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns prompt IDs in a specific collection. */
+export async function getCollectionPromptIds(
+  collectionId: string
+): Promise<string[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("collection_prompts")
+      .select("prompt_id")
+      .eq("collection_id", collectionId)
+      .order("added_at", { ascending: false });
+
+    if (error) return [];
+    return (data ?? []).map((r) => r.prompt_id);
+  } catch {
+    return [];
+  }
+}
+
+/** Returns prompts in a specific collection. */
+export async function getCollectionPrompts(
+  collectionId: string
+): Promise<DbPrompt[]> {
+  try {
+    const promptIds = await getCollectionPromptIds(collectionId);
+    if (promptIds.length === 0) return [];
+
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .in("id", promptIds)
+      .eq("is_published", true);
+
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns a single collection by ID, or null. */
+export async function getCollectionById(
+  collectionId: string
+): Promise<DbCollection | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("collections")
+      .select("*")
+      .eq("id", collectionId)
+      .single();
+
+    if (error) return null;
+    return data as DbCollection;
+  } catch {
+    return null;
+  }
+}
+
+// ============================================
 // PROFILES
 // ============================================
 

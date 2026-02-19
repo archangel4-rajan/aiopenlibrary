@@ -63,8 +63,8 @@ export default function SaveButton({
         disabled={isLoading}
         className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm transition-all disabled:opacity-50 ${
           saved
-            ? "border-stone-400 bg-stone-100 text-stone-700"
-            : "border-stone-200 text-stone-500 hover:border-stone-300 hover:bg-stone-50 hover:text-stone-700"
+            ? "border-stone-400 bg-stone-100 text-stone-700 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-200"
+            : "border-stone-200 text-stone-500 hover:border-stone-300 hover:bg-stone-50 hover:text-stone-700 dark:border-stone-700 dark:text-stone-400 dark:hover:border-stone-600 dark:hover:bg-stone-800 dark:hover:text-stone-200"
         }`}
       >
         <Bookmark
@@ -80,7 +80,7 @@ export default function SaveButton({
       onClick={handleToggle}
       disabled={isLoading}
       className={`flex items-center gap-1 transition-colors disabled:opacity-50 ${
-        saved ? "text-stone-700" : "text-stone-400 hover:text-stone-600"
+        saved ? "text-stone-700 dark:text-stone-200" : "text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
       }`}
     >
       <Bookmark

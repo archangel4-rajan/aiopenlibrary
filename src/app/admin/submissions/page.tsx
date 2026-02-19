@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Check, X, Clock, Eye } from "lucide-react";
+import { ArrowLeft, Check, X, Clock, Eye, Home, Shield } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 
 interface Submission {
@@ -19,6 +19,8 @@ interface Submission {
   created_at: string;
 }
 
+type TabStatus = "pending" | "approved" | "rejected";
+
 export default function AdminSubmissionsPage() {
   const { isAdmin, isLoading: authLoading } = useAuth();
   const router = useRouter();
@@ -26,6 +28,7 @@ export default function AdminSubmissionsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<TabStatus>("pending");
 
   useEffect(() => {
     if (!authLoading && !isAdmin) {
@@ -73,80 +76,140 @@ export default function AdminSubmissionsPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center">
-        <div className="text-stone-400">Loading...</div>
+      <div className="flex min-h-[50vh] items-center justify-center bg-stone-50 dark:bg-stone-900">
+        <div className="text-stone-400 dark:text-stone-500">Loading...</div>
       </div>
     );
   }
 
   const pending = submissions.filter((s) => s.status === "pending");
-  const reviewed = submissions.filter((s) => s.status !== "pending");
+  const approved = submissions.filter((s) => s.status === "approved");
+  const rejected = submissions.filter((s) => s.status === "rejected");
+
+  const getFilteredSubmissions = () => {
+    switch (activeTab) {
+      case "pending":
+        return pending;
+      case "approved":
+        return approved;
+      case "rejected":
+        return rejected;
+      default:
+        return pending;
+    }
+  };
+
+  const filteredSubmissions = getFilteredSubmissions();
+
+  const tabs: Array<{ id: TabStatus; label: string; count: number }> = [
+    { id: "pending", label: "Pending", count: pending.length },
+    { id: "approved", label: "Approved", count: approved.length },
+    { id: "rejected", label: "Rejected", count: rejected.length },
+  ];
 
   return (
-    <div className="bg-stone-50">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-900">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-        <div className="mb-8">
+        {/* Breadcrumb */}
+        <div className="mb-8 flex items-center gap-2 text-sm">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
+          >
+            <Home className="h-4 w-4" />
+            Home
+          </Link>
+          <span className="text-stone-400 dark:text-stone-600">/</span>
           <Link
             href="/admin"
-            className="mb-4 inline-flex items-center gap-1.5 text-sm text-stone-400 hover:text-stone-600"
+            className="flex items-center gap-1.5 text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Admin
+            <Shield className="h-4 w-4" />
+            Admin
           </Link>
-          <h1 className="text-3xl font-bold text-stone-900">
-            Community Submissions
-          </h1>
-          <p className="mt-2 text-sm text-stone-500">
-            Review and approve community-submitted prompts.
-          </p>
+          <span className="text-stone-400 dark:text-stone-600">/</span>
+          <span className="text-stone-700 dark:text-stone-300">Submissions</span>
         </div>
 
-        {/* Stats */}
-        <div className="mb-8 grid grid-cols-3 gap-4">
-          <div className="rounded-lg border border-stone-200 bg-white p-4">
-            <div className="text-2xl font-bold text-stone-900">
-              {pending.length}
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100">
+                Community Submissions
+              </h1>
+              <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+                Review and approve community-submitted prompts.
+              </p>
             </div>
-            <div className="text-sm text-stone-500">Pending</div>
-          </div>
-          <div className="rounded-lg border border-stone-200 bg-white p-4">
-            <div className="text-2xl font-bold text-green-600">
-              {submissions.filter((s) => s.status === "approved").length}
-            </div>
-            <div className="text-sm text-stone-500">Approved</div>
-          </div>
-          <div className="rounded-lg border border-stone-200 bg-white p-4">
-            <div className="text-2xl font-bold text-stone-400">
-              {submissions.filter((s) => s.status === "rejected").length}
-            </div>
-            <div className="text-sm text-stone-500">Rejected</div>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Admin
+            </Link>
           </div>
         </div>
 
-        {/* Pending Submissions */}
-        {pending.length > 0 && (
-          <div className="mb-10">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900">
-              <Clock className="h-5 w-5 text-amber-500" />
-              Pending Review ({pending.length})
-            </h2>
-            <div className="space-y-3">
-              {pending.map((sub) => (
+        {/* Tabs */}
+        <div className="mb-8 border-b border-stone-200 dark:border-stone-700">
+          <div className="flex gap-8">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative px-1 py-4 text-sm font-medium transition-colors ${
+                  activeTab === tab.id
+                    ? "text-stone-900 dark:text-stone-100"
+                    : "text-stone-600 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+                }`}
+              >
+                {tab.label}
+                <span
+                  className={`ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold ${
+                    activeTab === tab.id
+                      ? "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900"
+                      : "bg-stone-200 text-stone-700 dark:bg-stone-700 dark:text-stone-300"
+                  }`}
+                >
+                  {tab.count}
+                </span>
+                {activeTab === tab.id && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-stone-900 dark:bg-stone-100" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Submissions List */}
+        {filteredSubmissions.length > 0 && (
+          <div className="space-y-3">
+            {filteredSubmissions.map((sub) => {
+              const borderColor =
+                activeTab === "pending"
+                  ? "border-amber-200 dark:border-amber-900"
+                  : activeTab === "approved"
+                    ? "border-green-200 dark:border-green-900"
+                    : "border-red-200 dark:border-red-900";
+
+              return (
                 <div
                   key={sub.id}
-                  className="rounded-lg border border-amber-200 bg-white"
+                  className={`rounded-lg border ${borderColor} bg-white dark:bg-stone-800`}
                 >
                   <div className="flex items-center justify-between p-4">
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-stone-900">
+                      <h3 className="font-semibold text-stone-900 dark:text-stone-100">
                         {sub.title}
                       </h3>
-                      <p className="mt-1 text-sm text-stone-500">
+                      <p className="mt-1 text-sm text-stone-500 dark:text-stone-400">
                         {sub.category_name} &middot; {sub.recommended_model || "No model"} &middot;{" "}
                         {new Date(sub.created_at).toLocaleDateString()}
                       </p>
                       {sub.submitter_email && (
-                        <p className="mt-0.5 text-xs text-stone-400">
+                        <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">
                           by {sub.submitter_email}
                         </p>
                       )}
@@ -158,33 +221,37 @@ export default function AdminSubmissionsPage() {
                             expandedId === sub.id ? null : sub.id
                           )
                         }
-                        className="rounded-lg border border-stone-200 p-2 text-stone-500 hover:bg-stone-50"
+                        className="rounded-lg border border-stone-200 p-2 text-stone-500 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-700"
                       >
                         <Eye className="h-4 w-4" />
                       </button>
-                      <button
-                        onClick={() => handleAction(sub.id, "approved")}
-                        disabled={actionLoading === sub.id}
-                        className="rounded-lg bg-green-600 p-2 text-white hover:bg-green-700 disabled:opacity-50"
-                      >
-                        <Check className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => handleAction(sub.id, "rejected")}
-                        disabled={actionLoading === sub.id}
-                        className="rounded-lg bg-stone-200 p-2 text-stone-600 hover:bg-stone-300 disabled:opacity-50"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
+                      {activeTab === "pending" && (
+                        <>
+                          <button
+                            onClick={() => handleAction(sub.id, "approved")}
+                            disabled={actionLoading === sub.id}
+                            className="rounded-lg bg-green-600 p-2 text-white hover:bg-green-700 disabled:opacity-50 dark:bg-green-700 dark:hover:bg-green-600"
+                          >
+                            <Check className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => handleAction(sub.id, "rejected")}
+                            disabled={actionLoading === sub.id}
+                            className="rounded-lg bg-stone-200 p-2 text-stone-600 hover:bg-stone-300 disabled:opacity-50 dark:bg-stone-700 dark:text-stone-300 dark:hover:bg-stone-600"
+                          >
+                            <X className="h-4 w-4" />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
 
                   {expandedId === sub.id && (
-                    <div className="border-t border-stone-100 p-4">
-                      <p className="mb-3 text-sm text-stone-600">
+                    <div className="border-t border-stone-100 p-4 dark:border-stone-700">
+                      <p className="mb-3 text-sm text-stone-600 dark:text-stone-300">
                         {sub.description}
                       </p>
-                      <pre className="mb-3 max-h-64 overflow-auto rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs text-stone-700">
+                      <pre className="mb-3 max-h-64 overflow-auto rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs text-stone-700 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-300">
                         {sub.prompt}
                       </pre>
                       {sub.tags.length > 0 && (
@@ -192,7 +259,7 @@ export default function AdminSubmissionsPage() {
                           {sub.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="rounded bg-stone-100 px-2 py-0.5 text-xs text-stone-500"
+                              className="rounded bg-stone-100 px-2 py-0.5 text-xs text-stone-500 dark:bg-stone-700 dark:text-stone-300"
                             >
                               {tag}
                             </span>
@@ -202,48 +269,16 @@ export default function AdminSubmissionsPage() {
                     </div>
                   )}
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         )}
 
-        {/* Reviewed Submissions */}
-        {reviewed.length > 0 && (
-          <div>
-            <h2 className="mb-4 text-lg font-semibold text-stone-900">
-              Previously Reviewed ({reviewed.length})
-            </h2>
-            <div className="space-y-2">
-              {reviewed.map((sub) => (
-                <div
-                  key={sub.id}
-                  className="flex items-center justify-between rounded-lg border border-stone-200 bg-white p-4"
-                >
-                  <div>
-                    <h3 className="font-medium text-stone-900">{sub.title}</h3>
-                    <p className="text-sm text-stone-500">
-                      {sub.category_name} &middot;{" "}
-                      {new Date(sub.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <span
-                    className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                      sub.status === "approved"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-stone-100 text-stone-500"
-                    }`}
-                  >
-                    {sub.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {submissions.length === 0 && (
-          <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center">
-            <p className="text-stone-400">No submissions yet.</p>
+        {filteredSubmissions.length === 0 && (
+          <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center dark:border-stone-700">
+            <p className="text-stone-400 dark:text-stone-500">
+              No {activeTab} submissions.
+            </p>
           </div>
         )}
       </div>
