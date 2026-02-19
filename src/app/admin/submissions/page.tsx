@@ -76,7 +76,7 @@ export default function AdminSubmissionsPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="flex min-h-[50vh] items-center justify-center bg-stone-50 dark:bg-stone-900">
+      <div className="flex min-h-[50vh] items-center justify-center bg-stone-50 dark:bg-stone-950">
         <div className="text-stone-400 dark:text-stone-500">Loading...</div>
       </div>
     );
@@ -108,7 +108,7 @@ export default function AdminSubmissionsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-900">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Breadcrumb */}
         <div className="mb-8 flex items-center gap-2 text-sm">

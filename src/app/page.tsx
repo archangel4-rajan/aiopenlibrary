@@ -40,7 +40,7 @@ export default async function Home() {
   }));
 
   return (
-    <div className="bg-stone-50 dark:bg-stone-900">
+    <div className="bg-stone-50 dark:bg-stone-950">
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-stone-200 dark:border-stone-700">
         <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-12 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8">

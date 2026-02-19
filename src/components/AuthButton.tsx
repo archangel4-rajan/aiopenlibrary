@@ -84,17 +84,17 @@ export default function AuthButton() {
       </button>
 
       {menuOpen && (
-        <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-stone-200 bg-white py-2 shadow-lg shadow-stone-100">
-          <div className="border-b border-stone-100 px-4 pb-2">
-            <p className="text-sm font-medium text-stone-900">{displayName}</p>
-            <p className="text-xs text-stone-400">{user.email}</p>
+        <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-stone-200 bg-white py-2 shadow-lg shadow-stone-100 dark:border-stone-700 dark:bg-stone-900 dark:shadow-none">
+          <div className="border-b border-stone-100 px-4 pb-2 dark:border-stone-700">
+            <p className="text-sm font-medium text-stone-900 dark:text-stone-100">{displayName}</p>
+            <p className="text-xs text-stone-400 dark:text-stone-500">{user.email}</p>
           </div>
 
           <div className="py-1">
             <Link
               href="/profile"
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 hover:text-stone-900"
+              className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 hover:text-stone-900 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100"
             >
               <Library className="h-4 w-4" />
               Your Library
@@ -104,7 +104,7 @@ export default function AuthButton() {
               <Link
                 href="/admin"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 hover:text-stone-900"
+                className="flex items-center gap-2.5 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 hover:text-stone-900 dark:text-stone-300 dark:hover:bg-stone-800 dark:hover:text-stone-100"
               >
                 <Shield className="h-4 w-4" />
                 Admin Dashboard
@@ -112,10 +112,10 @@ export default function AuthButton() {
             )}
           </div>
 
-          <div className="border-t border-stone-100 pt-1">
+          <div className="border-t border-stone-100 pt-1 dark:border-stone-700">
             <button
               onClick={handleSignOut}
-              className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-stone-500 hover:bg-stone-50 hover:text-stone-900"
+              className="flex w-full items-center gap-2.5 px-4 py-2 text-sm text-stone-500 hover:bg-stone-50 hover:text-stone-900 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-100"
             >
               <LogOut className="h-4 w-4" />
               Sign Out

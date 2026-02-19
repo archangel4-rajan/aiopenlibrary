@@ -132,7 +132,7 @@ export default function SubmitPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-stone-50 dark:bg-stone-900">
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
         <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
           <div className="text-center">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
@@ -159,7 +159,7 @@ export default function SubmitPage() {
 
   if (state === "success") {
     return (
-      <div className="min-h-screen bg-stone-50 dark:bg-stone-900">
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
         <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
           <div className="text-center">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-green-200 bg-green-50 text-green-600 dark:border-green-900 dark:bg-green-900/20 dark:text-green-400">
@@ -208,7 +208,7 @@ export default function SubmitPage() {
     "mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-stone-500 dark:focus:ring-stone-700";
 
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-900">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
         {/* Header */}
         <div className="text-center">

@@ -36,7 +36,7 @@ export default async function LeaderboardPage() {
   const hasWeeklySaves = leaderboard.some((p) => p.weekly_saves > 0);
 
   return (
-    <div className="bg-stone-50 dark:bg-stone-900">
+    <div className="bg-stone-50 dark:bg-stone-950">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Header */}
         <div className="mb-10 text-center">

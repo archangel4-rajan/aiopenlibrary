@@ -8,8 +8,8 @@
 }
 
 .dark {
-  --background: #1c1917;
-  --foreground: #fafaf9;
+  --background: #0c0a09;
+  --foreground: #e7e5e4;
   --accent: #a8a29e;
   --accent-light: #57534e;
 }
@@ -70,8 +70,8 @@ html {
 }
 
 .dark .prompt-content pre {
-  background: #292524;
-  border-color: #44403c;
+  background: #1c1917;
+  border-color: #292524;
 }
 
 .prompt-content code {
