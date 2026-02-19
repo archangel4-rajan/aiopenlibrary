@@ -53,15 +53,16 @@ export default function ProfilePage() {
         const profileData = await profileRes.json();
         setProfile(profileData);
 
-        // Fetch saved prompts
+        // Fetch saved prompts — API returns a plain array of IDs
         const savedRes = await fetch("/api/user/saved-ids");
-        const savedData = await savedRes.json();
-        setSavedIds(savedData.ids || []);
+        const savedIdsArr: string[] = await savedRes.json();
+        const ids = Array.isArray(savedIdsArr) ? savedIdsArr : [];
+        setSavedIds(ids);
 
         // Fetch the actual prompts
-        if (savedData.ids && savedData.ids.length > 0) {
+        if (ids.length > 0) {
           const promptRes = await fetch(
-            `/api/prompts?ids=${savedData.ids.join(",")}`
+            `/api/prompts?ids=${ids.join(",")}`
           );
           const promptData = await promptRes.json();
           setSavedPrompts(promptData.prompts || []);

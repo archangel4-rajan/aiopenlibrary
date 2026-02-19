@@ -68,7 +68,7 @@ export default function CollectionDetailPage() {
         const savedRes = await fetch("/api/user/saved-ids");
         if (savedRes.ok) {
           const savedData = await savedRes.json();
-          setSavedIds(savedData.ids || []);
+          setSavedIds(Array.isArray(savedData) ? savedData : []);
         }
       } catch (error) {
         console.error("Error fetching collection:", error);

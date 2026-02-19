@@ -1,7 +1,6 @@
 import { ImageResponse } from "next/og";
-import { getPromptBySlug } from "@/lib/db";
+import { createClient } from "@supabase/supabase-js";
 
-export const runtime = "edge";
 export const alt = "AIOpenLibrary Prompt";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -12,7 +11,20 @@ export default async function OGImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const prompt = await getPromptBySlug(slug);
+
+  // Use a lightweight Supabase client — the server cookie-based client
+  // doesn't work here since OG image generation has no cookie context
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  const { data: prompt } = await supabase
+    .from("prompts")
+    .select("title, description, category_name, difficulty, recommended_model, tags")
+    .eq("slug", slug)
+    .eq("is_published", true)
+    .single();
 
   if (!prompt) {
     return new ImageResponse(
