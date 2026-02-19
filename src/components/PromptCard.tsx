@@ -89,6 +89,9 @@ function getCategoryIcon(slug: string): string {
     education: "📚",
     "product-management": "🚀",
     research: "🔬",
+    openclaw: "🦞",
+    "video-creation": "🎬",
+    planning: "📋",
   };
   return icons[slug] || "📝";
 }

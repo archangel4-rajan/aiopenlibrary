@@ -125,15 +125,15 @@ export default function PromptCustomizer({
                 key={v.name}
                 className="rounded-lg border border-stone-200 bg-white p-4"
               >
-                <div className="mb-2 flex items-center justify-between">
+                <div className="mb-2 flex items-start justify-between gap-2 sm:items-center">
                   <label
                     htmlFor={`var-${v.name}`}
-                    className="flex items-center gap-2"
+                    className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2"
                   >
-                    <code className="rounded bg-stone-100 px-2 py-0.5 font-mono text-xs text-stone-700">
+                    <code className="shrink-0 rounded bg-stone-100 px-2 py-0.5 font-mono text-[11px] text-stone-700 sm:text-xs">
                       {`{{${v.name}}}`}
                     </code>
-                    <span className="text-xs text-stone-400">
+                    <span className="text-[11px] leading-tight text-stone-400 sm:text-xs">
                       {v.description}
                     </span>
                   </label>
@@ -185,9 +185,9 @@ export default function PromptCustomizer({
       )}
 
       {/* Prompt Content with live preview */}
-      <div className="rounded-lg border border-stone-200 bg-white p-6 sm:p-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400">
+      <div className="rounded-lg border border-stone-200 bg-white p-4 sm:p-8">
+        <div className="mb-4 flex items-center justify-between gap-2">
+          <h2 className="text-[10px] font-medium uppercase tracking-widest text-stone-400 sm:text-xs">
             Prompt
             {filledCount > 0 && (
               <span className="ml-2 normal-case tracking-normal text-stone-500">
@@ -200,7 +200,7 @@ export default function PromptCustomizer({
             className="px-4 py-2 text-sm font-medium"
           />
         </div>
-        <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-5 font-mono text-sm leading-relaxed text-stone-700">
+        <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs leading-relaxed text-stone-700 sm:p-5 sm:text-sm">
           {renderPromptSegments.map((seg, i) => {
             if (seg.type === "filled") {
               return (

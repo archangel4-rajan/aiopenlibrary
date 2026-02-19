@@ -65,7 +65,7 @@ export default async function LeaderboardPage() {
               return (
                 <div
                   key={prompt.id}
-                  className={`group relative flex items-center gap-4 rounded-lg border p-4 transition-all hover:shadow-sm ${getRankStyle(rank)}`}
+                  className={`group relative flex items-center gap-3 rounded-lg border p-3 transition-all hover:shadow-sm sm:gap-4 sm:p-4 ${getRankStyle(rank)}`}
                 >
                   <Link
                     href={`/prompts/${prompt.slug}`}
@@ -74,10 +74,10 @@ export default async function LeaderboardPage() {
 
                   {/* Rank */}
                   <div
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${getRankBadge(rank)}`}
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold sm:h-10 sm:w-10 sm:text-sm ${getRankBadge(rank)}`}
                   >
                     {rank <= 3 ? (
-                      <Trophy className="h-4 w-4" />
+                      <Trophy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     ) : (
                       `#${rank}`
                     )}
@@ -86,34 +86,31 @@ export default async function LeaderboardPage() {
                   {/* Content */}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="truncate text-base font-semibold text-stone-900 transition-colors group-hover:text-stone-600">
+                      <h3 className="truncate text-sm font-semibold text-stone-900 transition-colors group-hover:text-stone-600 sm:text-base">
                         {prompt.title}
                       </h3>
-                      {rank <= 3 && (
-                        <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">
-                          Top {rank}
-                        </span>
-                      )}
                     </div>
-                    <p className="mt-0.5 line-clamp-1 text-sm text-stone-500">
+                    <p className="mt-0.5 line-clamp-1 text-xs text-stone-500 sm:text-sm">
                       {prompt.description}
                     </p>
-                    <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <span className="rounded-md bg-stone-100 px-2 py-0.5 text-xs text-stone-600">
+                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5 sm:mt-2 sm:gap-2">
+                      <span className="rounded-md bg-stone-100 px-1.5 py-0.5 text-[10px] text-stone-600 sm:px-2 sm:text-xs">
                         {prompt.category_name}
                       </span>
-                      <ModelBadge
-                        model={prompt.recommended_model}
-                        icon={prompt.model_icon}
-                      />
-                      <span className="rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500">
+                      <span className="hidden sm:inline-flex">
+                        <ModelBadge
+                          model={prompt.recommended_model}
+                          icon={prompt.model_icon}
+                        />
+                      </span>
+                      <span className="hidden rounded-full bg-stone-100 px-2 py-0.5 text-[11px] text-stone-500 sm:inline">
                         {prompt.difficulty}
                       </span>
                     </div>
                   </div>
 
                   {/* Stats */}
-                  <div className="z-10 flex shrink-0 items-center gap-4">
+                  <div className="z-10 flex shrink-0 items-center gap-2 sm:gap-4">
                     {prompt.weekly_saves > 0 && (
                       <div className="hidden text-center sm:block">
                         <div className="flex items-center gap-1 text-sm font-semibold text-orange-600">

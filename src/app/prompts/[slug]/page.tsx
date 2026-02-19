@@ -68,19 +68,19 @@ export default async function PromptPage({
     <div className="bg-stone-50">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-6 flex items-center gap-2 text-sm text-stone-400">
-          <Link href="/" className="hover:text-stone-600">
+        <nav className="mb-6 flex items-center gap-1.5 overflow-x-auto text-xs text-stone-400 sm:gap-2 sm:text-sm">
+          <Link href="/" className="shrink-0 hover:text-stone-600">
             Home
           </Link>
-          <span>/</span>
+          <span className="shrink-0">/</span>
           <Link
             href={`/category/${prompt.category_slug}`}
-            className="hover:text-stone-600"
+            className="shrink-0 hover:text-stone-600"
           >
             {prompt.category_name}
           </Link>
-          <span>/</span>
-          <span className="text-stone-600">{prompt.title}</span>
+          <span className="shrink-0">/</span>
+          <span className="truncate text-stone-600">{prompt.title}</span>
         </nav>
 
         {/* Header */}
@@ -95,7 +95,7 @@ export default async function PromptPage({
 
           <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-stone-900 sm:text-4xl">
+              <h1 className="text-2xl font-bold text-stone-900 sm:text-4xl">
                 {prompt.title}
               </h1>
               <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-500">
