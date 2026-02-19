@@ -22,18 +22,32 @@ export default function Logo({ size = 36 }: { size?: number }) {
     );
   }
 
+  if (fallback === "gif") {
+    // Use a plain <img> tag for the animated GIF to bypass Next.js
+    // image optimization, which can strip animation frames.
+    // eslint-disable-next-line @next/next/no-img-element
+    return (
+      <img
+        src="/logo.gif"
+        alt="AIOpenLibrary"
+        width={size}
+        height={size}
+        className="object-contain"
+        style={{ width: size, height: size }}
+        onError={() => setFallback("png")}
+      />
+    );
+  }
+
   return (
     <Image
-      src={fallback === "gif" ? "/logo.gif" : "/logo.png"}
+      src="/logo.png"
       alt="AIOpenLibrary"
       width={size}
       height={size}
       className="object-contain"
-      unoptimized={fallback === "gif"}
       style={{ width: size, height: size }}
-      onError={() =>
-        setFallback((prev) => (prev === "gif" ? "png" : "text"))
-      }
+      onError={() => setFallback("text")}
     />
   );
 }
