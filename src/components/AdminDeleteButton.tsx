@@ -36,7 +36,7 @@ export default function AdminDeleteButton({
     <button
       onClick={handleDelete}
       disabled={isDeleting}
-      className="rounded-lg p-1.5 text-stone-400 hover:bg-red-50 hover:text-red-500 disabled:opacity-50"
+      className="rounded-lg p-1.5 text-stone-400 hover:bg-red-50 hover:text-red-500 disabled:opacity-50 dark:text-stone-500 dark:hover:bg-red-900/20 dark:hover:text-red-400"
     >
       <Trash2 className="h-4 w-4" />
     </button>

@@ -12,20 +12,32 @@ function getServerSnapshot(): "dark" | "light" {
   return "light";
 }
 
-/** Initialise the theme from localStorage / system preference. */
-function initTheme(): void {
-  const stored = localStorage.getItem("theme");
-  const prefersDark =
-    !stored &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-  if (stored === "dark" || prefersDark) {
-    document.documentElement.classList.add("dark");
+/**
+ * Initialise the theme from localStorage / system preference.
+ * Guarded so it only runs once, even if React re-subscribes.
+ */
+let themeInitialised = false;
+
+function ensureThemeInit(): void {
+  if (themeInitialised) return;
+  themeInitialised = true;
+
+  try {
+    const stored = localStorage.getItem("theme");
+    const prefersDark =
+      !stored &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (stored === "dark" || prefersDark) {
+      document.documentElement.classList.add("dark");
+    }
+  } catch {
+    // localStorage may be unavailable (e.g. private browsing)
   }
 }
 
 function subscribeToTheme(callback: () => void): () => void {
-  // Initialise theme on first subscription (runs once in the browser)
-  initTheme();
+  // One-time initialisation (safe across re-subscriptions)
+  ensureThemeInit();
 
   const observer = new MutationObserver(callback);
   observer.observe(document.documentElement, {

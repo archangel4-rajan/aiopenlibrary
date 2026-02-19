@@ -28,25 +28,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-stone-50 px-4">
+    <div className="flex min-h-[80vh] items-center justify-center bg-stone-50 px-4 dark:bg-stone-900">
       <div className="w-full max-w-sm">
         <div className="text-center">
           <Link href="/" className="inline-flex items-center gap-2.5">
             <Logo size={36} />
-            <span className="text-xl font-semibold tracking-tight text-stone-900">
+            <span className="text-xl font-semibold tracking-tight text-stone-900 dark:text-stone-100">
               AIOpenLibrary
             </span>
           </Link>
-          <h1 className="mt-8 text-2xl font-bold text-stone-900">
+          <h1 className="mt-8 text-2xl font-bold text-stone-900 dark:text-stone-100">
             Welcome back
           </h1>
-          <p className="mt-2 text-sm text-stone-500">
+          <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
             Sign in to save prompts and access your library
           </p>
         </div>
 
         {error && (
-          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+          <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
             {error}
           </div>
         )}
@@ -55,7 +55,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-lg border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-700 transition-all hover:border-stone-400 hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-700 transition-all hover:border-stone-400 hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:bg-stone-700"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path
@@ -79,9 +79,9 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <p className="mt-8 text-center text-xs text-stone-400">
+        <p className="mt-8 text-center text-xs text-stone-400 dark:text-stone-500">
           By signing in, you agree to our{" "}
-          <Link href="/about" className="text-stone-600 hover:text-stone-900">
+          <Link href="/about" className="text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200">
             terms
           </Link>
           . We&apos;ll never share your data.
@@ -90,7 +90,7 @@ export default function LoginPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-sm text-stone-400 hover:text-stone-600"
+            className="text-sm text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
           >
             &larr; Back to home
           </Link>

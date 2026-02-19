@@ -119,13 +119,13 @@ export default function PromptForm({
   };
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100";
-  const labelClass = "block text-sm font-medium text-stone-700";
+    "mt-1 w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700";
+  const labelClass = "block text-sm font-medium text-stone-700 dark:text-stone-300";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
           {error}
         </div>
       )}
@@ -147,7 +147,7 @@ export default function PromptForm({
             type="text"
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 px-4 py-2.5 font-mono text-sm text-stone-600 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100"
+            className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 px-4 py-2.5 font-mono text-sm text-stone-600 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400 dark:focus:border-stone-500 dark:focus:ring-stone-700"
           />
         </div>
       </div>
@@ -219,7 +219,7 @@ export default function PromptForm({
           value={promptText}
           onChange={(e) => setPromptText(e.target.value)}
           required
-          className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100"
+          className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700"
           placeholder="Enter the full prompt text. Use {{variable_name}} for customizable parts..."
         />
       </div>
@@ -237,7 +237,7 @@ export default function PromptForm({
 
       {/* Use Cases */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-stone-700">
+        <label className="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">
           Use Cases
         </label>
         {useCases.map((uc, i) => (
@@ -250,13 +250,13 @@ export default function PromptForm({
                 newUc[i] = e.target.value;
                 setUseCases(newUc);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="e.g., Pre-merge code reviews"
             />
             <button
               type="button"
               onClick={() => setUseCases(useCases.filter((_, j) => j !== i))}
-              className="rounded-lg p-2 text-stone-400 hover:text-red-500"
+              className="rounded-lg p-2 text-stone-400 hover:text-red-500 dark:text-stone-500 dark:hover:text-red-400"
             >
               <X className="h-4 w-4" />
             </button>
@@ -265,7 +265,7 @@ export default function PromptForm({
         <button
           type="button"
           onClick={() => setUseCases([...useCases, ""])}
-          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
+          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
         >
           <Plus className="h-3 w-3" /> Add use case
         </button>
@@ -273,7 +273,7 @@ export default function PromptForm({
 
       {/* Variables */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-stone-700">
+        <label className="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">
           Variables
         </label>
         {variables.map((v, i) => (
@@ -286,7 +286,7 @@ export default function PromptForm({
                 newVars[i] = { ...newVars[i], name: e.target.value };
                 setVariables(newVars);
               }}
-              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 font-mono text-sm text-stone-900 outline-none focus:border-stone-400"
+              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="variable_name"
             />
             <input
@@ -297,7 +297,7 @@ export default function PromptForm({
                 newVars[i] = { ...newVars[i], description: e.target.value };
                 setVariables(newVars);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="Description"
             />
             <button
@@ -305,7 +305,7 @@ export default function PromptForm({
               onClick={() =>
                 setVariables(variables.filter((_, j) => j !== i))
               }
-              className="rounded-lg p-2 text-stone-400 hover:text-red-500"
+              className="rounded-lg p-2 text-stone-400 hover:text-red-500 dark:text-stone-500 dark:hover:text-red-400"
             >
               <X className="h-4 w-4" />
             </button>
@@ -316,7 +316,7 @@ export default function PromptForm({
           onClick={() =>
             setVariables([...variables, { name: "", description: "" }])
           }
-          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
+          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
         >
           <Plus className="h-3 w-3" /> Add variable
         </button>
@@ -324,7 +324,7 @@ export default function PromptForm({
 
       {/* Tips */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-stone-700">
+        <label className="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">
           Tips
         </label>
         {tips.map((tip, i) => (
@@ -337,13 +337,13 @@ export default function PromptForm({
                 newTips[i] = e.target.value;
                 setTips(newTips);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="A helpful tip..."
             />
             <button
               type="button"
               onClick={() => setTips(tips.filter((_, j) => j !== i))}
-              className="rounded-lg p-2 text-stone-400 hover:text-red-500"
+              className="rounded-lg p-2 text-stone-400 hover:text-red-500 dark:text-stone-500 dark:hover:text-red-400"
             >
               <X className="h-4 w-4" />
             </button>
@@ -352,7 +352,7 @@ export default function PromptForm({
         <button
           type="button"
           onClick={() => setTips([...tips, ""])}
-          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
+          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
         >
           <Plus className="h-3 w-3" /> Add tip
         </button>
@@ -360,7 +360,7 @@ export default function PromptForm({
 
       {/* References */}
       <div>
-        <label className="mb-2 block text-sm font-medium text-stone-700">
+        <label className="mb-2 block text-sm font-medium text-stone-700 dark:text-stone-300">
           References
         </label>
         {references.map((ref, i) => (
@@ -373,7 +373,7 @@ export default function PromptForm({
                 newRefs[i] = { ...newRefs[i], title: e.target.value };
                 setReferences(newRefs);
               }}
-              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="Reference title"
             />
             <input
@@ -384,7 +384,7 @@ export default function PromptForm({
                 newRefs[i] = { ...newRefs[i], url: e.target.value };
                 setReferences(newRefs);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400"
+              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="https://..."
             />
             <button
@@ -392,7 +392,7 @@ export default function PromptForm({
               onClick={() =>
                 setReferences(references.filter((_, j) => j !== i))
               }
-              className="rounded-lg p-2 text-stone-400 hover:text-red-500"
+              className="rounded-lg p-2 text-stone-400 hover:text-red-500 dark:text-stone-500 dark:hover:text-red-400"
             >
               <X className="h-4 w-4" />
             </button>
@@ -403,7 +403,7 @@ export default function PromptForm({
           onClick={() =>
             setReferences([...references, { title: "", url: "" }])
           }
-          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700"
+          className="flex items-center gap-1 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
         >
           <Plus className="h-3 w-3" /> Add reference
         </button>
@@ -418,9 +418,9 @@ export default function PromptForm({
             onChange={(e) => setIsPublished(e.target.checked)}
             className="peer sr-only"
           />
-          <div className="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-stone-700 peer-checked:after:translate-x-full" />
+          <div className="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-stone-700 peer-checked:after:translate-x-full dark:bg-stone-600 dark:after:bg-stone-300 dark:peer-checked:bg-stone-400" />
         </label>
-        <span className="text-sm font-medium text-stone-700">
+        <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
           {isPublished ? "Published (visible to everyone)" : "Draft (only visible to admins)"}
         </span>
       </div>
@@ -430,7 +430,7 @@ export default function PromptForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-2.5 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-2.5 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
         >
           <Save className="h-4 w-4" />
           {isSubmitting
@@ -442,7 +442,7 @@ export default function PromptForm({
         <button
           type="button"
           onClick={() => router.push("/admin")}
-          className="rounded-lg border border-stone-200 px-6 py-2.5 text-sm font-medium text-stone-600 hover:bg-stone-50"
+          className="rounded-lg border border-stone-200 px-6 py-2.5 text-sm font-medium text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
         >
           Cancel
         </button>

@@ -10,6 +10,8 @@
 .dark {
   --background: #1c1917;
   --foreground: #fafaf9;
+  --accent: #a8a29e;
+  --accent-light: #57534e;
 }
 
 @theme inline {
@@ -36,9 +38,21 @@ html {
   color: #1c1917;
 }
 
+.dark ::selection {
+  background-color: #44403c;
+  color: #fafaf9;
+}
+
 /* Gradient text utility — stone/classical gradient */
 .gradient-text {
   background: linear-gradient(135deg, #78716c, #44403c, #57534e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, #d6d3d1, #a8a29e, #e7e5e4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -53,6 +67,11 @@ html {
   overflow-x: auto;
   font-size: 13px;
   line-height: 1.6;
+}
+
+.dark .prompt-content pre {
+  background: #292524;
+  border-color: #44403c;
 }
 
 .prompt-content code {
