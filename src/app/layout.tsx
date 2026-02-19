@@ -28,6 +28,21 @@ export const metadata: Metadata = {
     "AI tools",
     "prompt library",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
+  openGraph: {
+    title: "AIOpenLibrary - Explore the Best Prompts in the World",
+    description:
+      "The Wikipedia for prompts. Discover, learn, and master AI prompting with curated prompts for every use case.",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "AIOpenLibrary" }],
+  },
 };
 
 export default async function RootLayout({

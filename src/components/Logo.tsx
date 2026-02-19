@@ -4,11 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 
 export default function Logo({ size = 36 }: { size?: number }) {
-  const [imgError, setImgError] = useState(false);
-  const [useSvg, setUseSvg] = useState(false);
+  const [fallback, setFallback] = useState<"gif" | "png" | "text">("gif");
 
-  if (imgError && useSvg) {
-    // Final fallback: text logo
+  if (fallback === "text") {
     return (
       <div
         className="flex items-center justify-center rounded-full bg-stone-800"
@@ -24,29 +22,18 @@ export default function Logo({ size = 36 }: { size?: number }) {
     );
   }
 
-  if (imgError && !useSvg) {
-    return (
-      <Image
-        src="/logo.svg"
-        alt="AIOpenLibrary"
-        width={size}
-        height={size}
-        className="object-contain"
-        style={{ width: size, height: size }}
-        onError={() => setUseSvg(true)}
-      />
-    );
-  }
-
   return (
     <Image
-      src="/logo.png"
+      src={fallback === "gif" ? "/logo.gif" : "/logo.png"}
       alt="AIOpenLibrary"
       width={size}
       height={size}
       className="object-contain"
+      unoptimized={fallback === "gif"}
       style={{ width: size, height: size }}
-      onError={() => setImgError(true)}
+      onError={() =>
+        setFallback((prev) => (prev === "gif" ? "png" : "text"))
+      }
     />
   );
 }
