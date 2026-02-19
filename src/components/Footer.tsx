@@ -14,8 +14,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-stone-400">
-              The open library for prompts. Explore the best prompts in the
-              world and really upskill with AI.
+              The free, open-source prompt library. Find expert-crafted prompts,
+              customize the variables, and get better results from any AI.
             </p>
           </div>
 
@@ -40,7 +40,7 @@ export default function Footer() {
                 href="/submit"
                 className="text-sm text-stone-500 hover:text-stone-900"
               >
-                Submit a Prompt
+                Share a Prompt
               </Link>
             </div>
           </div>
@@ -77,8 +77,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 border-t border-stone-200 pt-6 text-center text-xs text-stone-400">
-          &copy; {new Date().getFullYear()} AIOpenLibrary. Open knowledge for
-          the AI era.
+          &copy; {new Date().getFullYear()} AIOpenLibrary. Free and open
+          source — built for the AI era.
         </div>
       </div>
     </footer>

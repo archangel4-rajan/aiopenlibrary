@@ -92,8 +92,8 @@ function SearchContent() {
             <Search className="mx-auto h-10 w-10 text-stone-300" />
             <p className="mt-3 text-stone-400">
               {query.trim()
-                ? `No prompts found for "${query}". Try a different search term.`
-                : "Start typing to search prompts."}
+                ? `Nothing matched "${query}" — try different keywords or browse categories instead.`
+                : "Type a keyword to find the right prompt."}
             </p>
           </div>
         ) : null}

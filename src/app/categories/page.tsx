@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All Categories - AIOpenLibrary",
   description:
-    "Browse AI prompts by category. Software engineering, writing, data science, marketing, design, and more.",
+    "Find the right AI prompt for any task. Browse categories spanning coding, writing, research, marketing, and more.",
 };
 
 export default async function CategoriesPage() {
@@ -22,7 +22,7 @@ export default async function CategoriesPage() {
             All Categories
           </h1>
           <p className="mt-3 text-base text-stone-500">
-            Browse our curated library of AI prompts organized by category.
+            Pick a category, find a prompt, and get better results from any AI tool.
           </p>
         </div>
 

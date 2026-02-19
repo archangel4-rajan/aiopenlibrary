@@ -1,0 +1,1648 @@
+{
+  "categories": [
+    {
+      "name": "Software Engineering",
+      "slug": "software-engineering",
+      "icon": "💻",
+      "description": "Prompts for coding, debugging, architecture, and development workflows",
+      "promptCount": 6
+    },
+    {
+      "name": "Writing & Content",
+      "slug": "writing-content",
+      "icon": "✍️",
+      "description": "Craft compelling content, articles, and copy",
+      "promptCount": 5
+    },
+    {
+      "name": "Data Science & Analysis",
+      "slug": "data-science",
+      "icon": "📊",
+      "description": "Analyze data, build models, and extract insights",
+      "promptCount": 4
+    },
+    {
+      "name": "Marketing",
+      "slug": "marketing",
+      "icon": "📣",
+      "description": "Create campaigns, strategies, and marketing content",
+      "promptCount": 4
+    },
+    {
+      "name": "Design & UX",
+      "slug": "design-ux",
+      "icon": "🎨",
+      "description": "Design systems, user experiences, and visual content",
+      "promptCount": 3
+    },
+    {
+      "name": "Education",
+      "slug": "education",
+      "icon": "📚",
+      "description": "Teaching, tutoring, and educational content creation",
+      "promptCount": 3
+    },
+    {
+      "name": "Product Management",
+      "slug": "product-management",
+      "icon": "🚀",
+      "description": "Product strategy, roadmaps, and feature planning",
+      "promptCount": 3
+    },
+    {
+      "name": "Research & Deep Dive",
+      "slug": "research",
+      "icon": "🔬",
+      "description": "Deep research, literature reviews, comprehensive analysis, and investigative deep dives",
+      "promptCount": 5
+    },
+    {
+      "name": "OpenClaw",
+      "slug": "openclaw",
+      "icon": "🦞",
+      "description": "Prompts for the OpenClaw AI agent framework — skills, automations, and agentic workflows",
+      "promptCount": 3
+    },
+    {
+      "name": "Video Creation",
+      "slug": "video-creation",
+      "icon": "🎬",
+      "description": "Create video scripts, storyboards, and content for AI-powered video production",
+      "promptCount": 3
+    },
+    {
+      "name": "Planning",
+      "slug": "planning",
+      "icon": "📋",
+      "description": "Strategic planning, project roadmaps, goal setting, and structured thinking frameworks",
+      "promptCount": 3
+    }
+  ],
+  "prompts": [
+    {
+      "slug": "senior-developer-code-review",
+      "title": "Senior Developer Code Review",
+      "description": "Get a thorough code review from an experienced senior developer perspective, covering correctness, performance, security, and maintainability.",
+      "category": "Software Engineering",
+      "categorySlug": "software-engineering",
+      "prompt": "You are a senior software engineer with 15+ years of experience conducting a thorough code review. Review the following code with extreme attention to detail.\n\n**Code to Review:**\n```{{language}}\n{{code}}\n```\n\n**Context:** {{context}}\n\nPlease provide your review covering:\n\n1. **Correctness** - Are there any bugs, edge cases, or logic errors?\n2. **Performance** - Any performance bottlenecks or optimization opportunities?\n3. **Security** - Any security vulnerabilities (injection, XSS, auth issues)?\n4. **Maintainability** - Is the code readable, well-structured, and following best practices?\n5. **Testing** - What test cases should be written for this code?\n\nFor each issue found, provide:\n- Severity: 🔴 Critical / 🟡 Warning / 🔵 Suggestion\n- Line reference\n- Explanation of the issue\n- Suggested fix with code example\n\nEnd with an overall assessment and a quality score out of 10.",
+      "tags": [
+        "code-review",
+        "debugging",
+        "best-practices",
+        "security"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Pre-merge code reviews",
+        "Learning best practices",
+        "Finding security vulnerabilities",
+        "Improving code quality"
+      ],
+      "variables": [
+        {
+          "name": "language",
+          "description": "Programming language (e.g., Python, TypeScript)"
+        },
+        {
+          "name": "code",
+          "description": "The code to review"
+        },
+        {
+          "name": "context",
+          "description": "What this code does and where it's used"
+        }
+      ],
+      "tips": [
+        "Include the full function or module for better context",
+        "Mention the framework being used (React, Django, etc.)",
+        "Specify any performance constraints or requirements"
+      ],
+      "references": [
+        {
+          "title": "Google Engineering Practices - Code Review",
+          "url": "https://google.github.io/eng-practices/review/"
+        }
+      ],
+      "saves": 342,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-15"
+    },
+    {
+      "slug": "system-architecture-designer",
+      "title": "System Architecture Designer",
+      "description": "Design scalable system architectures with detailed component diagrams, trade-off analysis, and implementation roadmaps.",
+      "category": "Software Engineering",
+      "categorySlug": "software-engineering",
+      "prompt": "You are a principal systems architect. Design a comprehensive system architecture for the following:\n\n**System:** {{system_description}}\n**Scale:** {{expected_scale}}\n**Constraints:** {{constraints}}\n\nProvide:\n\n1. **High-Level Architecture**\n   - System components and their responsibilities\n   - Data flow between components\n   - ASCII diagram of the architecture\n\n2. **Technology Stack Recommendations**\n   - Database choices with justification\n   - Message queues / event systems\n   - Caching strategy\n   - API design (REST/GraphQL/gRPC)\n\n3. **Scalability Plan**\n   - Horizontal vs vertical scaling strategies\n   - Bottleneck identification\n   - CDN and edge computing considerations\n\n4. **Trade-offs Analysis**\n   - CAP theorem considerations\n   - Consistency vs availability decisions\n   - Cost vs performance trade-offs\n\n5. **Implementation Roadmap**\n   - Phase 1: MVP\n   - Phase 2: Scale\n   - Phase 3: Optimization",
+      "tags": [
+        "architecture",
+        "system-design",
+        "scalability",
+        "infrastructure"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Designing new systems from scratch",
+        "Preparing for system design interviews",
+        "Scaling existing architectures",
+        "Technical documentation"
+      ],
+      "variables": [
+        {
+          "name": "system_description",
+          "description": "What the system needs to do"
+        },
+        {
+          "name": "expected_scale",
+          "description": "Users, requests/sec, data volume"
+        },
+        {
+          "name": "constraints",
+          "description": "Budget, timeline, team size, existing tech"
+        }
+      ],
+      "tips": [
+        "Be specific about expected traffic patterns",
+        "Mention any existing infrastructure or constraints",
+        "Include non-functional requirements like latency targets"
+      ],
+      "saves": 289,
+      "difficulty": "Advanced",
+      "createdAt": "2025-02-01"
+    },
+    {
+      "slug": "debug-detective",
+      "title": "Debug Detective",
+      "description": "Systematically debug complex issues by analyzing error messages, stack traces, and code behavior with a structured approach.",
+      "category": "Software Engineering",
+      "categorySlug": "software-engineering",
+      "prompt": "You are an expert debugging specialist. Help me systematically debug this issue.\n\n**Error/Symptom:** {{error_description}}\n\n**Stack Trace (if available):**\n```\n{{stack_trace}}\n```\n\n**Relevant Code:**\n```{{language}}\n{{code}}\n```\n\n**Environment:** {{environment}}\n**What I've already tried:** {{attempted_fixes}}\n\nPlease follow this debugging methodology:\n\n1. **Error Analysis** - What does the error actually mean?\n2. **Root Cause Hypotheses** - List 3-5 possible root causes ranked by likelihood\n3. **Diagnostic Steps** - What to check to confirm each hypothesis\n4. **Solution** - For the most likely cause, provide a fix with explanation\n5. **Prevention** - How to prevent this class of error in the future",
+      "tags": [
+        "debugging",
+        "troubleshooting",
+        "error-handling"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Debugging production issues",
+        "Understanding cryptic error messages",
+        "Learning systematic debugging"
+      ],
+      "variables": [
+        {
+          "name": "error_description",
+          "description": "The error message or unexpected behavior"
+        },
+        {
+          "name": "stack_trace",
+          "description": "Full stack trace if available"
+        },
+        {
+          "name": "language",
+          "description": "Programming language"
+        },
+        {
+          "name": "code",
+          "description": "Relevant code that's failing"
+        },
+        {
+          "name": "environment",
+          "description": "OS, runtime version, dependencies"
+        },
+        {
+          "name": "attempted_fixes",
+          "description": "What you've already tried"
+        }
+      ],
+      "saves": 267,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-20"
+    },
+    {
+      "slug": "api-endpoint-generator",
+      "title": "REST API Endpoint Generator",
+      "description": "Generate complete REST API endpoints with validation, error handling, types, and tests.",
+      "category": "Software Engineering",
+      "categorySlug": "software-engineering",
+      "prompt": "You are a backend API specialist. Generate a complete REST API endpoint implementation.\n\n**Resource:** {{resource_name}}\n**Framework:** {{framework}}\n**Database:** {{database}}\n**Operations needed:** {{operations}}\n\nFor each endpoint, provide:\n\n1. **Route definition** with proper HTTP methods\n2. **Request validation** schema (body, params, query)\n3. **Controller logic** with proper error handling\n4. **Database query/model** code\n5. **Response format** with status codes\n6. **TypeScript/type definitions**\n7. **Unit test** for the endpoint\n8. **API documentation** (OpenAPI/Swagger format)\n\nFollow these best practices:\n- Proper HTTP status codes (201 for creation, 204 for deletion, etc.)\n- Input sanitization and validation\n- Pagination for list endpoints\n- Proper error messages (never expose internal details)\n- Rate limiting considerations",
+      "tags": [
+        "api",
+        "backend",
+        "rest",
+        "typescript"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Building new APIs quickly",
+        "Standardizing API patterns",
+        "Learning API best practices"
+      ],
+      "variables": [
+        {
+          "name": "resource_name",
+          "description": "e.g., User, Product, Order"
+        },
+        {
+          "name": "framework",
+          "description": "e.g., Express, FastAPI, NestJS"
+        },
+        {
+          "name": "database",
+          "description": "e.g., PostgreSQL, MongoDB"
+        },
+        {
+          "name": "operations",
+          "description": "e.g., CRUD, search, bulk operations"
+        }
+      ],
+      "saves": 198,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-05"
+    },
+    {
+      "slug": "git-commit-message-pro",
+      "title": "Git Commit Message Pro",
+      "description": "Generate clear, conventional commit messages that tell the story of your changes.",
+      "category": "Software Engineering",
+      "categorySlug": "software-engineering",
+      "prompt": "Analyze the following code changes and generate a professional git commit message following the Conventional Commits specification.\n\n**Diff/Changes:**\n```\n{{diff}}\n```\n\n**Additional context:** {{context}}\n\nGenerate:\n1. A commit message following this format:\n   `type(scope): subject`\n\n   Body explaining what and why (not how).\n\n   Footer with breaking changes or issue references.\n\n2. Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore\n3. Keep subject under 50 characters\n4. Wrap body at 72 characters\n5. If multiple logical changes, suggest splitting into separate commits",
+      "tags": [
+        "git",
+        "workflow",
+        "collaboration"
+      ],
+      "recommendedModel": "Claude Haiku 3.5",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Writing clear commit messages",
+        "Maintaining clean git history",
+        "Following team conventions"
+      ],
+      "variables": [
+        {
+          "name": "diff",
+          "description": "The git diff or description of changes"
+        },
+        {
+          "name": "context",
+          "description": "Why the change was made, related issue"
+        }
+      ],
+      "saves": 156,
+      "difficulty": "Beginner",
+      "createdAt": "2025-01-10"
+    },
+    {
+      "slug": "test-case-generator",
+      "title": "Comprehensive Test Case Generator",
+      "description": "Generate thorough test suites covering happy paths, edge cases, error scenarios, and integration tests.",
+      "category": "Software Engineering",
+      "categorySlug": "software-engineering",
+      "prompt": "You are a QA engineer and testing specialist. Generate a comprehensive test suite for the following code.\n\n**Code to test:**\n```{{language}}\n{{code}}\n```\n\n**Testing framework:** {{framework}}\n**Type of tests needed:** {{test_types}}\n\nGenerate tests covering:\n\n1. **Happy Path Tests** - Normal expected behavior\n2. **Edge Cases** - Boundary values, empty inputs, max values\n3. **Error Cases** - Invalid inputs, network failures, timeouts\n4. **Integration Tests** - How this interacts with other components\n5. **Performance Tests** - If applicable\n\nFor each test:\n- Clear, descriptive test name (it should \"do X when Y\")\n- Arrange-Act-Assert pattern\n- Proper mocking of dependencies\n- Comments explaining what each test validates\n\nAlso provide:\n- Test coverage summary\n- Any untestable parts and suggestions to make them testable",
+      "tags": [
+        "testing",
+        "qa",
+        "tdd",
+        "unit-tests"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Writing comprehensive test suites",
+        "Improving test coverage",
+        "Learning testing best practices"
+      ],
+      "variables": [
+        {
+          "name": "language",
+          "description": "Programming language"
+        },
+        {
+          "name": "code",
+          "description": "The code to generate tests for"
+        },
+        {
+          "name": "framework",
+          "description": "e.g., Jest, Pytest, JUnit"
+        },
+        {
+          "name": "test_types",
+          "description": "Unit, integration, e2e, or all"
+        }
+      ],
+      "saves": 213,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-25"
+    },
+    {
+      "slug": "blog-post-architect",
+      "title": "Blog Post Architect",
+      "description": "Create SEO-optimized, engaging blog posts with structured outlines, compelling hooks, and strategic keyword placement.",
+      "category": "Writing & Content",
+      "categorySlug": "writing-content",
+      "prompt": "You are an expert content strategist and SEO specialist. Create a comprehensive blog post.\n\n**Topic:** {{topic}}\n**Target Keyword:** {{keyword}}\n**Target Audience:** {{audience}}\n**Word Count:** {{word_count}}\n**Tone:** {{tone}}\n\nDeliver:\n\n1. **5 Headline Options** (with power words and numbers)\n2. **Meta Description** (155 characters, includes keyword)\n3. **Blog Post Structure:**\n   - Hook introduction (story, statistic, or question)\n   - H2/H3 subheading hierarchy\n   - Key points for each section\n   - Data points or examples to include\n   - Internal linking opportunities\n   - Call-to-action conclusion\n\n4. **SEO Checklist:**\n   - Primary keyword placement (title, first 100 words, H2s)\n   - Secondary keyword suggestions\n   - Image alt text suggestions\n   - Schema markup recommendations\n\n5. **Full Draft** following the structure above",
+      "tags": [
+        "blog",
+        "seo",
+        "content-writing",
+        "marketing"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Creating blog content at scale",
+        "SEO-optimized article writing",
+        "Content strategy planning"
+      ],
+      "variables": [
+        {
+          "name": "topic",
+          "description": "The blog post topic"
+        },
+        {
+          "name": "keyword",
+          "description": "Primary SEO target keyword"
+        },
+        {
+          "name": "audience",
+          "description": "Who is this for?"
+        },
+        {
+          "name": "word_count",
+          "description": "Target length (e.g., 1500)"
+        },
+        {
+          "name": "tone",
+          "description": "Professional, casual, authoritative, etc."
+        }
+      ],
+      "saves": 445,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-12"
+    },
+    {
+      "slug": "viral-twitter-thread",
+      "title": "Viral Twitter/X Thread Creator",
+      "description": "Craft engaging Twitter threads that hook readers and drive engagement using proven viral patterns.",
+      "category": "Writing & Content",
+      "categorySlug": "writing-content",
+      "prompt": "You are a social media expert who has studied viral Twitter threads. Create a compelling thread.\n\n**Topic:** {{topic}}\n**Key Message:** {{key_message}}\n**Target Audience:** {{audience}}\n**Thread Length:** {{length}} tweets\n\nStructure:\n1. **Hook Tweet** - Stop the scroll. Use one of these patterns:\n   - Contrarian take: \"Most people think X. They're wrong.\"\n   - Promise: \"I spent 100 hours studying X. Here's what I learned:\"\n   - Story: Start with a vivid moment\n\n2. **Body Tweets** (one idea per tweet):\n   - Each tweet should stand alone AND connect to the next\n   - Use short sentences and line breaks\n   - Include specific numbers and examples\n   - Add \"tweet 3 is the game-changer\" style teasers\n\n3. **Closing Tweet:**\n   - Summarize key takeaway\n   - Clear CTA (follow, retweet, reply)\n   - Link to resource if applicable\n\n4. **Engagement Boosters:**\n   - Reply tweet suggestions\n   - Quote tweet bait\n   - Poll ideas\n\nFormat each tweet with character count.",
+      "tags": [
+        "twitter",
+        "social-media",
+        "viral-content",
+        "threads"
+      ],
+      "recommendedModel": "GPT-4o",
+      "modelIcon": "openai",
+      "useCases": [
+        "Building audience on Twitter/X",
+        "Content marketing",
+        "Thought leadership"
+      ],
+      "variables": [
+        {
+          "name": "topic",
+          "description": "What the thread is about"
+        },
+        {
+          "name": "key_message",
+          "description": "The core insight to share"
+        },
+        {
+          "name": "audience",
+          "description": "Who should engage with this"
+        },
+        {
+          "name": "length",
+          "description": "Number of tweets (5-15)"
+        }
+      ],
+      "saves": 367,
+      "difficulty": "Beginner",
+      "createdAt": "2025-02-08"
+    },
+    {
+      "slug": "email-copywriter",
+      "title": "High-Converting Email Copywriter",
+      "description": "Write emails that get opened, read, and clicked with proven copywriting frameworks.",
+      "category": "Writing & Content",
+      "categorySlug": "writing-content",
+      "prompt": "You are a direct-response copywriter specializing in email marketing. Write a high-converting email.\n\n**Purpose:** {{purpose}}\n**Product/Service:** {{product}}\n**Target Audience:** {{audience}}\n**Desired Action:** {{cta}}\n**Brand Voice:** {{voice}}\n\nDeliver:\n\n1. **3 Subject Line Options** (A/B test ready)\n   - Include open rate optimization tips for each\n\n2. **Preview Text** (35-90 characters)\n\n3. **Email Body** using the {{framework}} framework:\n   - **PAS:** Problem → Agitation → Solution\n   - **AIDA:** Attention → Interest → Desire → Action\n   - **BAB:** Before → After → Bridge\n\n4. **CTA Button Text** (3 options)\n\n5. **P.S. Line** (often the most-read part)\n\n6. **Optimization Notes:**\n   - Best send time for this audience\n   - Personalization opportunities\n   - Follow-up email suggestion",
+      "tags": [
+        "email",
+        "copywriting",
+        "conversion",
+        "marketing"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Email marketing campaigns",
+        "Sales outreach",
+        "Newsletter creation",
+        "Drip sequences"
+      ],
+      "variables": [
+        {
+          "name": "purpose",
+          "description": "Welcome, promotion, nurture, re-engagement"
+        },
+        {
+          "name": "product",
+          "description": "What you're promoting"
+        },
+        {
+          "name": "audience",
+          "description": "Who receives this email"
+        },
+        {
+          "name": "cta",
+          "description": "What should the reader do?"
+        },
+        {
+          "name": "voice",
+          "description": "Friendly, professional, urgent, etc."
+        },
+        {
+          "name": "framework",
+          "description": "PAS, AIDA, or BAB"
+        }
+      ],
+      "saves": 312,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-18"
+    },
+    {
+      "slug": "technical-documentation-writer",
+      "title": "Technical Documentation Writer",
+      "description": "Create clear, comprehensive technical documentation that developers actually want to read.",
+      "category": "Writing & Content",
+      "categorySlug": "writing-content",
+      "prompt": "You are a senior technical writer at a top tech company. Create documentation for the following.\n\n**What to document:** {{subject}}\n**Audience:** {{audience}}\n**Documentation type:** {{doc_type}}\n\nProduce documentation that includes:\n\n1. **Overview** - What is it, why does it exist, when to use it\n2. **Quick Start** - Get running in under 5 minutes\n3. **Core Concepts** - Key terms and mental models\n4. **Step-by-Step Guide** - Detailed walkthrough with code examples\n5. **API Reference** (if applicable) - Parameters, returns, errors\n6. **Examples** - Real-world use cases with complete code\n7. **Troubleshooting** - Common issues and solutions\n8. **FAQ** - Anticipated questions\n\nStyle guide:\n- Use active voice\n- One idea per sentence\n- Code examples for every concept\n- Progressive disclosure (simple → complex)\n- Include \"Why\" not just \"How\"",
+      "tags": [
+        "documentation",
+        "technical-writing",
+        "developer-experience"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "API documentation",
+        "README files",
+        "Developer guides",
+        "Internal wikis"
+      ],
+      "variables": [
+        {
+          "name": "subject",
+          "description": "The API, tool, or system to document"
+        },
+        {
+          "name": "audience",
+          "description": "Beginner devs, senior engineers, non-technical"
+        },
+        {
+          "name": "doc_type",
+          "description": "API reference, tutorial, guide, README"
+        }
+      ],
+      "saves": 234,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-10"
+    },
+    {
+      "slug": "storytelling-framework",
+      "title": "Story-Driven Content Framework",
+      "description": "Transform any message into a compelling narrative using proven storytelling structures.",
+      "category": "Writing & Content",
+      "categorySlug": "writing-content",
+      "prompt": "You are a master storyteller and narrative strategist. Transform this message into a compelling story.\n\n**Core Message:** {{message}}\n**Medium:** {{medium}}\n**Audience:** {{audience}}\n**Emotional Goal:** {{emotion}}\n\nUse the following storytelling framework:\n\n1. **The Hook** - An unexpected opening that creates curiosity\n2. **The Setup** - Establish the world, character, and stakes\n3. **The Conflict** - The challenge or problem (make it relatable)\n4. **The Journey** - The struggle and discovery\n5. **The Resolution** - How the challenge was overcome\n6. **The Lesson** - The transferable insight\n7. **The Call** - What the audience should do next\n\nAlso provide:\n- 3 opening line options\n- Sensory details to include\n- Dialogue snippets\n- Emotional arc mapping\n- Where to place the key message for maximum impact",
+      "tags": [
+        "storytelling",
+        "narrative",
+        "content-strategy",
+        "engagement"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Presentations and talks",
+        "Brand storytelling",
+        "Case studies",
+        "Fundraising pitches"
+      ],
+      "variables": [
+        {
+          "name": "message",
+          "description": "The key message or lesson to convey"
+        },
+        {
+          "name": "medium",
+          "description": "Blog, presentation, video, podcast"
+        },
+        {
+          "name": "audience",
+          "description": "Who you're telling the story to"
+        },
+        {
+          "name": "emotion",
+          "description": "Inspired, motivated, empathetic, curious"
+        }
+      ],
+      "saves": 189,
+      "difficulty": "Advanced",
+      "createdAt": "2025-02-12"
+    },
+    {
+      "slug": "data-analysis-pipeline",
+      "title": "Data Analysis Pipeline Builder",
+      "description": "Build complete data analysis pipelines with cleaning, exploration, visualization, and insights extraction.",
+      "category": "Data Science & Analysis",
+      "categorySlug": "data-science",
+      "prompt": "You are a senior data scientist. Build a complete analysis pipeline for the following dataset.\n\n**Dataset description:** {{dataset}}\n**Columns/Fields:** {{columns}}\n**Business question:** {{question}}\n**Tools:** {{tools}}\n\nProvide a complete pipeline:\n\n1. **Data Loading & Inspection**\n   - Code to load and inspect the data\n   - Data types, shape, memory usage\n\n2. **Data Cleaning**\n   - Missing value strategy\n   - Outlier detection and handling\n   - Data type conversions\n   - Deduplication\n\n3. **Exploratory Data Analysis**\n   - Summary statistics\n   - Distribution analysis\n   - Correlation analysis\n   - 5+ visualization code snippets (matplotlib/plotly)\n\n4. **Feature Engineering**\n   - New features to create\n   - Encoding strategies\n   - Scaling/normalization\n\n5. **Analysis & Insights**\n   - Statistical tests if applicable\n   - Key findings (3-5 insights)\n   - Recommendations based on data\n\n6. **Presentation-Ready Output**\n   - Executive summary (3 bullet points)\n   - Key chart descriptions\n   - Next steps",
+      "tags": [
+        "data-analysis",
+        "python",
+        "pandas",
+        "visualization"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Analyzing business datasets",
+        "Creating data reports",
+        "Exploratory data analysis"
+      ],
+      "variables": [
+        {
+          "name": "dataset",
+          "description": "What the data represents"
+        },
+        {
+          "name": "columns",
+          "description": "List of columns and their meaning"
+        },
+        {
+          "name": "question",
+          "description": "What business question to answer"
+        },
+        {
+          "name": "tools",
+          "description": "Python/Pandas, R, SQL, etc."
+        }
+      ],
+      "saves": 278,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-22"
+    },
+    {
+      "slug": "sql-query-optimizer",
+      "title": "SQL Query Optimizer",
+      "description": "Optimize slow SQL queries with explain plan analysis, indexing suggestions, and rewrite recommendations.",
+      "category": "Data Science & Analysis",
+      "categorySlug": "data-science",
+      "prompt": "You are a database performance specialist. Optimize the following SQL query.\n\n**Query:**\n```sql\n{{query}}\n```\n\n**Database:** {{database}}\n**Table sizes:** {{table_sizes}}\n**Current execution time:** {{execution_time}}\n**Existing indexes:** {{indexes}}\n\nProvide:\n\n1. **Query Analysis** - What the query does step by step\n2. **Performance Bottlenecks** - Why it's slow\n3. **Optimized Query** - Rewritten for performance\n4. **Index Recommendations** - What indexes to add/modify\n5. **Explain Plan Interpretation** - How to read the execution plan\n6. **Alternative Approaches** - CTEs, materialized views, denormalization\n7. **Estimated Improvement** - Expected speedup factor",
+      "tags": [
+        "sql",
+        "database",
+        "performance",
+        "optimization"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Optimizing slow database queries",
+        "Database performance tuning",
+        "Learning query optimization"
+      ],
+      "variables": [
+        {
+          "name": "query",
+          "description": "The SQL query to optimize"
+        },
+        {
+          "name": "database",
+          "description": "PostgreSQL, MySQL, SQLite, etc."
+        },
+        {
+          "name": "table_sizes",
+          "description": "Approximate row counts"
+        },
+        {
+          "name": "execution_time",
+          "description": "Current query time"
+        },
+        {
+          "name": "indexes",
+          "description": "Existing indexes on relevant tables"
+        }
+      ],
+      "saves": 187,
+      "difficulty": "Advanced",
+      "createdAt": "2025-02-03"
+    },
+    {
+      "slug": "ml-model-selector",
+      "title": "ML Model Selection Advisor",
+      "description": "Get expert guidance on choosing the right machine learning model for your specific problem and dataset.",
+      "category": "Data Science & Analysis",
+      "categorySlug": "data-science",
+      "prompt": "You are a machine learning expert. Help me select the right model for my problem.\n\n**Problem type:** {{problem_type}}\n**Dataset size:** {{dataset_size}}\n**Features:** {{features}}\n**Target variable:** {{target}}\n**Constraints:** {{constraints}}\n\nProvide:\n\n1. **Problem Classification** - Supervised/unsupervised, regression/classification\n2. **Top 3 Model Recommendations** ranked by suitability:\n   - Model name and brief description\n   - Pros and cons for this specific problem\n   - Expected performance range\n   - Training time and resource requirements\n\n3. **Implementation Plan** for the top choice:\n   - Data preprocessing steps\n   - Hyperparameter tuning strategy\n   - Cross-validation approach\n   - Evaluation metrics to use\n\n4. **Code Template** - Sklearn/PyTorch/TensorFlow starter code\n5. **Common Pitfalls** to avoid for this problem type",
+      "tags": [
+        "machine-learning",
+        "model-selection",
+        "scikit-learn",
+        "deep-learning"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Choosing ML algorithms",
+        "Starting new ML projects",
+        "Comparing model approaches"
+      ],
+      "variables": [
+        {
+          "name": "problem_type",
+          "description": "Classification, regression, clustering, etc."
+        },
+        {
+          "name": "dataset_size",
+          "description": "Number of samples and features"
+        },
+        {
+          "name": "features",
+          "description": "Types of input features"
+        },
+        {
+          "name": "target",
+          "description": "What you're predicting"
+        },
+        {
+          "name": "constraints",
+          "description": "Latency, interpretability, compute budget"
+        }
+      ],
+      "saves": 203,
+      "difficulty": "Advanced",
+      "createdAt": "2025-01-28"
+    },
+    {
+      "slug": "dashboard-kpi-designer",
+      "title": "Dashboard & KPI Designer",
+      "description": "Design data dashboards with the right KPIs, visualizations, and layout for maximum impact.",
+      "category": "Data Science & Analysis",
+      "categorySlug": "data-science",
+      "prompt": "You are a business intelligence specialist. Design a dashboard for the following.\n\n**Business area:** {{business_area}}\n**Stakeholders:** {{stakeholders}}\n**Key decisions to support:** {{decisions}}\n**Data available:** {{data_sources}}\n\nDeliver:\n\n1. **KPI Selection** (5-8 metrics)\n   - Metric name and formula\n   - Why it matters\n   - Target/benchmark\n   - Update frequency\n\n2. **Dashboard Layout**\n   - Section organization\n   - Chart type for each metric (and why)\n   - Filter and drill-down options\n   - Mobile responsiveness notes\n\n3. **Visual Design**\n   - Color coding strategy\n   - Alert thresholds\n   - Comparison views (period over period)\n\n4. **Implementation**\n   - SQL queries for each KPI\n   - Recommended tool (Tableau, Looker, Metabase)\n   - Refresh schedule",
+      "tags": [
+        "dashboard",
+        "kpi",
+        "business-intelligence",
+        "visualization"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Building executive dashboards",
+        "KPI definition",
+        "BI tool setup"
+      ],
+      "variables": [
+        {
+          "name": "business_area",
+          "description": "Sales, marketing, product, finance"
+        },
+        {
+          "name": "stakeholders",
+          "description": "Who will use this dashboard"
+        },
+        {
+          "name": "decisions",
+          "description": "What decisions should this inform"
+        },
+        {
+          "name": "data_sources",
+          "description": "Available data tables/sources"
+        }
+      ],
+      "saves": 167,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-07"
+    },
+    {
+      "slug": "product-launch-campaign",
+      "title": "Product Launch Campaign Planner",
+      "description": "Plan a complete product launch campaign with messaging, channels, timeline, and content strategy.",
+      "category": "Marketing",
+      "categorySlug": "marketing",
+      "prompt": "You are a growth marketing strategist planning a product launch. Create a comprehensive launch plan.\n\n**Product:** {{product}}\n**Target Market:** {{market}}\n**Launch Date:** {{date}}\n**Budget:** {{budget}}\n**Unique Value Proposition:** {{uvp}}\n\nDeliver:\n\n1. **Launch Strategy**\n   - Pre-launch (4 weeks before)\n   - Launch week\n   - Post-launch (4 weeks after)\n\n2. **Messaging Framework**\n   - Hero message (one sentence)\n   - Supporting messages (3 pillars)\n   - Objection handling scripts\n   - Social proof strategy\n\n3. **Channel Plan**\n   - Organic channels with content calendar\n   - Paid channels with budget allocation\n   - PR and influencer outreach\n   - Email sequence (5 emails)\n\n4. **Content Deliverables**\n   - Landing page copy\n   - Launch announcement\n   - Social media posts (5 per platform)\n   - Press release outline\n\n5. **Metrics & Goals**\n   - KPIs for each channel\n   - Week-by-week targets\n   - A/B test plan",
+      "tags": [
+        "product-launch",
+        "campaign",
+        "growth",
+        "strategy"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Launching new products",
+        "Go-to-market strategy",
+        "Campaign planning"
+      ],
+      "variables": [
+        {
+          "name": "product",
+          "description": "Product name and description"
+        },
+        {
+          "name": "market",
+          "description": "Target audience and market"
+        },
+        {
+          "name": "date",
+          "description": "Target launch date"
+        },
+        {
+          "name": "budget",
+          "description": "Marketing budget"
+        },
+        {
+          "name": "uvp",
+          "description": "What makes this product unique"
+        }
+      ],
+      "saves": 234,
+      "difficulty": "Advanced",
+      "createdAt": "2025-01-14"
+    },
+    {
+      "slug": "landing-page-copywriter",
+      "title": "High-Converting Landing Page Copy",
+      "description": "Write landing page copy that converts visitors into customers using proven frameworks.",
+      "category": "Marketing",
+      "categorySlug": "marketing",
+      "prompt": "You are a conversion copywriter specializing in landing pages. Write copy for this page.\n\n**Product/Service:** {{product}}\n**Target Visitor:** {{visitor}}\n**Primary Goal:** {{goal}}\n**Price Point:** {{price}}\n\nWrite complete landing page copy:\n\n1. **Above the Fold**\n   - Headline (benefit-driven, under 10 words)\n   - Subheadline (clarify the offer)\n   - CTA button text\n   - Hero image/video description\n\n2. **Social Proof Section**\n   - Testimonial prompts\n   - Stats/numbers to highlight\n   - Logo bar suggestions\n\n3. **Features → Benefits**\n   - 3-5 features translated to benefits\n   - Supporting copy for each\n\n4. **Objection Handling**\n   - FAQ section (5 questions)\n   - Risk reversal (guarantee copy)\n   - Trust signals\n\n5. **Final CTA Section**\n   - Urgency/scarcity element\n   - Final benefit summary\n   - CTA with supporting text\n\nOptimize for a conversion rate above 5%.",
+      "tags": [
+        "landing-page",
+        "copywriting",
+        "conversion",
+        "cro"
+      ],
+      "recommendedModel": "GPT-4o",
+      "modelIcon": "openai",
+      "useCases": [
+        "Building landing pages",
+        "Improving conversion rates",
+        "Product page optimization"
+      ],
+      "variables": [
+        {
+          "name": "product",
+          "description": "What you're selling"
+        },
+        {
+          "name": "visitor",
+          "description": "Who lands on this page"
+        },
+        {
+          "name": "goal",
+          "description": "Sign up, purchase, book demo"
+        },
+        {
+          "name": "price",
+          "description": "Price point or pricing model"
+        }
+      ],
+      "saves": 312,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-02"
+    },
+    {
+      "slug": "seo-content-strategy",
+      "title": "SEO Content Strategy Builder",
+      "description": "Build a data-driven SEO content strategy with keyword clusters, content calendar, and ranking roadmap.",
+      "category": "Marketing",
+      "categorySlug": "marketing",
+      "prompt": "You are an SEO strategist. Build a content strategy to rank for the following topic.\n\n**Niche/Industry:** {{industry}}\n**Main topic:** {{topic}}\n**Current domain authority:** {{da}}\n**Competitors:** {{competitors}}\n\nDeliver:\n\n1. **Keyword Research**\n   - Primary keywords (5) with estimated difficulty\n   - Long-tail keywords (15) for quick wins\n   - Question keywords (10) for featured snippets\n   - Keyword clusters organized by topic\n\n2. **Content Plan** (3 months)\n   - Pillar content (2-3 comprehensive guides)\n   - Supporting articles (10-15)\n   - Internal linking strategy\n   - Content gap analysis vs competitors\n\n3. **On-Page SEO Template**\n   - Title tag formula\n   - Meta description template\n   - H1-H3 hierarchy structure\n   - Schema markup recommendations\n\n4. **Technical SEO Checklist**\n   - Site speed items\n   - Mobile optimization\n   - Core Web Vitals focus areas",
+      "tags": [
+        "seo",
+        "content-strategy",
+        "keywords",
+        "organic-growth"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Building organic traffic",
+        "Content marketing strategy",
+        "Competitive SEO analysis"
+      ],
+      "variables": [
+        {
+          "name": "industry",
+          "description": "Your industry or niche"
+        },
+        {
+          "name": "topic",
+          "description": "Main topic to rank for"
+        },
+        {
+          "name": "da",
+          "description": "Domain authority (1-100)"
+        },
+        {
+          "name": "competitors",
+          "description": "Top 3 competitor domains"
+        }
+      ],
+      "saves": 256,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-30"
+    },
+    {
+      "slug": "ad-creative-generator",
+      "title": "Ad Creative Generator",
+      "description": "Generate high-performing ad creatives for Meta, Google, and LinkedIn with copy variations and targeting.",
+      "category": "Marketing",
+      "categorySlug": "marketing",
+      "prompt": "You are a performance marketing specialist. Create ad creatives for a campaign.\n\n**Platform:** {{platform}}\n**Product/Service:** {{product}}\n**Campaign Objective:** {{objective}}\n**Target Audience:** {{audience}}\n**Budget:** {{budget}}\n\nGenerate:\n\n1. **Ad Copy Variations** (5 per format)\n   - Headlines (30 char limit for Google, longer for Meta)\n   - Primary text / descriptions\n   - CTA options\n\n2. **Visual Concepts** (3 ideas)\n   - Image/video description\n   - Text overlay suggestions\n   - Color and mood direction\n\n3. **Audience Targeting**\n   - Interest targeting\n   - Lookalike suggestions\n   - Exclusions to add\n   - Retargeting segments\n\n4. **A/B Testing Plan**\n   - Variables to test\n   - Budget split recommendation\n   - Statistical significance calculator settings\n\n5. **Performance Projections**\n   - Expected CPM/CPC ranges\n   - Conversion benchmarks for industry",
+      "tags": [
+        "advertising",
+        "paid-media",
+        "meta-ads",
+        "google-ads"
+      ],
+      "recommendedModel": "GPT-4o",
+      "modelIcon": "openai",
+      "useCases": [
+        "Running paid campaigns",
+        "Creating ad variations",
+        "Testing ad performance"
+      ],
+      "variables": [
+        {
+          "name": "platform",
+          "description": "Meta, Google, LinkedIn, TikTok"
+        },
+        {
+          "name": "product",
+          "description": "What you're advertising"
+        },
+        {
+          "name": "objective",
+          "description": "Awareness, traffic, conversions"
+        },
+        {
+          "name": "audience",
+          "description": "Target demographic and psychographic"
+        },
+        {
+          "name": "budget",
+          "description": "Daily or total campaign budget"
+        }
+      ],
+      "saves": 198,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-06"
+    },
+    {
+      "slug": "design-system-creator",
+      "title": "Design System Creator",
+      "description": "Build a comprehensive design system with tokens, components, patterns, and documentation.",
+      "category": "Design & UX",
+      "categorySlug": "design-ux",
+      "prompt": "You are a design systems architect. Create a design system specification.\n\n**Brand:** {{brand}}\n**Platform:** {{platform}}\n**Existing brand colors:** {{colors}}\n**Target feel:** {{feel}}\n\nDeliver:\n\n1. **Design Tokens**\n   - Color palette (primary, secondary, neutral, semantic)\n   - Typography scale (sizes, weights, line heights)\n   - Spacing scale (4px base grid)\n   - Border radius values\n   - Shadow definitions\n   - Animation/transition values\n\n2. **Component Library** (specifications for)\n   - Button (variants, sizes, states)\n   - Input fields (types, validation states)\n   - Card (layouts, variants)\n   - Modal/Dialog\n   - Navigation\n   - Table\n   - Toast/Notification\n\n3. **Patterns**\n   - Form layouts\n   - Error handling\n   - Loading states\n   - Empty states\n   - Responsive breakpoints\n\n4. **Accessibility**\n   - Color contrast ratios\n   - Focus states\n   - Screen reader considerations\n   - Keyboard navigation\n\nProvide CSS custom properties and Tailwind config.",
+      "tags": [
+        "design-system",
+        "ui",
+        "components",
+        "accessibility"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Starting a design system",
+        "Standardizing UI components",
+        "Improving design consistency"
+      ],
+      "variables": [
+        {
+          "name": "brand",
+          "description": "Brand name and identity"
+        },
+        {
+          "name": "platform",
+          "description": "Web, mobile, both"
+        },
+        {
+          "name": "colors",
+          "description": "Existing brand colors if any"
+        },
+        {
+          "name": "feel",
+          "description": "Modern, playful, corporate, minimal"
+        }
+      ],
+      "saves": 267,
+      "difficulty": "Advanced",
+      "createdAt": "2025-01-16"
+    },
+    {
+      "slug": "ux-audit-framework",
+      "title": "UX Audit Framework",
+      "description": "Conduct a thorough UX audit identifying usability issues, accessibility gaps, and improvement opportunities.",
+      "category": "Design & UX",
+      "categorySlug": "design-ux",
+      "prompt": "You are a senior UX researcher and designer. Conduct a comprehensive UX audit.\n\n**Product/Website:** {{product}}\n**Target Users:** {{users}}\n**Key User Flows:** {{flows}}\n**Known Pain Points:** {{pain_points}}\n\nAudit Framework:\n\n1. **Heuristic Evaluation** (Nielsen's 10 heuristics)\n   - Score each heuristic 1-5\n   - Specific violations found\n   - Severity rating\n\n2. **User Flow Analysis**\n   - Steps to complete key tasks\n   - Friction points identified\n   - Drop-off risk areas\n   - Simplification recommendations\n\n3. **Visual Design Review**\n   - Consistency issues\n   - Information hierarchy\n   - White space usage\n   - Typography readability\n\n4. **Accessibility Audit**\n   - WCAG 2.1 AA compliance\n   - Keyboard navigation\n   - Screen reader compatibility\n   - Color contrast issues\n\n5. **Recommendations**\n   - Quick wins (low effort, high impact)\n   - Medium-term improvements\n   - Strategic redesign areas\n   - Priority matrix (Impact vs Effort)",
+      "tags": [
+        "ux-audit",
+        "usability",
+        "accessibility",
+        "user-research"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Improving existing products",
+        "Pre-redesign assessment",
+        "Accessibility compliance"
+      ],
+      "variables": [
+        {
+          "name": "product",
+          "description": "Product or website to audit"
+        },
+        {
+          "name": "users",
+          "description": "Primary user personas"
+        },
+        {
+          "name": "flows",
+          "description": "Critical user journeys"
+        },
+        {
+          "name": "pain_points",
+          "description": "Known user complaints"
+        }
+      ],
+      "saves": 178,
+      "difficulty": "Advanced",
+      "createdAt": "2025-02-04"
+    },
+    {
+      "slug": "responsive-layout-generator",
+      "title": "Responsive Layout Generator",
+      "description": "Generate responsive CSS/Tailwind layouts with mobile-first approach and proper breakpoints.",
+      "category": "Design & UX",
+      "categorySlug": "design-ux",
+      "prompt": "You are a frontend specialist focusing on responsive design. Create a responsive layout.\n\n**Layout description:** {{layout}}\n**Framework:** {{framework}}\n**Breakpoints needed:** {{breakpoints}}\n**Content types:** {{content}}\n\nProvide:\n\n1. **Mobile Layout** (320px-768px)\n   - Single column structure\n   - Touch-friendly spacing\n   - Collapsible navigation\n\n2. **Tablet Layout** (768px-1024px)\n   - Adapted grid\n   - Sidebar behavior\n\n3. **Desktop Layout** (1024px+)\n   - Full grid implementation\n   - Hover states\n   - Fixed elements\n\n4. **Code** (HTML + CSS/Tailwind)\n   - Semantic HTML structure\n   - Complete responsive styles\n   - Container queries if applicable\n   - CSS Grid + Flexbox combination\n\n5. **Testing Checklist**\n   - Key breakpoints to verify\n   - Common device sizes\n   - Landscape orientation handling",
+      "tags": [
+        "responsive",
+        "css",
+        "tailwind",
+        "layout",
+        "mobile-first"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Building responsive pages",
+        "Converting designs to code",
+        "Mobile optimization"
+      ],
+      "variables": [
+        {
+          "name": "layout",
+          "description": "Describe the layout structure"
+        },
+        {
+          "name": "framework",
+          "description": "Tailwind, plain CSS, Bootstrap"
+        },
+        {
+          "name": "breakpoints",
+          "description": "Mobile, tablet, desktop, widescreen"
+        },
+        {
+          "name": "content",
+          "description": "Text, images, cards, tables, forms"
+        }
+      ],
+      "saves": 145,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-09"
+    },
+    {
+      "slug": "lesson-plan-creator",
+      "title": "Interactive Lesson Plan Creator",
+      "description": "Design engaging lesson plans with learning objectives, activities, assessments, and differentiation strategies.",
+      "category": "Education",
+      "categorySlug": "education",
+      "prompt": "You are an experienced instructional designer. Create a comprehensive lesson plan.\n\n**Subject:** {{subject}}\n**Topic:** {{topic}}\n**Grade/Level:** {{level}}\n**Duration:** {{duration}}\n**Learning Style Focus:** {{style}}\n\nDeliver:\n\n1. **Learning Objectives** (3-5, using Bloom's Taxonomy)\n   - Knowledge, Comprehension, Application, Analysis, Synthesis, Evaluation\n\n2. **Lesson Structure**\n   - Hook/Warm-up (5 min)\n   - Direct instruction (15 min)\n   - Guided practice (15 min)\n   - Independent practice (10 min)\n   - Closure/Assessment (5 min)\n\n3. **Activities**\n   - Main activity with step-by-step instructions\n   - Alternative activity for different learning styles\n   - Extension activity for advanced learners\n\n4. **Assessment**\n   - Formative assessment questions\n   - Exit ticket\n   - Rubric for main activity\n\n5. **Differentiation**\n   - Scaffolding for struggling learners\n   - Extensions for advanced learners\n   - ELL modifications\n\n6. **Materials & Resources** needed",
+      "tags": [
+        "lesson-plan",
+        "teaching",
+        "curriculum",
+        "education"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Creating lesson plans",
+        "Curriculum development",
+        "Training program design"
+      ],
+      "variables": [
+        {
+          "name": "subject",
+          "description": "Subject area"
+        },
+        {
+          "name": "topic",
+          "description": "Specific topic"
+        },
+        {
+          "name": "level",
+          "description": "Grade level or audience level"
+        },
+        {
+          "name": "duration",
+          "description": "Class duration"
+        },
+        {
+          "name": "style",
+          "description": "Visual, auditory, kinesthetic, mixed"
+        }
+      ],
+      "saves": 189,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-19"
+    },
+    {
+      "slug": "socratic-tutor",
+      "title": "Socratic Method Tutor",
+      "description": "Learn any concept through guided questioning that builds deep understanding instead of memorization.",
+      "category": "Education",
+      "categorySlug": "education",
+      "prompt": "You are a Socratic tutor. Your role is to help me deeply understand a concept through questioning, NOT by giving direct answers.\n\n**Subject:** {{subject}}\n**Topic I want to learn:** {{topic}}\n**My current understanding:** {{current_level}}\n\nRules:\n1. NEVER give the answer directly\n2. Ask ONE question at a time\n3. Start with what I already know\n4. Guide me to discover the answer myself\n5. If I'm stuck, give a small hint, not the answer\n6. Celebrate when I make connections\n7. Build complexity gradually\n8. Connect new concepts to things I already understand\n9. Use analogies and real-world examples\n10. After I understand, ask me to explain it back in my own words\n\nStart by asking me what I already know about {{topic}}, then guide me from there. If I give an incorrect answer, don't say \"wrong\" — instead, ask a question that reveals the flaw in my reasoning.",
+      "tags": [
+        "socratic-method",
+        "tutoring",
+        "learning",
+        "critical-thinking"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Deep learning of new concepts",
+        "Preparing for exams",
+        "Building critical thinking skills"
+      ],
+      "variables": [
+        {
+          "name": "subject",
+          "description": "The subject area"
+        },
+        {
+          "name": "topic",
+          "description": "The specific topic to learn"
+        },
+        {
+          "name": "current_level",
+          "description": "What you already know"
+        }
+      ],
+      "references": [
+        {
+          "title": "Socratic Method in AI Tutoring",
+          "url": "https://en.wikipedia.org/wiki/Socratic_method"
+        }
+      ],
+      "saves": 445,
+      "difficulty": "Beginner",
+      "createdAt": "2025-01-08"
+    },
+    {
+      "slug": "concept-explainer",
+      "title": "Multi-Level Concept Explainer",
+      "description": "Understand any concept explained at multiple levels of complexity, from ELI5 to expert.",
+      "category": "Education",
+      "categorySlug": "education",
+      "prompt": "Explain the following concept at multiple levels of complexity.\n\n**Concept:** {{concept}}\n**Field:** {{field}}\n\nProvide explanations at these levels:\n\n1. **ELI5 (Explain Like I'm 5)** - Simple analogy, no jargon\n2. **High School Student** - Basic technical terms, real-world examples\n3. **College Student** - Formal definitions, theoretical framework\n4. **Professional** - Industry context, practical applications, trade-offs\n5. **Expert** - Cutting-edge developments, open problems, research frontiers\n\nFor each level:\n- Use an appropriate analogy\n- Include a concrete example\n- Highlight what's new at this level vs. the previous one\n\nEnd with:\n- Common misconceptions about this concept\n- How it connects to 3 related concepts\n- Resources for further learning at each level",
+      "tags": [
+        "explanation",
+        "learning",
+        "teaching",
+        "concepts"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Learning new concepts",
+        "Teaching at different levels",
+        "Content creation"
+      ],
+      "variables": [
+        {
+          "name": "concept",
+          "description": "The concept to explain"
+        },
+        {
+          "name": "field",
+          "description": "The field or domain"
+        }
+      ],
+      "saves": 356,
+      "difficulty": "Beginner",
+      "createdAt": "2025-01-11"
+    },
+    {
+      "slug": "prd-generator",
+      "title": "Product Requirements Document (PRD)",
+      "description": "Generate comprehensive PRDs with user stories, acceptance criteria, technical requirements, and success metrics.",
+      "category": "Product Management",
+      "categorySlug": "product-management",
+      "prompt": "You are a senior product manager at a top tech company. Write a comprehensive PRD.\n\n**Feature/Product:** {{feature}}\n**Problem Statement:** {{problem}}\n**Target Users:** {{users}}\n**Business Context:** {{context}}\n\nProduce:\n\n1. **Overview**\n   - Problem statement\n   - Proposed solution\n   - Success metrics (SMART goals)\n   - Non-goals (explicitly out of scope)\n\n2. **User Stories** (5-10)\n   - As a [user type], I want [action] so that [benefit]\n   - Acceptance criteria for each (Given/When/Then)\n   - Priority: P0/P1/P2\n\n3. **Functional Requirements**\n   - Detailed feature specifications\n   - User flows with decision points\n   - Edge cases and error states\n\n4. **Technical Requirements**\n   - Architecture considerations\n   - API requirements\n   - Data model changes\n   - Performance requirements\n   - Security requirements\n\n5. **Design Requirements**\n   - Wireframe descriptions\n   - Key screens and states\n   - Accessibility requirements\n\n6. **Launch Plan**\n   - Feature flag strategy\n   - Rollout phases\n   - Rollback plan\n   - Monitoring and alerts",
+      "tags": [
+        "prd",
+        "product-management",
+        "requirements",
+        "user-stories"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Writing product specs",
+        "Feature planning",
+        "Stakeholder alignment"
+      ],
+      "variables": [
+        {
+          "name": "feature",
+          "description": "Feature or product name"
+        },
+        {
+          "name": "problem",
+          "description": "What problem does this solve"
+        },
+        {
+          "name": "users",
+          "description": "Who benefits from this"
+        },
+        {
+          "name": "context",
+          "description": "Business goals, constraints, timeline"
+        }
+      ],
+      "saves": 389,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-13"
+    },
+    {
+      "slug": "user-interview-script",
+      "title": "User Interview Script Generator",
+      "description": "Create structured user interview scripts that uncover real insights without leading questions.",
+      "category": "Product Management",
+      "categorySlug": "product-management",
+      "prompt": "You are a UX researcher expert in qualitative research methods. Create an interview script.\n\n**Research Goal:** {{goal}}\n**Target Users:** {{users}}\n**Product Area:** {{product}}\n**Interview Duration:** {{duration}}\n\nCreate:\n\n1. **Introduction Script** (2 min)\n   - Warm-up and rapport building\n   - Consent and recording permission\n   - Set expectations\n\n2. **Warm-up Questions** (3 min)\n   - Background and context\n   - Current workflow\n\n3. **Core Questions** (20 min)\n   - 8-10 open-ended questions\n   - Follow-up probes for each\n   - \"Tell me about a time...\" prompts\n   - Avoid leading questions\n\n4. **Concept Testing** (if applicable, 10 min)\n   - Task scenarios\n   - Think-aloud prompts\n   - Satisfaction scale questions\n\n5. **Wrap-up** (5 min)\n   - Summary and clarification\n   - \"Anything else?\" prompt\n   - Thank you and next steps\n\nInclude:\n- Questions to AVOID (with explanations why)\n- Note-taking template\n- Analysis framework for synthesizing results",
+      "tags": [
+        "user-research",
+        "interviews",
+        "qualitative",
+        "ux-research"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Conducting user research",
+        "Product discovery",
+        "Validating assumptions"
+      ],
+      "variables": [
+        {
+          "name": "goal",
+          "description": "What you want to learn"
+        },
+        {
+          "name": "users",
+          "description": "Who you're interviewing"
+        },
+        {
+          "name": "product",
+          "description": "Product or feature area"
+        },
+        {
+          "name": "duration",
+          "description": "Interview length"
+        }
+      ],
+      "saves": 167,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-11"
+    },
+    {
+      "slug": "feature-prioritization",
+      "title": "Feature Prioritization Framework",
+      "description": "Prioritize features using RICE, MoSCoW, and impact-effort matrices with stakeholder alignment.",
+      "category": "Product Management",
+      "categorySlug": "product-management",
+      "prompt": "You are a product strategy consultant. Help prioritize the following features.\n\n**Product:** {{product}}\n**Features to prioritize:**\n{{features}}\n\n**Business goals:** {{goals}}\n**Team capacity:** {{capacity}}\n**Timeline:** {{timeline}}\n\nApply these frameworks:\n\n1. **RICE Score** for each feature:\n   - Reach: How many users affected per quarter\n   - Impact: How much it moves the needle (0.25-3x)\n   - Confidence: How sure are we (0-100%)\n   - Effort: Person-months needed\n   - Final RICE = (R × I × C) / E\n\n2. **MoSCoW Classification**\n   - Must have / Should have / Could have / Won't have\n\n3. **Impact-Effort Matrix**\n   - Plot each feature\n   - Identify quick wins, big bets, fill-ins, time sinks\n\n4. **Recommendation**\n   - Prioritized roadmap for the timeline\n   - Dependencies between features\n   - What to cut and why\n   - Risks of each ordering",
+      "tags": [
+        "prioritization",
+        "roadmap",
+        "rice",
+        "product-strategy"
+      ],
+      "recommendedModel": "Claude Sonnet 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Quarterly planning",
+        "Roadmap creation",
+        "Stakeholder discussions"
+      ],
+      "variables": [
+        {
+          "name": "product",
+          "description": "Product name"
+        },
+        {
+          "name": "features",
+          "description": "List of features to prioritize"
+        },
+        {
+          "name": "goals",
+          "description": "Business objectives"
+        },
+        {
+          "name": "capacity",
+          "description": "Team size and availability"
+        },
+        {
+          "name": "timeline",
+          "description": "Planning horizon"
+        }
+      ],
+      "saves": 234,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-26"
+    },
+    {
+      "slug": "literature-review-assistant",
+      "title": "Literature Review Assistant",
+      "description": "Conduct structured literature reviews with synthesis, gap analysis, and research direction suggestions.",
+      "category": "Research & Deep Dive",
+      "categorySlug": "research",
+      "prompt": "You are an academic research assistant. Help me conduct a literature review.\n\n**Research Topic:** {{topic}}\n**Field:** {{field}}\n**Scope:** {{scope}}\n**Known papers/sources:** {{known_sources}}\n\nProvide:\n\n1. **Research Landscape Overview**\n   - Key themes and sub-topics\n   - Major schools of thought\n   - Timeline of development\n\n2. **Key Findings Synthesis**\n   - Common findings across studies\n   - Conflicting findings and why\n   - Methodological approaches used\n\n3. **Gap Analysis**\n   - What hasn't been studied\n   - Methodological gaps\n   - Population/context gaps\n\n4. **Critical Analysis Framework**\n   - Strengths of existing research\n   - Limitations and biases\n   - Quality assessment criteria\n\n5. **Research Directions**\n   - Promising future research questions\n   - Methodological suggestions\n   - Interdisciplinary opportunities\n\n6. **Citation Organization**\n   - Suggested categories for organizing sources\n   - Key authors to follow\n   - Recommended search queries for databases",
+      "tags": [
+        "literature-review",
+        "academic",
+        "research",
+        "synthesis"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Academic research",
+        "Thesis writing",
+        "Research proposals"
+      ],
+      "variables": [
+        {
+          "name": "topic",
+          "description": "Research topic"
+        },
+        {
+          "name": "field",
+          "description": "Academic field"
+        },
+        {
+          "name": "scope",
+          "description": "Time range, geographic focus"
+        },
+        {
+          "name": "known_sources",
+          "description": "Papers you've already found"
+        }
+      ],
+      "saves": 234,
+      "difficulty": "Advanced",
+      "createdAt": "2025-01-17"
+    },
+    {
+      "slug": "research-paper-analyzer",
+      "title": "Research Paper Analyzer",
+      "description": "Analyze research papers critically, evaluating methodology, findings, and implications.",
+      "category": "Research & Deep Dive",
+      "categorySlug": "research",
+      "prompt": "You are a critical research analyst. Analyze this research paper/study.\n\n**Paper/Study:** {{paper_details}}\n**Field:** {{field}}\n**Your goal:** {{goal}}\n\nProvide:\n\n1. **Summary**\n   - Research question\n   - Methodology\n   - Key findings\n   - Conclusions\n\n2. **Methodology Critique**\n   - Sample size adequacy\n   - Control group design\n   - Potential confounding variables\n   - Statistical methods appropriateness\n   - Reproducibility assessment\n\n3. **Findings Analysis**\n   - Effect sizes and practical significance\n   - Statistical vs practical significance\n   - Generalizability of results\n   - Alternative interpretations\n\n4. **Bias Assessment**\n   - Selection bias\n   - Publication bias\n   - Funding source bias\n   - Confirmation bias indicators\n\n5. **Implications**\n   - For the field\n   - For practice/policy\n   - For future research\n\n6. **Quality Score** (1-10) with justification",
+      "tags": [
+        "research-analysis",
+        "critical-thinking",
+        "methodology",
+        "academic"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Evaluating research papers",
+        "Journal club preparation",
+        "Evidence-based decision making"
+      ],
+      "variables": [
+        {
+          "name": "paper_details",
+          "description": "Paper title, abstract, or key details"
+        },
+        {
+          "name": "field",
+          "description": "Research field"
+        },
+        {
+          "name": "goal",
+          "description": "Why you're analyzing this paper"
+        }
+      ],
+      "saves": 178,
+      "difficulty": "Advanced",
+      "createdAt": "2025-02-01"
+    },
+    {
+      "slug": "competitive-analysis",
+      "title": "Competitive Analysis Framework",
+      "description": "Conduct thorough competitive analysis with market positioning, feature comparison, and strategic recommendations.",
+      "category": "Research & Deep Dive",
+      "categorySlug": "research",
+      "prompt": "You are a strategy consultant. Conduct a competitive analysis.\n\n**Your Product/Company:** {{company}}\n**Industry:** {{industry}}\n**Key Competitors:** {{competitors}}\n**Analysis Goal:** {{goal}}\n\nDeliver:\n\n1. **Market Overview**\n   - Market size and growth\n   - Key trends\n   - Regulatory factors\n\n2. **Competitor Profiles** (for each)\n   - Value proposition\n   - Target market\n   - Pricing model\n   - Strengths and weaknesses\n   - Recent moves/announcements\n\n3. **Feature Comparison Matrix**\n   - Key features side by side\n   - Scoring (1-5) per feature\n   - Gaps and opportunities\n\n4. **Positioning Map**\n   - 2x2 matrix (suggest best axes)\n   - Where each competitor sits\n   - White space opportunities\n\n5. **Strategic Recommendations**\n   - Differentiation opportunities\n   - Features to build\n   - Markets to enter/avoid\n   - Pricing strategy suggestions\n   - Partnership opportunities\n\n6. **Monitoring Plan**\n   - What to track\n   - How often\n   - Alert triggers",
+      "tags": [
+        "competitive-analysis",
+        "market-research",
+        "strategy",
+        "business"
+      ],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": [
+        "Strategic planning",
+        "Market entry decisions",
+        "Product positioning"
+      ],
+      "variables": [
+        {
+          "name": "company",
+          "description": "Your company/product"
+        },
+        {
+          "name": "industry",
+          "description": "Industry or market"
+        },
+        {
+          "name": "competitors",
+          "description": "List of competitors to analyze"
+        },
+        {
+          "name": "goal",
+          "description": "What decision this analysis supports"
+        }
+      ],
+      "saves": 267,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-01-24"
+    },
+    {
+      "slug": "comprehensive-topic-deep-dive",
+      "title": "Comprehensive Topic Deep Dive",
+      "description": "Conduct a thorough, multi-angle investigation of any topic with structured findings, source analysis, and actionable insights.",
+      "category": "Research & Deep Dive",
+      "categorySlug": "research",
+      "prompt": "You are a senior research analyst with expertise in conducting comprehensive deep dives. Investigate the following topic with rigor and depth.\n\n**Topic:** {{topic}}\n**Research Question:** {{research_question}}\n**Depth Level:** {{depth}}\n**Audience:** {{audience}}\n\nConduct a complete deep dive:\n\n1. **Executive Briefing** - One-paragraph summary, 3 critical insights, confidence level\n2. **Background & Context** - Historical context, key players, current state\n3. **Multi-Angle Analysis** - Technical, economic, social, and contrarian perspectives\n4. **Evidence Assessment** - Supporting evidence, counter-evidence, knowledge gaps\n5. **Future Outlook** - Most likely, optimistic, pessimistic, and wild card scenarios\n6. **Actionable Takeaways** - What to do, next steps, further reading",
+      "tags": ["research", "deep-dive", "analysis", "investigation"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Industry research", "Due diligence", "Academic exploration", "Investment research"],
+      "variables": [
+        {"name": "topic", "description": "The subject to investigate"},
+        {"name": "research_question", "description": "The specific question to answer"},
+        {"name": "depth", "description": "Surface overview, standard, or exhaustive"},
+        {"name": "audience", "description": "Who will read this"}
+      ],
+      "saves": 267,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-14"
+    },
+    {
+      "slug": "competitive-landscape-analyzer",
+      "title": "Competitive Landscape Analyzer",
+      "description": "Map out an entire competitive landscape with player analysis, market positioning, strengths/weaknesses, and strategic opportunities.",
+      "category": "Research & Deep Dive",
+      "categorySlug": "research",
+      "prompt": "You are a competitive intelligence analyst. Conduct a comprehensive competitive landscape analysis.\n\n**Industry/Market:** {{industry}}\n**Your Company/Product:** {{your_product}}\n**Key Competitors:** {{competitors}}\n**Focus Area:** {{focus}}\n\nDeliver:\n\n1. **Market Overview** - Size, growth, key trends, customer segments\n2. **Competitor Profiles** - Positioning, strengths/weaknesses, pricing, market share\n3. **Competitive Matrix** - Feature comparison, positioning map, differentiation\n4. **Strategic Insights** - Underserved gaps, emerging threats, disruptions, partnerships\n5. **Recommendations** - Advantages to leverage, weaknesses to address, blue ocean opportunities",
+      "tags": ["competitive-analysis", "market-research", "strategy", "business-intelligence"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Startup positioning", "Investor pitches", "Product strategy", "Market entry"],
+      "variables": [
+        {"name": "industry", "description": "The industry or market to analyze"},
+        {"name": "your_product", "description": "Your company or product"},
+        {"name": "competitors", "description": "Known competitors to include"},
+        {"name": "focus", "description": "Pricing, features, market share, etc."}
+      ],
+      "saves": 189,
+      "difficulty": "Intermediate",
+      "createdAt": "2025-02-15"
+    },
+    {
+      "slug": "openclaw-skill-builder",
+      "title": "OpenClaw Skill Builder",
+      "description": "Design and build custom OpenClaw skills that automate complex workflows across messaging platforms like WhatsApp, Discord, and Slack.",
+      "category": "OpenClaw",
+      "categorySlug": "openclaw",
+      "prompt": "You are an expert OpenClaw skill developer. Help me create a custom skill for the OpenClaw AI agent framework.\n\n**Skill Name:** {{skill_name}}\n**Description:** {{skill_description}}\n**Target Platform:** {{platform}}\n**Trigger:** {{trigger_description}}\n\nProvide:\n\n1. **Skill Configuration** - Manifest, APIs, ClawHub metadata\n2. **Implementation** - Core logic, input/output schema, error handling, context memory\n3. **Security Considerations** - Prompt injection safeguards, permission scoping, privacy\n4. **Testing Plan** - Sample flows, edge cases, platform-specific notes\n5. **Publishing Checklist** - ClawHub listing, usage examples, documentation",
+      "tags": ["openclaw", "skills", "automation", "agents"],
+      "recommendedModel": "Claude Sonnet 4.5",
+      "modelIcon": "anthropic",
+      "useCases": ["Building custom OpenClaw skills", "Automating messaging workflows", "Publishing to ClawHub", "Agent-based tools"],
+      "variables": [
+        {"name": "skill_name", "description": "Name for the skill"},
+        {"name": "skill_description", "description": "What the skill should do"},
+        {"name": "platform", "description": "WhatsApp, Discord, Slack, iMessage, etc."},
+        {"name": "trigger_description", "description": "What triggers this skill"}
+      ],
+      "saves": 89,
+      "difficulty": "Advanced",
+      "createdAt": "2026-02-01"
+    },
+    {
+      "slug": "openclaw-agent-orchestration",
+      "title": "OpenClaw Multi-Agent Orchestrator",
+      "description": "Design multi-agent workflows where multiple OpenClaw agents collaborate to complete complex tasks with handoffs and shared context.",
+      "category": "OpenClaw",
+      "categorySlug": "openclaw",
+      "prompt": "You are an expert in agentic AI orchestration using the OpenClaw framework. Help me design a multi-agent workflow.\n\n**Objective:** {{objective}}\n**Agents Needed:** {{agent_roles}}\n**Context:** {{context}}\n\nDesign a complete multi-agent system:\n\n1. **Agent Definitions** - Roles, system prompts, tools, memory\n2. **Orchestration Flow** - Task decomposition, handoff protocol, routing logic\n3. **Communication Protocol** - Information passing, error escalation, human-in-the-loop\n4. **Safety & Guardrails** - Action approval, scope limits, rollback, audit logging\n5. **Example Execution Trace** - Complete walkthrough from trigger to completion",
+      "tags": ["openclaw", "multi-agent", "orchestration", "agentic-ai"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Complex workflow automation", "Multi-step task decomposition", "Agent team design", "Enterprise automation"],
+      "variables": [
+        {"name": "objective", "description": "The end goal of the workflow"},
+        {"name": "agent_roles", "description": "Types of agents needed"},
+        {"name": "context", "description": "Business context and constraints"}
+      ],
+      "saves": 67,
+      "difficulty": "Advanced",
+      "createdAt": "2026-02-05"
+    },
+    {
+      "slug": "openclaw-security-hardening",
+      "title": "OpenClaw Security Hardening Guide",
+      "description": "Audit and harden your OpenClaw agent configuration against prompt injection, data exfiltration, and unauthorized tool access.",
+      "category": "OpenClaw",
+      "categorySlug": "openclaw",
+      "prompt": "You are a security expert specializing in AI agent frameworks, particularly OpenClaw. Perform a comprehensive security audit.\n\n**Agent Description:** {{agent_description}}\n**Connected Tools:** {{tools_list}}\n**Data Access:** {{data_access}}\n**Deployment:** {{deployment_context}}\n\nProvide:\n\n1. **Prompt Injection Analysis** - Injection vectors, test scenarios, sanitization, hardening\n2. **Tool Access Review** - Permission audit, least privilege, API key management\n3. **Data Protection** - Exposure risks, token security, leakage prevention, audit trails\n4. **Runtime Safeguards** - Action confirmation, rate limiting, anomaly detection, kill switch\n5. **Hardened Configuration** - Security-first template with before/after comparison",
+      "tags": ["openclaw", "security", "prompt-injection", "hardening"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Securing OpenClaw deployments", "Preventing prompt injection", "Auditing agent permissions", "Enterprise compliance"],
+      "variables": [
+        {"name": "agent_description", "description": "What your agent does"},
+        {"name": "tools_list", "description": "Connected tools and integrations"},
+        {"name": "data_access", "description": "What data the agent can read/write"},
+        {"name": "deployment_context", "description": "Personal, team, or enterprise"}
+      ],
+      "saves": 124,
+      "difficulty": "Advanced",
+      "createdAt": "2026-02-08"
+    },
+    {
+      "slug": "youtube-video-script-writer",
+      "title": "YouTube Video Script Writer",
+      "description": "Generate engaging, retention-optimized YouTube video scripts with hooks, chapters, and calls to action.",
+      "category": "Video Creation",
+      "categorySlug": "video-creation",
+      "prompt": "You are an expert YouTube scriptwriter who understands audience retention, pacing, and storytelling.\n\n**Topic:** {{topic}}\n**Target Length:** {{duration}}\n**Audience:** {{audience}}\n**Tone:** {{tone}}\n\nWrite a complete video script:\n\n1. **Hook (First 30 seconds)** - Pattern interrupt, curiosity gap, value preview\n2. **Introduction** - Establish credibility, outline value, end teaser\n3. **Main Content (Chapters)** - 3-5 chapters with timestamps, retention hooks between\n4. **Conclusion** - Recap, CTA, end screen suggestion\n5. **Metadata** - 3 title options, description with timestamps, tags, thumbnail concepts",
+      "tags": ["youtube", "video-script", "content-creation", "storytelling"],
+      "recommendedModel": "Claude Sonnet 4.5",
+      "modelIcon": "anthropic",
+      "useCases": ["YouTube content creation", "Video marketing", "Educational videos", "Brand content"],
+      "variables": [
+        {"name": "topic", "description": "The video topic"},
+        {"name": "duration", "description": "Target length (e.g., 10 minutes)"},
+        {"name": "audience", "description": "Target audience"},
+        {"name": "tone", "description": "Casual, professional, educational, etc."}
+      ],
+      "saves": 156,
+      "difficulty": "Intermediate",
+      "createdAt": "2026-01-20"
+    },
+    {
+      "slug": "video-storyboard-generator",
+      "title": "AI Video Storyboard Generator",
+      "description": "Create detailed shot-by-shot storyboards for video production with scene descriptions, camera angles, transitions, and timing.",
+      "category": "Video Creation",
+      "categorySlug": "video-creation",
+      "prompt": "You are a professional video storyboard artist and director. Create a detailed storyboard.\n\n**Project:** {{project_description}}\n**Style:** {{visual_style}}\n**Duration:** {{duration}}\n**Format:** {{format}}\n\nCreate:\n\n1. **Scene Breakdown** - Scene number, timestamp, visual, camera, audio, transitions\n2. **Shot List Summary** - Numbered shots, equipment, estimated filming time\n3. **Visual Style Guide** - Color palette, typography, motion graphics\n4. **Production Notes** - Props, locations, AI generation prompts, post-production effects",
+      "tags": ["storyboard", "video-production", "directing", "pre-production"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Video pre-production", "Social media video", "Ad storyboarding", "AI video workflows"],
+      "variables": [
+        {"name": "project_description", "description": "What the video is about"},
+        {"name": "visual_style", "description": "Cinematic, minimal, animated, etc."},
+        {"name": "duration", "description": "Total video length"},
+        {"name": "format", "description": "YouTube, TikTok, ad, course, etc."}
+      ],
+      "saves": 98,
+      "difficulty": "Intermediate",
+      "createdAt": "2026-01-25"
+    },
+    {
+      "slug": "short-form-video-hook-creator",
+      "title": "Short-Form Video Hook Creator",
+      "description": "Generate scroll-stopping hooks and scripts for TikTok, Instagram Reels, and YouTube Shorts that maximize engagement.",
+      "category": "Video Creation",
+      "categorySlug": "video-creation",
+      "prompt": "You are a short-form video content strategist who has studied viral content patterns.\n\n**Topic:** {{topic}}\n**Niche:** {{niche}}\n**Goal:** {{goal}}\n\nGenerate 5 short-form video concepts, each with:\n\n1. **Hook (1-3 seconds)** - Opening line, visual action, hook type\n2. **Script (15-60 seconds)** - Word-for-word with timing, text overlays, sound notes\n3. **Visual Direction** - Camera setup, key moments, text placement\n4. **Engagement Optimization** - Caption, hashtags, posting time, comment bait\n\nRank by predicted engagement and explain why.",
+      "tags": ["tiktok", "reels", "shorts", "viral-content", "hooks"],
+      "recommendedModel": "Claude Sonnet 4.5",
+      "modelIcon": "anthropic",
+      "useCases": ["TikTok content", "Instagram Reels", "YouTube Shorts", "Social media marketing"],
+      "variables": [
+        {"name": "topic", "description": "What the videos will be about"},
+        {"name": "niche", "description": "Your content niche"},
+        {"name": "goal", "description": "Views, followers, sales, etc."}
+      ],
+      "saves": 203,
+      "difficulty": "Beginner",
+      "createdAt": "2026-01-28"
+    },
+    {
+      "slug": "strategic-project-planner",
+      "title": "Strategic Project Planner",
+      "description": "Create comprehensive project plans with milestones, resource allocation, risk assessment, and actionable timelines.",
+      "category": "Planning",
+      "categorySlug": "planning",
+      "prompt": "You are a senior project manager and strategic planner.\n\n**Project:** {{project_name}}\n**Objective:** {{objective}}\n**Timeline:** {{timeline}}\n**Team Size:** {{team_size}}\n**Constraints:** {{constraints}}\n\nCreate:\n\n1. **Executive Summary** - Overview, success criteria, assumptions\n2. **Work Breakdown Structure** - Phases, dependencies, effort estimates, owners\n3. **Timeline & Milestones** - Gantt-style, critical path, buffer time\n4. **Risk Assessment** - Top 5 risks, mitigation, contingency\n5. **Resource Plan** - Skills, tools, budget framework\n6. **Communication Plan** - Stakeholder cadence, escalation, status template",
+      "tags": ["project-management", "planning", "strategy", "roadmap"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Product launches", "Startup planning", "Team coordination", "Event planning"],
+      "variables": [
+        {"name": "project_name", "description": "Name of the project"},
+        {"name": "objective", "description": "What the project aims to achieve"},
+        {"name": "timeline", "description": "Available time"},
+        {"name": "team_size", "description": "Number of people"},
+        {"name": "constraints", "description": "Budget, technical, resource constraints"}
+      ],
+      "saves": 178,
+      "difficulty": "Intermediate",
+      "createdAt": "2026-01-15"
+    },
+    {
+      "slug": "weekly-sprint-planner",
+      "title": "Weekly Sprint Planner",
+      "description": "Plan productive weekly sprints with prioritized tasks, time blocks, energy management, and progress tracking.",
+      "category": "Planning",
+      "categorySlug": "planning",
+      "prompt": "You are a productivity coach and agile planning expert.\n\n**Goals for the Week:** {{weekly_goals}}\n**Available Hours:** {{available_hours}}\n**Energy Pattern:** {{energy_pattern}}\n**Recurring Commitments:** {{recurring}}\n\nCreate:\n\n1. **Priority Matrix** - Eisenhower categorization, 3 needle movers, delegate/eliminate\n2. **Daily Schedule (Mon-Fri)** - Focus blocks, meetings, wind-down, breaks\n3. **Energy Optimization** - Match tasks to energy, breaks, minimize switching\n4. **Progress Tracking** - Daily check-in, mid-week adjustments, Friday review\n5. **Contingency** - Behind-by-Wednesday plan, minimum viable week",
+      "tags": ["productivity", "sprint-planning", "time-management", "weekly-planning"],
+      "recommendedModel": "Claude Sonnet 4.5",
+      "modelIcon": "anthropic",
+      "useCases": ["Personal productivity", "Team sprints", "Freelancer time management", "Student scheduling"],
+      "variables": [
+        {"name": "weekly_goals", "description": "2-5 goals for the week"},
+        {"name": "available_hours", "description": "Total working hours"},
+        {"name": "energy_pattern", "description": "Morning person, night owl, etc."},
+        {"name": "recurring", "description": "Fixed meetings and routines"}
+      ],
+      "saves": 234,
+      "difficulty": "Beginner",
+      "createdAt": "2026-01-18"
+    },
+    {
+      "slug": "goal-decomposition-framework",
+      "title": "Goal Decomposition Framework",
+      "description": "Break down ambitious goals into concrete milestones, habits, and daily actions using proven goal-setting frameworks.",
+      "category": "Planning",
+      "categorySlug": "planning",
+      "prompt": "You are a strategic thinking coach combining OKRs, SMART goals, and atomic habits.\n\n**Big Goal:** {{big_goal}}\n**Timeframe:** {{timeframe}}\n**Current Situation:** {{current_state}}\n**Resources Available:** {{resources}}\n\nDecompose completely:\n\n1. **Goal Clarity** - SMART rewrite, success definition, motivation anchor, anti-goal\n2. **Milestone Breakdown** - 3-5 milestones with leading/lagging indicators\n3. **Action Decomposition** - Monthly objectives, weekly results, daily habits\n4. **Obstacle Pre-mortem** - Top 5 obstacles, if-then plans, accountability\n5. **Tracking System** - Scorecard, weekly review, monthly retro, pivot criteria",
+      "tags": ["goal-setting", "OKRs", "habits", "strategic-planning"],
+      "recommendedModel": "Claude Opus 4",
+      "modelIcon": "anthropic",
+      "useCases": ["Annual goal setting", "Business objectives", "Habit building", "Career transitions"],
+      "variables": [
+        {"name": "big_goal", "description": "The ambitious goal"},
+        {"name": "timeframe", "description": "How long you have"},
+        {"name": "current_state", "description": "Where you are now"},
+        {"name": "resources", "description": "Time, money, skills available"}
+      ],
+      "saves": 312,
+      "difficulty": "Beginner",
+      "createdAt": "2026-01-22"
+    }
+  ]
+}

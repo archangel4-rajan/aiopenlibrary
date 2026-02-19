@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About - AIOpenLibrary",
-  description: "AIOpenLibrary is the open library for prompts. Learn about our mission to make AI accessible to everyone.",
+  description: "We're building the world's largest open collection of AI prompts. Learn why good prompting matters and how you can contribute.",
 };
 
 export default function AboutPage() {
@@ -16,9 +16,9 @@ export default function AboutPage() {
             Prompting is <span className="gradient-text">not trivial</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500">
-            AIOpenLibrary is the open library for prompts. We believe that the
-            ability to communicate effectively with AI is one of the most
-            important skills of the 21st century.
+            The difference between a mediocre AI response and a great one usually
+            comes down to the prompt. We&apos;re building the open resource that
+            helps everyone write better ones.
           </p>
         </div>
 
@@ -31,9 +31,8 @@ export default function AboutPage() {
               Open Knowledge
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-stone-500">
-              Like Wikipedia, we believe knowledge should be free and accessible.
-              Every prompt in our library is open for everyone to use, learn
-              from, and improve.
+              Every prompt in our library is free to use, learn from, and
+              improve — no paywalls, no sign-up walls, no strings attached.
             </p>
           </div>
 
@@ -45,9 +44,9 @@ export default function AboutPage() {
               Community Driven
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-stone-500">
-              Our library grows through community contributions. Expert
-              practitioners share their best prompts so everyone can benefit
-              from collective knowledge.
+              The best prompts come from practitioners who use AI daily.
+              Contributors share what actually works so everyone levels up
+              together.
             </p>
           </div>
 
@@ -59,9 +58,8 @@ export default function AboutPage() {
               Learn by Doing
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-stone-500">
-              Every prompt comes with variables, use cases, and tips. Don&apos;t
-              just copy-paste — understand why prompts work and learn to craft
-              your own.
+              Every prompt includes variables, use cases, and tips so you
+              understand why it works — not just how to paste it.
             </p>
           </div>
 
@@ -73,20 +71,19 @@ export default function AboutPage() {
               Model Agnostic
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-stone-500">
-              We recommend the best model for each prompt, but our prompts work
-              across ChatGPT, Claude, Gemini, and other AI tools. Use whatever
-              works best for you.
+              Each prompt includes a recommended model, but they all work across
+              ChatGPT, Claude, Gemini, and more. Use whatever you prefer.
             </p>
           </div>
         </div>
 
         <div className="mt-16 rounded-2xl bg-stone-900 p-8 text-center sm:p-12">
           <h2 className="text-2xl font-bold text-white sm:text-3xl">
-            Really upskill with AI
+            Ready to get more from AI?
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-base text-stone-400">
-            Whether you&apos;re a developer, writer, marketer, or researcher —
-            there&apos;s a prompt that can 10x your productivity.
+            Whether you code, write, research, or market — there&apos;s a prompt
+            here that will save you hours.
           </p>
           <Link
             href="/categories"

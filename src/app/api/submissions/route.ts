@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getUser } from "@/lib/auth";
+import { submissionLimiter } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
     const user = await getUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (!submissionLimiter.check(user.id)) {
+      return NextResponse.json(
+        { error: "Too many submissions. Please try again later." },
+        { status: 429 }
+      );
     }
 
     const body = await request.json();

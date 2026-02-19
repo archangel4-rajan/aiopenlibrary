@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { saveLimiter } from "@/lib/rate-limit";
 
 export async function POST(
   request: Request,
@@ -14,6 +15,13 @@ export async function POST(
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!saveLimiter.check(user.id)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
   }
 
   const { error } = await supabase.from("saved_prompts").insert({
@@ -45,6 +53,13 @@ export async function DELETE(
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!saveLimiter.check(user.id)) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      { status: 429 }
+    );
   }
 
   const { error } = await supabase

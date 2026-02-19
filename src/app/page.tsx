@@ -44,16 +44,16 @@ export default async function Home() {
           <div className="text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-1.5 text-sm text-stone-600">
               <BookOpen className="h-4 w-4" />
-              The open library for prompts
+              Free and open source
             </div>
             <h1 className="mx-auto max-w-4xl text-4xl font-bold tracking-tight text-stone-900 sm:text-6xl lg:text-7xl">
-              Explore the{" "}
-              <span className="gradient-text">best prompts</span> in the
-              world
+              Get better results from{" "}
+              <span className="gradient-text">every AI prompt</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500 sm:text-xl">
-              Prompting is not trivial. Learn to do whatever you want with AI
-              through our curated library of expert-crafted prompts.
+              Stop writing prompts from scratch. Browse {promptsCount}+ expert-crafted,
+              ready-to-use prompts across {categories.length} categories — customize the
+              variables and copy.
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -61,14 +61,14 @@ export default async function Home() {
                 href="/categories"
                 className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-stone-800"
               >
-                Browse Prompts
+                Start Exploring
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/submit"
                 className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-white px-6 py-3 text-sm font-medium text-stone-700 transition-all hover:border-stone-400 hover:bg-stone-50"
               >
-                Submit a Prompt
+                Share a Prompt
               </Link>
             </div>
 
@@ -105,7 +105,7 @@ export default async function Home() {
               How it works
             </h2>
             <p className="mt-2 text-2xl font-bold text-stone-900 sm:text-3xl">
-              Really upskill with AI in 3 steps
+              From browse to brilliant in 3 steps
             </p>
           </div>
 
@@ -118,11 +118,11 @@ export default async function Home() {
                 01
               </div>
               <h3 className="mt-1 text-base font-semibold text-stone-900">
-                Browse Categories
+                Find Your Prompt
               </h3>
               <p className="mt-2 text-sm text-stone-500">
-                Explore prompts across software engineering, writing, data
-                science, marketing, and more.
+                Browse {categories.length} categories — from coding and writing
+                to research, marketing, and beyond.
               </p>
             </div>
 
@@ -134,11 +134,11 @@ export default async function Home() {
                 02
               </div>
               <h3 className="mt-1 text-base font-semibold text-stone-900">
-                Copy & Customize
+                Make It Yours
               </h3>
               <p className="mt-2 text-sm text-stone-500">
-                Copy the prompt, fill in your variables, and customize it for
-                your specific use case.
+                Fill in the variables, tweak the wording, and tailor every
+                prompt to your exact situation.
               </p>
             </div>
 
@@ -150,11 +150,11 @@ export default async function Home() {
                 03
               </div>
               <h3 className="mt-1 text-base font-semibold text-stone-900">
-                Get Results
+                Get Better Output
               </h3>
               <p className="mt-2 text-sm text-stone-500">
-                Paste into your AI tool of choice and get high-quality,
-                structured results every time.
+                Paste into ChatGPT, Claude, Gemini, or any AI — and see the
+                difference a great prompt makes.
               </p>
             </div>
           </div>
@@ -170,7 +170,7 @@ export default async function Home() {
                 Categories
               </h2>
               <p className="mt-2 text-2xl font-bold text-stone-900 sm:text-3xl">
-                Find prompts by category
+                Prompts for every skill
               </p>
             </div>
             <Link
@@ -210,7 +210,7 @@ export default async function Home() {
                 <TrendingUp className="h-3.5 w-3.5 text-stone-400" />
               </div>
               <p className="mt-2 text-2xl font-bold text-stone-900 sm:text-3xl">
-                Most popular prompts
+                Community favorites
               </p>
             </div>
             <Link
@@ -239,17 +239,17 @@ export default async function Home() {
           <div className="relative overflow-hidden rounded-2xl bg-stone-900 px-8 py-16 text-center sm:px-16">
             <div className="relative">
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                Have a great prompt?
+                Built a prompt that works?
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base text-stone-400">
-                Share it with the community. Help others upskill with AI and
-                contribute to the world&apos;s largest open prompt library.
+                Share it with thousands of people looking for exactly that.
+                Every contribution makes the library better for everyone.
               </p>
               <Link
                 href="/submit"
                 className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-medium text-stone-900 transition-all hover:bg-stone-100"
               >
-                Submit Your Prompt
+                Share Your Prompt
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

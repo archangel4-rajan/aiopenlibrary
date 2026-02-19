@@ -79,10 +79,11 @@ export default function SubmitPage() {
               <LogIn className="h-5 w-5" />
             </div>
             <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl">
-              Sign in to Submit
+              Sign in to share a prompt
             </h1>
             <p className="mt-3 text-base text-stone-500">
-              You need to be signed in to submit a prompt to the community.
+              Create a free account to contribute your best prompts to the
+              community.
             </p>
             <Link
               href="/auth/login"
@@ -105,11 +106,11 @@ export default function SubmitPage() {
               <CheckCircle className="h-5 w-5" />
             </div>
             <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl">
-              Prompt Submitted!
+              Thanks for sharing!
             </h1>
             <p className="mt-3 text-base text-stone-500">
-              Thank you for your submission. Our team will review it and
-              publish it once approved.
+              Your prompt is in the review queue. We&apos;ll publish it once
+              it&apos;s been checked — usually within a few days.
             </p>
             <div className="mt-8 flex justify-center gap-4">
               <button
@@ -152,17 +153,17 @@ export default function SubmitPage() {
             <Send className="h-5 w-5" />
           </div>
           <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl">
-            Submit a Prompt
+            Share a Prompt
           </h1>
           <p className="mt-3 text-base text-stone-500">
-            Share your expertly crafted prompts with the community and help
-            others upskill with AI.
+            Found a prompt that gets great results? Share it here and help
+            thousands of people work better with AI.
           </p>
         </div>
 
         <div className="mt-10 rounded-lg border border-stone-200 bg-white p-6 sm:p-8">
           <h2 className="text-lg font-semibold text-stone-900">
-            Submission Guidelines
+            What makes a great submission
           </h2>
           <ul className="mt-4 space-y-3">
             {[
@@ -321,8 +322,8 @@ export default function SubmitPage() {
               : "Submit Prompt for Review"}
           </button>
           <p className="text-center text-xs text-stone-400">
-            Submitted prompts are reviewed before being published. We&apos;ll
-            notify you once your prompt is live.
+            All submissions are reviewed before publishing. We&apos;ll let you
+            know when yours goes live.
           </p>
         </form>
       </div>

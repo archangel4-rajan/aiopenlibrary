@@ -81,10 +81,48 @@ create index idx_saved_prompts_user on public.saved_prompts(user_id);
 create index idx_saved_prompts_prompt on public.saved_prompts(prompt_id);
 
 -- ============================================
+-- PROMPT SUBMISSIONS TABLE
+-- ============================================
+create table public.prompt_submissions (
+  id uuid primary key default uuid_generate_v4(),
+  title text not null,
+  description text not null,
+  category_id uuid not null references public.categories(id) on delete cascade,
+  category_name text not null,
+  category_slug text not null,
+  prompt text not null,
+  tags text[] not null default '{}',
+  recommended_model text not null default '',
+  model_icon text not null default '',
+  submitter_email text not null default '',
+  submitted_by uuid not null references auth.users(id) on delete cascade,
+  status text not null default 'pending'
+    check (status in ('pending', 'approved', 'rejected')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index idx_submissions_status on public.prompt_submissions(status);
+create index idx_submissions_submitted_by on public.prompt_submissions(submitted_by);
+create index idx_submissions_created_at on public.prompt_submissions(created_at desc);
+
+-- ============================================
+-- ADMIN EMAILS CONFIG TABLE
+-- ============================================
+create table public.admin_emails (
+  id uuid primary key default uuid_generate_v4(),
+  email text not null unique,
+  created_at timestamptz not null default now()
+);
+
+-- Seed initial admin email (update this for your deployment)
+insert into public.admin_emails (email) values ('rajan.1541995@gmail.com');
+
+-- ============================================
 -- TRIGGERS
 -- ============================================
 
--- Auto-create profile on user signup (admin for rajan.1541995@gmail.com)
+-- Auto-create profile on user signup; checks admin_emails table for role
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
@@ -95,7 +133,7 @@ begin
     coalesce(new.raw_user_meta_data->>'full_name', split_part(new.email, '@', 1)),
     new.raw_user_meta_data->>'avatar_url',
     case
-      when new.email = 'rajan.1541995@gmail.com' then 'admin'
+      when exists (select 1 from public.admin_emails where email = new.email) then 'admin'
       else 'user'
     end
   );
@@ -141,6 +179,10 @@ create trigger prompts_updated_at
 
 create trigger profiles_updated_at
   before update on public.profiles
+  for each row execute function public.update_updated_at();
+
+create trigger prompt_submissions_updated_at
+  before update on public.prompt_submissions
   for each row execute function public.update_updated_at();
 
 -- ============================================
@@ -342,3 +384,14 @@ as $$
     where id = auth.uid() and role = 'admin'
   );
 $$;
+
+-- Admin emails: only admins can manage
+alter table public.admin_emails enable row level security;
+
+create policy "Admins can view admin emails"
+  on public.admin_emails for select
+  using (public.is_admin());
+
+create policy "Admins can manage admin emails"
+  on public.admin_emails for all
+  using (public.is_admin());

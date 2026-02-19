@@ -4,8 +4,6 @@ import {
   ArrowLeft,
   ExternalLink,
   Tag,
-  Lightbulb,
-  Variable,
   ImageIcon,
 } from "lucide-react";
 import {
@@ -16,9 +14,9 @@ import {
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ModelBadge from "@/components/ModelBadge";
-import CopyButton from "@/components/CopyButton";
 import SaveButton from "@/components/SaveButton";
 import PromptCard from "@/components/PromptCard";
+import PromptCustomizer from "@/components/PromptCustomizer";
 
 export async function generateMetadata({
   params,
@@ -137,84 +135,12 @@ export default async function PromptPage({
           </div>
         </div>
 
-        {/* Prompt Content */}
-        <div className="rounded-lg border border-stone-200 bg-white p-6 sm:p-8">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400">
-              Prompt
-            </h2>
-            <CopyButton
-              text={prompt.prompt}
-              className="px-4 py-2 text-sm font-medium"
-            />
-          </div>
-          <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-5 font-mono text-sm leading-relaxed text-stone-700">
-            {prompt.prompt}
-          </pre>
-        </div>
-
-        {/* Variables */}
-        {variables.length > 0 && (
-          <div className="mt-8">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900">
-              <Variable className="h-5 w-5 text-stone-500" />
-              Variables to Customize
-            </h2>
-            <div className="overflow-hidden rounded-lg border border-stone-200 bg-white">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-stone-50">
-                    <th className="px-4 py-3 text-left font-medium text-stone-600">
-                      Variable
-                    </th>
-                    <th className="px-4 py-3 text-left font-medium text-stone-600">
-                      Description
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {variables.map(
-                    (v: { name: string; description: string }) => (
-                      <tr key={v.name} className="border-t border-stone-100">
-                        <td className="px-4 py-3">
-                          <code className="rounded bg-stone-100 px-2 py-0.5 font-mono text-xs text-stone-700">
-                            {`{{${v.name}}}`}
-                          </code>
-                        </td>
-                        <td className="px-4 py-3 text-stone-500">
-                          {v.description}
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Use Cases */}
-        {prompt.use_cases && prompt.use_cases.length > 0 && (
-          <div className="mt-8">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900">
-              <Lightbulb className="h-5 w-5 text-stone-500" />
-              Use Cases
-            </h2>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {prompt.use_cases.map((useCase) => (
-                <div
-                  key={useCase}
-                  className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3"
-                >
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-100 text-xs text-stone-600">
-                    &#10003;
-                  </div>
-                  <span className="text-sm text-stone-600">{useCase}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Variables, Use Cases, and Prompt Content (interactive) */}
+        <PromptCustomizer
+          promptText={prompt.prompt}
+          variables={variables}
+          useCases={prompt.use_cases || []}
+        />
 
         {/* Tips */}
         {prompt.tips && prompt.tips.length > 0 && (
@@ -247,8 +173,8 @@ export default async function PromptPage({
           <div className="rounded-lg border-2 border-dashed border-stone-200 bg-white p-8 text-center">
             <ImageIcon className="mx-auto h-10 w-10 text-stone-300" />
             <p className="mt-2 text-sm text-stone-400">
-              Output screenshots coming soon. Community members will be able to
-              share results from using this prompt.
+              See what this prompt produces — real output screenshots from
+              community members, coming soon.
             </p>
           </div>
         </div>

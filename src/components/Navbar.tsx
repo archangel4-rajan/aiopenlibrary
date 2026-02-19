@@ -27,11 +27,11 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-stone-200 bg-stone-50/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2.5">
-              <Logo size={32} />
-              <span className="text-lg font-semibold tracking-tight text-stone-900">
+              <Logo size={84} />
+              <span className="text-4xl font-semibold tracking-tight text-stone-900">
                 AIOpenLibrary
               </span>
             </Link>

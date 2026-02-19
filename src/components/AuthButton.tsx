@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogOut, Library, Shield, ChevronDown } from "lucide-react";
@@ -67,10 +68,11 @@ export default function AuthButton() {
         className="flex items-center gap-2 rounded-lg p-1.5 transition-colors hover:bg-stone-100"
       >
         {avatarUrl ? (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={avatarUrl}
             alt={displayName}
+            width={32}
+            height={32}
             className="h-8 w-8 rounded-full"
           />
         ) : (

@@ -8,6 +8,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import type { DbPrompt, DbCategory, DbProfile, DbPromptVote } from "@/lib/types";
+import { sanitizeSearchQuery } from "@/lib/db-utils";
 
 // ============================================
 // CATEGORIES
@@ -168,12 +169,14 @@ export async function searchPrompts(query: string): Promise<DbPrompt[]> {
       return getPrompts();
     }
 
+    const sanitized = sanitizeSearchQuery(q);
+
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
       .eq("is_published", true)
       .or(
-        `title.ilike.%${q}%,description.ilike.%${q}%,category_name.ilike.%${q}%`
+        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%`
       )
       .order("saves_count", { ascending: false })
       .limit(50);

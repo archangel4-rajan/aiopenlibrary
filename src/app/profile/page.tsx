@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { Library, ArrowRight } from "lucide-react";
 import { getUser } from "@/lib/auth";
@@ -30,10 +31,11 @@ export default async function ProfilePage() {
         {/* Profile Header */}
         <div className="mb-10 flex items-center gap-4">
           {profile?.avatar_url ? (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
+            <Image
               src={profile.avatar_url}
               alt={profile.display_name || "User"}
+              width={64}
+              height={64}
               className="h-16 w-16 rounded-full"
             />
           ) : (
