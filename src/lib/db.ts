@@ -1,64 +1,20 @@
-import { createClient, isSupabaseConfigured } from "@/lib/supabase/server";
-import type { DbPrompt, DbCategory, DbProfile } from "@/lib/types";
-import {
-  categories as hardcodedCategories,
-  prompts as hardcodedPrompts,
-  type Prompt,
-  type Category,
-} from "@/data/prompts";
+/**
+ * Database query layer for AIOpenLibrary.
+ *
+ * All functions query Supabase directly — no fallback data.
+ * Each function returns a sensible empty value on error ([], null, 0)
+ * so callers can render gracefully without try/catch.
+ */
 
-// ============================================
-// FALLBACK: Convert hardcoded data to DB shape
-// ============================================
-
-function promptToDb(p: Prompt): DbPrompt {
-  return {
-    id: p.slug, // use slug as ID for fallback
-    slug: p.slug,
-    title: p.title,
-    description: p.description,
-    category_id: p.categorySlug,
-    category_name: p.category,
-    category_slug: p.categorySlug,
-    prompt: p.prompt,
-    tags: p.tags,
-    recommended_model: p.recommendedModel,
-    model_icon: p.modelIcon,
-    use_cases: p.useCases,
-    example_output: p.exampleOutput || null,
-    output_screenshots: p.outputScreenshots || null,
-    references: p.references || [],
-    variables: p.variables || [],
-    tips: p.tips || null,
-    difficulty: p.difficulty,
-    saves_count: p.saves,
-    is_published: true,
-    created_by: null,
-    created_at: p.createdAt,
-    updated_at: p.createdAt,
-  };
-}
-
-function categoryToDb(c: Category): DbCategory {
-  return {
-    id: c.slug,
-    name: c.name,
-    slug: c.slug,
-    icon: c.icon,
-    description: c.description,
-    created_at: new Date().toISOString(),
-  };
-}
-
-const fallbackPrompts: DbPrompt[] = hardcodedPrompts.map(promptToDb);
-const fallbackCategories: DbCategory[] = hardcodedCategories.map(categoryToDb);
+import { createClient } from "@/lib/supabase/server";
+import type { DbPrompt, DbCategory, DbProfile, DbPromptVote } from "@/lib/types";
 
 // ============================================
 // CATEGORIES
 // ============================================
 
+/** Returns all categories ordered by name. */
 export async function getCategories(): Promise<DbCategory[]> {
-  if (!isSupabaseConfigured()) return fallbackCategories;
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -68,20 +24,18 @@ export async function getCategories(): Promise<DbCategory[]> {
 
     if (error) {
       console.error("Error fetching categories:", error);
-      return fallbackCategories;
+      return [];
     }
-    return data ?? fallbackCategories;
+    return data ?? [];
   } catch {
-    return fallbackCategories;
+    return [];
   }
 }
 
+/** Returns a single category by slug, or null if not found. */
 export async function getCategoryBySlug(
   slug: string
 ): Promise<DbCategory | null> {
-  if (!isSupabaseConfigured()) {
-    return fallbackCategories.find((c) => c.slug === slug) || null;
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -90,10 +44,10 @@ export async function getCategoryBySlug(
       .eq("slug", slug)
       .single();
 
-    if (error) return fallbackCategories.find((c) => c.slug === slug) || null;
+    if (error) return null;
     return data;
   } catch {
-    return fallbackCategories.find((c) => c.slug === slug) || null;
+    return null;
   }
 }
 
@@ -101,10 +55,8 @@ export async function getCategoryBySlug(
 // PROMPTS
 // ============================================
 
+/** Returns all published prompts ordered by saves descending. */
 export async function getPrompts(): Promise<DbPrompt[]> {
-  if (!isSupabaseConfigured()) {
-    return [...fallbackPrompts].sort((a, b) => b.saves_count - a.saves_count);
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -115,20 +67,18 @@ export async function getPrompts(): Promise<DbPrompt[]> {
 
     if (error) {
       console.error("Error fetching prompts:", error);
-      return fallbackPrompts;
+      return [];
     }
-    return data ?? fallbackPrompts;
+    return data ?? [];
   } catch {
-    return fallbackPrompts;
+    return [];
   }
 }
 
+/** Returns a single published prompt by slug, or null if not found. */
 export async function getPromptBySlug(
   slug: string
 ): Promise<DbPrompt | null> {
-  if (!isSupabaseConfigured()) {
-    return fallbackPrompts.find((p) => p.slug === slug) || null;
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -138,17 +88,15 @@ export async function getPromptBySlug(
       .eq("is_published", true)
       .single();
 
-    if (error) return fallbackPrompts.find((p) => p.slug === slug) || null;
+    if (error) return null;
     return data;
   } catch {
-    return fallbackPrompts.find((p) => p.slug === slug) || null;
+    return null;
   }
 }
 
+/** Returns a single prompt by ID (including unpublished), or null. */
 export async function getPromptById(id: string): Promise<DbPrompt | null> {
-  if (!isSupabaseConfigured()) {
-    return fallbackPrompts.find((p) => p.id === id) || null;
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -164,14 +112,10 @@ export async function getPromptById(id: string): Promise<DbPrompt | null> {
   }
 }
 
+/** Returns published prompts for a category, ordered by saves descending. */
 export async function getPromptsByCategory(
   categorySlug: string
 ): Promise<DbPrompt[]> {
-  if (!isSupabaseConfigured()) {
-    return fallbackPrompts
-      .filter((p) => p.category_slug === categorySlug)
-      .sort((a, b) => b.saves_count - a.saves_count);
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -183,22 +127,18 @@ export async function getPromptsByCategory(
 
     if (error) {
       console.error("Error fetching category prompts:", error);
-      return fallbackPrompts.filter((p) => p.category_slug === categorySlug);
+      return [];
     }
     return data ?? [];
   } catch {
-    return fallbackPrompts.filter((p) => p.category_slug === categorySlug);
+    return [];
   }
 }
 
+/** Returns the top N published prompts by saves count. */
 export async function getFeaturedPrompts(
   limit: number = 6
 ): Promise<DbPrompt[]> {
-  if (!isSupabaseConfigured()) {
-    return [...fallbackPrompts]
-      .sort((a, b) => b.saves_count - a.saves_count)
-      .slice(0, limit);
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -210,34 +150,16 @@ export async function getFeaturedPrompts(
 
     if (error) {
       console.error("Error fetching featured prompts:", error);
-      return [...fallbackPrompts]
-        .sort((a, b) => b.saves_count - a.saves_count)
-        .slice(0, limit);
+      return [];
     }
     return data ?? [];
   } catch {
-    return [...fallbackPrompts]
-      .sort((a, b) => b.saves_count - a.saves_count)
-      .slice(0, limit);
+    return [];
   }
 }
 
+/** Searches published prompts by title, description, or category name. */
 export async function searchPrompts(query: string): Promise<DbPrompt[]> {
-  if (!isSupabaseConfigured()) {
-    const q = query.trim().toLowerCase();
-    if (!q) {
-      return [...fallbackPrompts].sort(
-        (a, b) => b.saves_count - a.saves_count
-      );
-    }
-    return fallbackPrompts.filter(
-      (p) =>
-        p.title.toLowerCase().includes(q) ||
-        p.description.toLowerCase().includes(q) ||
-        p.category_name.toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q))
-    );
-  }
   try {
     const supabase = await createClient();
     const q = query.trim();
@@ -266,8 +188,8 @@ export async function searchPrompts(query: string): Promise<DbPrompt[]> {
   }
 }
 
+/** Returns the total count of published prompts. */
 export async function getPromptsCount(): Promise<number> {
-  if (!isSupabaseConfigured()) return fallbackPrompts.length;
   try {
     const supabase = await createClient();
     const { count, error } = await supabase
@@ -275,23 +197,17 @@ export async function getPromptsCount(): Promise<number> {
       .select("*", { count: "exact", head: true })
       .eq("is_published", true);
 
-    if (error) return fallbackPrompts.length;
+    if (error) return 0;
     return count ?? 0;
   } catch {
-    return fallbackPrompts.length;
+    return 0;
   }
 }
 
+/** Returns a map of category_slug → prompt count for published prompts. */
 export async function getCategoryPromptCounts(): Promise<
   Record<string, number>
 > {
-  if (!isSupabaseConfigured()) {
-    const counts: Record<string, number> = {};
-    for (const p of fallbackPrompts) {
-      counts[p.category_slug] = (counts[p.category_slug] || 0) + 1;
-    }
-    return counts;
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -315,8 +231,8 @@ export async function getCategoryPromptCounts(): Promise<
 // ADMIN: All prompts (including unpublished)
 // ============================================
 
+/** Returns all prompts for admin view, including unpublished. */
 export async function getAllPromptsAdmin(): Promise<DbPrompt[]> {
-  if (!isSupabaseConfigured()) return fallbackPrompts;
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -338,11 +254,11 @@ export async function getAllPromptsAdmin(): Promise<DbPrompt[]> {
 // SAVED PROMPTS
 // ============================================
 
+/** Checks whether a specific prompt is saved by a user. */
 export async function isPromptSavedByUser(
   promptId: string,
   userId: string
 ): Promise<boolean> {
-  if (!isSupabaseConfigured()) return false;
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -359,10 +275,10 @@ export async function isPromptSavedByUser(
   }
 }
 
+/** Returns all published prompts saved by a user. */
 export async function getUserSavedPrompts(
   userId: string
 ): Promise<DbPrompt[]> {
-  if (!isSupabaseConfigured()) return [];
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -387,10 +303,10 @@ export async function getUserSavedPrompts(
   }
 }
 
+/** Returns an array of prompt IDs saved by a user. */
 export async function getUserSavedPromptIds(
   userId: string
 ): Promise<string[]> {
-  if (!isSupabaseConfigured()) return [];
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -406,6 +322,54 @@ export async function getUserSavedPromptIds(
 }
 
 // ============================================
+// VOTES (Like / Dislike)
+// ============================================
+
+/** Returns the user's vote on a specific prompt, or null if no vote. */
+export async function getUserVote(
+  promptId: string,
+  userId: string
+): Promise<DbPromptVote | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_votes")
+      .select("*")
+      .eq("prompt_id", promptId)
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns all prompt IDs that a user has voted on, with their vote types. */
+export async function getUserVotedPromptIds(
+  userId: string
+): Promise<Record<string, "like" | "dislike">> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_votes")
+      .select("prompt_id, vote_type")
+      .eq("user_id", userId);
+
+    if (error) return {};
+
+    const votes: Record<string, "like" | "dislike"> = {};
+    for (const row of data ?? []) {
+      votes[row.prompt_id] = row.vote_type;
+    }
+    return votes;
+  } catch {
+    return {};
+  }
+}
+
+// ============================================
 // LEADERBOARD
 // ============================================
 
@@ -413,19 +377,10 @@ export interface LeaderboardPrompt extends DbPrompt {
   weekly_saves: number;
 }
 
+/** Returns leaderboard prompts ranked by weekly saves, falling back to total saves. */
 export async function getLeaderboardPrompts(
   limit: number = 20
 ): Promise<LeaderboardPrompt[]> {
-  if (!isSupabaseConfigured()) {
-    // Fallback: return top prompts by saves_count with fake weekly_saves
-    return [...fallbackPrompts]
-      .sort((a, b) => b.saves_count - a.saves_count)
-      .slice(0, limit)
-      .map((p, i) => ({
-        ...p,
-        weekly_saves: Math.max(0, p.saves_count - i * 10),
-      }));
-  }
   try {
     const supabase = await createClient();
     const { data, error } = await supabase.rpc("get_weekly_leaderboard", {
@@ -449,10 +404,7 @@ export async function getLeaderboardPrompts(
 
     return data as LeaderboardPrompt[];
   } catch {
-    return [...fallbackPrompts]
-      .sort((a, b) => b.saves_count - a.saves_count)
-      .slice(0, limit)
-      .map((p) => ({ ...p, weekly_saves: 0 }));
+    return [];
   }
 }
 
@@ -460,10 +412,10 @@ export async function getLeaderboardPrompts(
 // PROFILES
 // ============================================
 
+/** Returns a user's profile by ID, or null if not found. */
 export async function getUserProfile(
   userId: string
 ): Promise<DbProfile | null> {
-  if (!isSupabaseConfigured()) return null;
   try {
     const supabase = await createClient();
     const { data, error } = await supabase

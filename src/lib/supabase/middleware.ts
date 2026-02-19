@@ -1,22 +1,14 @@
+/**
+ * Supabase session refresh middleware for AIOpenLibrary.
+ *
+ * Refreshes the Supabase auth session on every request by reading
+ * and writing cookies through the Next.js middleware layer.
+ */
+
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-function isSupabaseConfigured(): boolean {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  return !!(
-    url &&
-    key &&
-    url !== "https://your-project.supabase.co" &&
-    key !== "your-anon-key-here"
-  );
-}
-
 export async function updateSession(request: NextRequest) {
-  if (!isSupabaseConfigured()) {
-    return NextResponse.next({ request });
-  }
-
   let supabaseResponse = NextResponse.next({
     request,
   });

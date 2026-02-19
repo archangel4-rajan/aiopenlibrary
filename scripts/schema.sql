@@ -212,3 +212,133 @@ create policy "Users can save prompts"
 create policy "Users can unsave prompts"
   on public.saved_prompts for delete
   using (auth.uid() = user_id);
+
+-- ============================================
+-- PROMPT VOTES TABLE (like/dislike)
+-- ============================================
+create table public.prompt_votes (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  prompt_id uuid not null references public.prompts(id) on delete cascade,
+  vote_type text not null check (vote_type in ('like', 'dislike')),
+  created_at timestamptz not null default now(),
+  unique(user_id, prompt_id)
+);
+
+create index idx_prompt_votes_user on public.prompt_votes(user_id);
+create index idx_prompt_votes_prompt on public.prompt_votes(prompt_id);
+create index idx_prompt_votes_type on public.prompt_votes(prompt_id, vote_type);
+
+-- Auto-update vote counts on prompts
+create or replace function public.update_vote_counts()
+returns trigger as $$
+begin
+  if (tg_op = 'INSERT') then
+    if new.vote_type = 'like' then
+      update public.prompts set likes_count = likes_count + 1 where id = new.prompt_id;
+    elsif new.vote_type = 'dislike' then
+      update public.prompts set dislikes_count = dislikes_count + 1 where id = new.prompt_id;
+    end if;
+    return new;
+  elsif (tg_op = 'DELETE') then
+    if old.vote_type = 'like' then
+      update public.prompts set likes_count = greatest(likes_count - 1, 0) where id = old.prompt_id;
+    elsif old.vote_type = 'dislike' then
+      update public.prompts set dislikes_count = greatest(dislikes_count - 1, 0) where id = old.prompt_id;
+    end if;
+    return old;
+  elsif (tg_op = 'UPDATE') then
+    if old.vote_type = 'like' then
+      update public.prompts set likes_count = greatest(likes_count - 1, 0) where id = old.prompt_id;
+    elsif old.vote_type = 'dislike' then
+      update public.prompts set dislikes_count = greatest(dislikes_count - 1, 0) where id = old.prompt_id;
+    end if;
+    if new.vote_type = 'like' then
+      update public.prompts set likes_count = likes_count + 1 where id = new.prompt_id;
+    elsif new.vote_type = 'dislike' then
+      update public.prompts set dislikes_count = dislikes_count + 1 where id = new.prompt_id;
+    end if;
+    return new;
+  end if;
+  return null;
+end;
+$$ language plpgsql security definer set search_path = '';
+
+create trigger on_prompt_vote_change
+  after insert or update or delete on public.prompt_votes
+  for each row execute function public.update_vote_counts();
+
+alter table public.prompt_votes enable row level security;
+
+create policy "Users can view own votes"
+  on public.prompt_votes for select using (auth.uid() = user_id);
+
+create policy "Users can insert votes"
+  on public.prompt_votes for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can update own votes"
+  on public.prompt_votes for update
+  using (auth.uid() = user_id);
+
+create policy "Users can delete own votes"
+  on public.prompt_votes for delete
+  using (auth.uid() = user_id);
+
+-- ============================================
+-- PROMPT SUBMISSIONS TABLE
+-- ============================================
+create table public.prompt_submissions (
+  id uuid primary key default uuid_generate_v4(),
+  title text not null,
+  description text not null,
+  category_id uuid not null references public.categories(id),
+  category_name text not null,
+  category_slug text not null,
+  prompt text not null,
+  tags text[] not null default '{}',
+  recommended_model text not null default '',
+  model_icon text not null default '',
+  submitter_email text,
+  submitted_by uuid references auth.users(id),
+  status text not null default 'pending'
+    check (status in ('pending', 'approved', 'rejected')),
+  created_at timestamptz not null default now()
+);
+
+alter table public.prompt_submissions enable row level security;
+
+create policy "Users can view own submissions"
+  on public.prompt_submissions for select using (auth.uid() = submitted_by);
+
+create policy "Users can submit prompts"
+  on public.prompt_submissions for insert
+  with check (auth.uid() = submitted_by);
+
+create policy "Admins can view all submissions"
+  on public.prompt_submissions for select
+  using (public.is_admin());
+
+create policy "Admins can update submissions"
+  on public.prompt_submissions for update
+  using (public.is_admin());
+
+create policy "Admins can delete submissions"
+  on public.prompt_submissions for delete
+  using (public.is_admin());
+
+-- ============================================
+-- ADMIN HELPER FUNCTION
+-- ============================================
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'admin'
+  );
+$$;

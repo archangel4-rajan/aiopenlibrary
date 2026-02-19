@@ -1,16 +1,12 @@
+/**
+ * Server-side Supabase client for AIOpenLibrary.
+ *
+ * Uses the @supabase/ssr package to create a client that reads/writes
+ * cookies via Next.js `cookies()` for session management.
+ */
+
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-
-export function isSupabaseConfigured(): boolean {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  return !!(
-    url &&
-    key &&
-    url !== "https://your-project.supabase.co" &&
-    key !== "your-anon-key-here"
-  );
-}
 
 export async function createClient() {
   const cookieStore = await cookies();
