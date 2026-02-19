@@ -30,8 +30,8 @@ export default function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2.5">
-              <Logo size={32} />
-              <span className="text-lg font-semibold tracking-tight text-stone-900">
+              <Logo size={42} />
+              <span className="text-xl font-semibold tracking-tight text-stone-900">
                 AIOpenLibrary
               </span>
             </Link>

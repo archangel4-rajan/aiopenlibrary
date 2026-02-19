@@ -5,7 +5,6 @@ import {
   ExternalLink,
   Tag,
   Lightbulb,
-  Variable,
   ImageIcon,
 } from "lucide-react";
 import {
@@ -13,12 +12,14 @@ import {
   getPromptsByCategory,
   isPromptSavedByUser,
   getUserSavedPromptIds,
+  getUserVote,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ModelBadge from "@/components/ModelBadge";
-import CopyButton from "@/components/CopyButton";
 import SaveButton from "@/components/SaveButton";
+import VoteButton from "@/components/VoteButton";
 import PromptCard from "@/components/PromptCard";
+import PromptCustomizer from "@/components/PromptCustomizer";
 
 export async function generateMetadata({
   params,
@@ -49,12 +50,13 @@ export default async function PromptPage({
     notFound();
   }
 
-  const [isSaved, related, savedIds] = await Promise.all([
+  const [isSaved, related, savedIds, userVote] = await Promise.all([
     user ? isPromptSavedByUser(prompt.id, user.id) : Promise.resolve(false),
     getPromptsByCategory(prompt.category_slug).then((prompts) =>
       prompts.filter((p) => p.slug !== prompt.slug).slice(0, 3)
     ),
     user ? getUserSavedPromptIds(user.id) : Promise.resolve([]),
+    user ? getUserVote(prompt.id, user.id) : Promise.resolve(null),
   ]);
 
   const variables = (prompt.variables || []) as {
@@ -104,7 +106,13 @@ export default async function PromptPage({
                 {prompt.description}
               </p>
             </div>
-            <div className="shrink-0">
+            <div className="flex shrink-0 items-center gap-2">
+              <VoteButton
+                promptId={prompt.id}
+                initialVote={userVote?.vote_type ?? null}
+                likesCount={prompt.likes_count ?? 0}
+                dislikesCount={prompt.dislikes_count ?? 0}
+              />
               <SaveButton
                 promptId={prompt.id}
                 initialSaved={isSaved}
@@ -137,65 +145,9 @@ export default async function PromptPage({
           </div>
         </div>
 
-        {/* Prompt Content */}
-        <div className="rounded-lg border border-stone-200 bg-white p-6 sm:p-8">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400">
-              Prompt
-            </h2>
-            <CopyButton
-              text={prompt.prompt}
-              className="px-4 py-2 text-sm font-medium"
-            />
-          </div>
-          <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-5 font-mono text-sm leading-relaxed text-stone-700">
-            {prompt.prompt}
-          </pre>
-        </div>
-
-        {/* Variables */}
-        {variables.length > 0 && (
-          <div className="mt-8">
-            <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900">
-              <Variable className="h-5 w-5 text-stone-500" />
-              Variables to Customize
-            </h2>
-            <div className="overflow-hidden rounded-lg border border-stone-200 bg-white">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-stone-50">
-                    <th className="px-4 py-3 text-left font-medium text-stone-600">
-                      Variable
-                    </th>
-                    <th className="px-4 py-3 text-left font-medium text-stone-600">
-                      Description
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {variables.map(
-                    (v: { name: string; description: string }) => (
-                      <tr key={v.name} className="border-t border-stone-100">
-                        <td className="px-4 py-3">
-                          <code className="rounded bg-stone-100 px-2 py-0.5 font-mono text-xs text-stone-700">
-                            {`{{${v.name}}}`}
-                          </code>
-                        </td>
-                        <td className="px-4 py-3 text-stone-500">
-                          {v.description}
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* Use Cases */}
+        {/* ── Use Cases (moved above prompt) ── */}
         {prompt.use_cases && prompt.use_cases.length > 0 && (
-          <div className="mt-8">
+          <div className="mb-8">
             <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900">
               <Lightbulb className="h-5 w-5 text-stone-500" />
               Use Cases
@@ -215,6 +167,12 @@ export default async function PromptPage({
             </div>
           </div>
         )}
+
+        {/* ── Prompt Customizer (variables + prompt preview) ── */}
+        <PromptCustomizer
+          promptText={prompt.prompt}
+          variables={variables}
+        />
 
         {/* Tips */}
         {prompt.tips && prompt.tips.length > 0 && (

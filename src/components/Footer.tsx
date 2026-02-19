@@ -8,14 +8,15 @@ export default function Footer() {
         <div className="grid gap-8 md:grid-cols-4">
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center gap-2.5">
-              <Logo size={28} />
-              <span className="text-base font-semibold tracking-tight text-stone-900">
+              <Logo size={36} />
+              <span className="text-lg font-semibold tracking-tight text-stone-900">
                 AIOpenLibrary
               </span>
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-stone-400">
-              The open library for prompts. Explore the best prompts in the
-              world and really upskill with AI.
+              The open-source prompt library built for practitioners. Discover
+              expert-crafted prompts across engineering, writing, data science,
+              and beyond — then customize them for your workflow.
             </p>
           </div>
 
@@ -77,8 +78,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 border-t border-stone-200 pt-6 text-center text-xs text-stone-400">
-          &copy; {new Date().getFullYear()} AIOpenLibrary. Open knowledge for
-          the AI era.
+          &copy; {new Date().getFullYear()} AIOpenLibrary. Open-source
+          knowledge for the AI era.
         </div>
       </div>
     </footer>

@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AIOpenLibrary - Explore the Best Prompts in the World",
   description:
-    "The Wikipedia for prompts. Discover, learn, and master AI prompting with curated prompts for every use case. Prompting is not trivial.",
+    "The open-source prompt library for practitioners. Browse expert-crafted prompts, customize variables in real time, and copy results ready for Claude, ChatGPT, Gemini, and more.",
   keywords: [
     "AI prompts",
     "prompt engineering",

@@ -52,8 +52,9 @@ export default async function Home() {
               world
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500 sm:text-xl">
-              Prompting is not trivial. Learn to do whatever you want with AI
-              through our curated library of expert-crafted prompts.
+              Great prompting is a craft, not a guess. Browse expert-built
+              prompts, customize variables in real time, and copy results
+              ready for any AI model.
             </p>
 
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
@@ -105,7 +106,7 @@ export default async function Home() {
               How it works
             </h2>
             <p className="mt-2 text-2xl font-bold text-stone-900 sm:text-3xl">
-              Really upskill with AI in 3 steps
+              From discovery to results in 3 steps
             </p>
           </div>
 
@@ -121,8 +122,8 @@ export default async function Home() {
                 Browse Categories
               </h3>
               <p className="mt-2 text-sm text-stone-500">
-                Explore prompts across software engineering, writing, data
-                science, marketing, and more.
+                Find prompts across engineering, writing, data science,
+                marketing, design, education, and research.
               </p>
             </div>
 
@@ -137,8 +138,8 @@ export default async function Home() {
                 Copy & Customize
               </h3>
               <p className="mt-2 text-sm text-stone-500">
-                Copy the prompt, fill in your variables, and customize it for
-                your specific use case.
+                Fill in the variables directly on the page. Watch the prompt
+                update in real time, then copy with one click.
               </p>
             </div>
 
@@ -153,8 +154,8 @@ export default async function Home() {
                 Get Results
               </h3>
               <p className="mt-2 text-sm text-stone-500">
-                Paste into your AI tool of choice and get high-quality,
-                structured results every time.
+                Paste into Claude, ChatGPT, Gemini, or any model. Each prompt
+                is structured for consistent, high-quality output.
               </p>
             </div>
           </div>
@@ -239,11 +240,11 @@ export default async function Home() {
           <div className="relative overflow-hidden rounded-2xl bg-stone-900 px-8 py-16 text-center sm:px-16">
             <div className="relative">
               <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                Have a great prompt?
+                Built a great prompt?
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base text-stone-400">
-                Share it with the community. Help others upskill with AI and
-                contribute to the world&apos;s largest open prompt library.
+                Share it with the community. Your best prompts help
+                practitioners everywhere work smarter with AI.
               </p>
               <Link
                 href="/submit"

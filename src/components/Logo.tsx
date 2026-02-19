@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function Logo({ size = 36 }: { size?: number }) {
+export default function Logo({ size = 47 }: { size?: number }) {
   const [imgError, setImgError] = useState(false);
   const [useSvg, setUseSvg] = useState(false);
 
