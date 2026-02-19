@@ -3,21 +3,26 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function Logo({ size = 36 }: { size?: number }) {
+export default function Logo({
+  size = 36,
+  className,
+}: {
+  size?: number;
+  className?: string;
+}) {
   const [fallback, setFallback] = useState<"gif" | "png" | "text">("gif");
 
   if (fallback === "text") {
     return (
       <div
-        className="flex items-center justify-center rounded-full bg-stone-800"
-        style={{ width: size, height: size }}
+        className={
+          className
+            ? `flex items-center justify-center rounded-full bg-stone-800 ${className}`
+            : "flex items-center justify-center rounded-full bg-stone-800"
+        }
+        style={className ? undefined : { width: size, height: size }}
       >
-        <span
-          className="font-semibold text-stone-200"
-          style={{ fontSize: size * 0.4 }}
-        >
-          A
-        </span>
+        <span className="font-semibold text-stone-200 text-[40%]">A</span>
       </div>
     );
   }
@@ -32,8 +37,10 @@ export default function Logo({ size = 36 }: { size?: number }) {
         alt="AIOpenLibrary"
         width={size}
         height={size}
-        className="object-contain"
-        style={{ width: size, height: size }}
+        className={
+          className ? `object-contain ${className}` : "object-contain"
+        }
+        style={className ? undefined : { width: size, height: size }}
         onError={() => setFallback("png")}
       />
     );
@@ -45,8 +52,8 @@ export default function Logo({ size = 36 }: { size?: number }) {
       alt="AIOpenLibrary"
       width={size}
       height={size}
-      className="object-contain"
-      style={{ width: size, height: size }}
+      className={className ? `object-contain ${className}` : "object-contain"}
+      style={className ? undefined : { width: size, height: size }}
       onError={() => setFallback("text")}
     />
   );
