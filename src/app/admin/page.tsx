@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus, Edit, Trash2, Eye, EyeOff, Shield, Inbox } from "lucide-react";
+import { Plus, Edit, Eye, EyeOff, Shield, Inbox } from "lucide-react";
 import { isAdmin } from "@/lib/auth";
 import { getAllPromptsAdmin } from "@/lib/db";
 import AdminDeleteButton from "@/components/AdminDeleteButton";

@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Library, ArrowRight, Search } from "lucide-react";
+import { Library, ArrowRight } from "lucide-react";
 import { getUser } from "@/lib/auth";
 import { getUserProfile, getUserSavedPrompts, getUserSavedPromptIds } from "@/lib/db";
-import PromptCard from "@/components/PromptCard";
+
 import LibraryFilter from "@/components/LibraryFilter";
 import type { Metadata } from "next";
 

@@ -26,7 +26,8 @@ vi.mock("next/link", () => ({
     href: string;
     [key: string]: unknown;
   }) => {
-    const React = require("react");
-    return React.createElement("a", { href, ...props }, children);
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const ReactModule = require("react");
+    return ReactModule.createElement("a", { href, ...props }, children);
   },
 }));
