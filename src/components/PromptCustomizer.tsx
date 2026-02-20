@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Variable, Lightbulb, X } from "lucide-react";
 import CopyButton from "./CopyButton";
+import RunPrompt from "./RunPrompt";
 
 interface PromptVariable {
   name: string;
@@ -13,12 +14,16 @@ interface PromptCustomizerProps {
   promptText: string;
   variables: PromptVariable[];
   useCases: string[];
+  promptId?: string;
+  onPromptChange?: (augmented: string) => void;
 }
 
 export default function PromptCustomizer({
   promptText,
   variables,
   useCases,
+  promptId,
+  onPromptChange,
 }: PromptCustomizerProps) {
   const [values, setValues] = useState<Record<string, string>>({});
 
@@ -50,6 +55,11 @@ export default function PromptCustomizer({
     }
     return result;
   }, [promptText, variables, values]);
+
+  // Notify parent of prompt changes
+  useEffect(() => {
+    onPromptChange?.(augmentedPrompt);
+  }, [augmentedPrompt, onPromptChange]);
 
   // Render the prompt with visual highlighting for variables
   const renderPromptSegments = useMemo(() => {
@@ -225,6 +235,11 @@ export default function PromptCustomizer({
             return <span key={i}>{seg.text}</span>;
           })}
         </pre>
+
+        {/* Run Prompt */}
+        {promptId && (
+          <RunPrompt promptId={promptId} customizedPrompt={augmentedPrompt} />
+        )}
       </div>
     </>
   );

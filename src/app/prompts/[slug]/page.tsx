@@ -152,6 +152,7 @@ export default async function PromptPage({
           promptText={prompt.prompt}
           variables={variables}
           useCases={prompt.use_cases || []}
+          promptId={prompt.id}
         />
 
         {/* Tips */}
