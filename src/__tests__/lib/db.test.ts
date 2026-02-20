@@ -1,17 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Mock Supabase client
-const mockSelect = vi.fn();
-const mockInsert = vi.fn();
-const mockDelete = vi.fn();
-const mockUpdate = vi.fn();
-const mockEq = vi.fn();
-const mockIn = vi.fn();
-const mockOr = vi.fn();
-const mockOrder = vi.fn();
-const mockLimit = vi.fn();
-const mockSingle = vi.fn();
-const mockMaybeSingle = vi.fn();
 const mockRpc = vi.fn();
 
 // Chain builder for fluent Supabase API
@@ -74,11 +63,8 @@ import {
   getPrompts,
   getPromptBySlug,
   getPromptById,
-  getPromptsByCategory,
   getFeaturedPrompts,
   searchPrompts,
-  getPromptsCount,
-  getCategoryPromptCounts,
   getAllPromptsAdmin,
   isPromptSavedByUser,
   getUserSavedPromptIds,

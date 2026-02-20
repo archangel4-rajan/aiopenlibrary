@@ -44,7 +44,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key  # For seeding only — never expose client-side
 ```
 
-> **Note:** The app works without Supabase (falls back to hardcoded data), but auth, saving, voting, and submissions require a live Supabase project.
+> **Note:** A live Supabase project is required — all data is stored in the database.
 
 ### 3. Set up the database
 
@@ -100,7 +100,6 @@ src/
 │   └── api/                # API routes (search, save, submissions, admin)
 ├── components/             # Reusable React components
 ├── lib/                    # Database layer, auth, rate limiting, types
-├── data/                   # Static fallback data (prompts.json)
 └── __tests__/              # Vitest test files
 scripts/
 ├── schema.sql              # Complete database schema with RLS

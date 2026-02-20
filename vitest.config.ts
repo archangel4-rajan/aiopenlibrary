@@ -4,6 +4,9 @@ import path from "path";
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    "process.env.NODE_ENV": '"test"',
+  },
   test: {
     environment: "jsdom",
     setupFiles: ["./src/__tests__/setup.ts"],
