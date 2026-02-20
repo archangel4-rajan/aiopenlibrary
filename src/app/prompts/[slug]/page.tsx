@@ -153,6 +153,14 @@ export default async function PromptPage({
           variables={variables}
           useCases={prompt.use_cases || []}
           promptId={prompt.id}
+          promptType={
+            (prompt.tags || []).find((t: string) => t.startsWith("type:"))?.replace("type:", "") as
+              | "text"
+              | "image"
+              | "video"
+              | "unspecified"
+              | undefined
+          }
         />
 
         {/* Tips */}

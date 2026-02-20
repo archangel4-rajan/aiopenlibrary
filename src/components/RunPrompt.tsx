@@ -9,6 +9,7 @@ import Image from "next/image";
 interface RunPromptProps {
   promptId: string;
   customizedPrompt: string;
+  promptType?: "text" | "image" | "video" | "unspecified";
 }
 
 interface RunResult {
@@ -23,6 +24,7 @@ interface RunResult {
 export default function RunPrompt({
   promptId,
   customizedPrompt,
+  promptType = "text",
 }: RunPromptProps) {
   const { user } = useAuth();
   const router = useRouter();
@@ -103,7 +105,13 @@ export default function RunPrompt({
         ) : (
           <>
             <Play className="h-4 w-4" />
-            {user ? "Run This Prompt" : "Sign in to Run"}
+            {user
+              ? promptType === "image"
+                ? "Generate Image"
+                : promptType === "video"
+                  ? "Generate Video Script"
+                  : "Run This Prompt"
+              : "Sign in to Run"}
           </>
         )}
       </button>

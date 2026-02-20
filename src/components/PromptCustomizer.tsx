@@ -15,6 +15,7 @@ interface PromptCustomizerProps {
   variables: PromptVariable[];
   useCases: string[];
   promptId?: string;
+  promptType?: "text" | "image" | "video" | "unspecified";
   onPromptChange?: (augmented: string) => void;
 }
 
@@ -23,6 +24,7 @@ export default function PromptCustomizer({
   variables,
   useCases,
   promptId,
+  promptType,
   onPromptChange,
 }: PromptCustomizerProps) {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -238,7 +240,7 @@ export default function PromptCustomizer({
 
         {/* Run Prompt */}
         {promptId && (
-          <RunPrompt promptId={promptId} customizedPrompt={augmentedPrompt} />
+          <RunPrompt promptId={promptId} customizedPrompt={augmentedPrompt} promptType={promptType} />
         )}
       </div>
     </>
