@@ -89,6 +89,21 @@ export default function RunPrompt({
     link.click();
   }, [result]);
 
+  // Unspecified type — show disabled grayed-out box
+  if (promptType === "unspecified") {
+    return (
+      <div className="mt-6">
+        <div className="flex w-full items-center justify-center gap-2 rounded-lg border border-stone-200 bg-stone-100 px-6 py-3 text-sm font-medium text-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-500">
+          <Play className="h-4 w-4" />
+          Run This Prompt
+        </div>
+        <p className="mt-2 text-center text-xs text-stone-400 dark:text-stone-500">
+          Prompt type not specified — run feature unavailable
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-6">
       {/* Run Button */}
