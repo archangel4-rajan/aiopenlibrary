@@ -13,6 +13,7 @@
     "validate": "npm run lint && npm run typecheck && npm test"
   },
   "dependencies": {
+    "@huggingface/inference": "^4.13.12",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.96.0",
     "lucide-react": "^0.574.0",
