@@ -119,7 +119,7 @@ export default function PromptForm({
   };
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700";
+    "mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700";
   const labelClass = "block text-sm font-medium text-stone-700 dark:text-stone-300";
 
   return (
@@ -219,7 +219,7 @@ export default function PromptForm({
           value={promptText}
           onChange={(e) => setPromptText(e.target.value)}
           required
-          className="mt-1 w-full rounded-lg border border-stone-200 bg-white px-4 py-2.5 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700"
+          className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 px-4 py-2.5 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700"
           placeholder="Enter the full prompt text. Use {{variable_name}} for customizable parts..."
         />
       </div>
@@ -250,7 +250,7 @@ export default function PromptForm({
                 newUc[i] = e.target.value;
                 setUseCases(newUc);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
+              className="flex-1 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="e.g., Pre-merge code reviews"
             />
             <button
@@ -286,7 +286,7 @@ export default function PromptForm({
                 newVars[i] = { ...newVars[i], name: e.target.value };
                 setVariables(newVars);
               }}
-              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
+              className="w-1/3 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 font-mono text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="variable_name"
             />
             <input
@@ -297,7 +297,7 @@ export default function PromptForm({
                 newVars[i] = { ...newVars[i], description: e.target.value };
                 setVariables(newVars);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
+              className="flex-1 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="Description"
             />
             <button
@@ -337,7 +337,7 @@ export default function PromptForm({
                 newTips[i] = e.target.value;
                 setTips(newTips);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
+              className="flex-1 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="A helpful tip..."
             />
             <button
@@ -373,7 +373,7 @@ export default function PromptForm({
                 newRefs[i] = { ...newRefs[i], title: e.target.value };
                 setReferences(newRefs);
               }}
-              className="w-1/3 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
+              className="w-1/3 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="Reference title"
             />
             <input
@@ -384,7 +384,7 @@ export default function PromptForm({
                 newRefs[i] = { ...newRefs[i], url: e.target.value };
                 setReferences(newRefs);
               }}
-              className="flex-1 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
+              className="flex-1 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-900 outline-none focus:border-stone-400 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500"
               placeholder="https://..."
             />
             <button
@@ -418,7 +418,7 @@ export default function PromptForm({
             onChange={(e) => setIsPublished(e.target.checked)}
             className="peer sr-only"
           />
-          <div className="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-stone-700 peer-checked:after:translate-x-full dark:bg-stone-600 dark:after:bg-stone-300 dark:peer-checked:bg-stone-400" />
+          <div className="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-stone-50 after:transition-all after:content-[''] peer-checked:bg-stone-700 peer-checked:after:translate-x-full dark:bg-stone-600 dark:after:bg-stone-300 dark:peer-checked:bg-stone-400" />
         </label>
         <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
           {isPublished ? "Published (visible to everyone)" : "Draft (only visible to admins)"}

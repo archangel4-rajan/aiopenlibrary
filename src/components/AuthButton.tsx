@@ -84,7 +84,7 @@ export default function AuthButton() {
       </button>
 
       {menuOpen && (
-        <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-stone-200 bg-white py-2 shadow-lg shadow-stone-100 dark:border-stone-700 dark:bg-stone-900 dark:shadow-none">
+        <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-stone-200 bg-stone-50 py-2 shadow-lg shadow-stone-100 dark:border-stone-700 dark:bg-stone-900 dark:shadow-none">
           <div className="border-b border-stone-100 px-4 pb-2 dark:border-stone-700">
             <p className="text-sm font-medium text-stone-900 dark:text-stone-100">{displayName}</p>
             <p className="text-xs text-stone-400 dark:text-stone-500">{user.email}</p>

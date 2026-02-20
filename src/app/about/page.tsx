@@ -23,7 +23,7 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2">
-          <div className="rounded-lg border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-lg border border-stone-200 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-800">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
               <BookOpen className="h-5 w-5" />
             </div>
@@ -36,7 +36,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="rounded-lg border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-lg border border-stone-200 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-800">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
               <Users className="h-5 w-5" />
             </div>
@@ -50,7 +50,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="rounded-lg border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-lg border border-stone-200 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-800">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
               <Lightbulb className="h-5 w-5" />
             </div>
@@ -63,7 +63,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="rounded-lg border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-lg border border-stone-200 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-800">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300">
               <Globe className="h-5 w-5" />
             </div>
@@ -87,7 +87,7 @@ export default function AboutPage() {
           </p>
           <Link
             href="/categories"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-medium text-stone-900 hover:bg-stone-100 dark:bg-stone-700 dark:text-stone-100 dark:hover:bg-stone-600"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-50 px-6 py-3 text-sm font-medium text-stone-900 hover:bg-stone-100 dark:bg-stone-700 dark:text-stone-100 dark:hover:bg-stone-600"
           >
             Start Exploring
             <ArrowRight className="h-4 w-4" />

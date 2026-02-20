@@ -152,7 +152,7 @@ function SearchContent() {
                 placeholder="Search by title, category, or tag..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                className="w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 py-3 pl-10 pr-4 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-400 dark:focus:border-stone-500 focus:ring-2 focus:ring-stone-100 dark:focus:ring-stone-700"
+                className="w-full rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-3 pl-10 pr-4 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-400 dark:focus:border-stone-500 focus:ring-2 focus:ring-stone-100 dark:focus:ring-stone-700"
               />
             </div>
             <button
@@ -160,13 +160,13 @@ function SearchContent() {
               className={`flex items-center gap-2 rounded-xl border px-4 py-3 text-sm transition-colors ${
                 showFilters || hasActiveFilters
                   ? "border-stone-400 dark:border-stone-500 bg-stone-100 dark:bg-stone-700 text-stone-900 dark:text-stone-100"
-                  : "border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-500 dark:text-stone-400 hover:border-stone-300 dark:hover:border-stone-600"
+                  : "border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-500 dark:text-stone-400 hover:border-stone-300 dark:hover:border-stone-600"
               }`}
             >
               <SlidersHorizontal className="h-4 w-4" />
               Filters
               {hasActiveFilters && (
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-stone-900 dark:bg-white text-[10px] font-bold text-white dark:text-stone-900">
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-stone-900 dark:bg-stone-50 text-[10px] font-bold text-white dark:text-stone-900">
                   {[categoryFilter, difficultyFilter, modelFilter].filter(Boolean).length}
                 </span>
               )}
@@ -175,7 +175,7 @@ function SearchContent() {
 
           {/* Filter bar */}
           {showFilters && (
-            <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-4">
+            <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-4">
               {/* Category dropdown */}
               <select
                 value={categoryFilter}

@@ -144,7 +144,7 @@ export default function AdminSubmissionsPage() {
             </div>
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to Admin
@@ -197,7 +197,7 @@ export default function AdminSubmissionsPage() {
               return (
                 <div
                   key={sub.id}
-                  className={`rounded-lg border ${borderColor} bg-white dark:bg-stone-800`}
+                  className={`rounded-lg border ${borderColor} bg-stone-50 dark:bg-stone-800`}
                 >
                   <div className="flex items-center justify-between p-4">
                     <div className="min-w-0 flex-1">

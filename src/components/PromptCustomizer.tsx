@@ -123,7 +123,7 @@ export default function PromptCustomizer({
             {variables.map((v) => (
               <div
                 key={v.name}
-                className="rounded-lg border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800"
+                className="rounded-lg border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800"
               >
                 <div className="mb-2 flex items-start justify-between gap-2 sm:items-center">
                   <label
@@ -153,7 +153,7 @@ export default function PromptCustomizer({
                   value={values[v.name] || ""}
                   onChange={(e) => handleChange(v.name, e.target.value)}
                   placeholder={v.description}
-                  className="w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-900 placeholder-stone-400 outline-none transition-colors focus:border-stone-400 focus:bg-white focus:ring-1 focus:ring-stone-200 dark:border-stone-700 dark:bg-stone-700 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-stone-600 dark:focus:bg-stone-600 dark:focus:ring-stone-700"
+                  className="w-full rounded-md border border-stone-200 bg-stone-50 px-3 py-2 text-sm text-stone-900 placeholder-stone-400 outline-none transition-colors focus:border-stone-400 focus:bg-stone-50 focus:ring-1 focus:ring-stone-200 dark:border-stone-700 dark:bg-stone-700 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-stone-600 dark:focus:bg-stone-600 dark:focus:ring-stone-700"
                 />
               </div>
             ))}
@@ -172,7 +172,7 @@ export default function PromptCustomizer({
             {useCases.map((useCase) => (
               <div
                 key={useCase}
-                className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3 dark:border-stone-700 dark:bg-stone-800"
+                className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-3 dark:border-stone-700 dark:bg-stone-800"
               >
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-stone-100 text-xs text-stone-600 dark:bg-stone-700 dark:text-stone-300">
                   &#10003;
@@ -185,7 +185,7 @@ export default function PromptCustomizer({
       )}
 
       {/* Prompt Content with live preview */}
-      <div className="rounded-lg border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800 sm:p-8">
+      <div className="rounded-lg border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800 sm:p-8">
         <div className="mb-4 flex items-center justify-between gap-2">
           <h2 className="text-[10px] font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500 sm:text-xs">
             Prompt

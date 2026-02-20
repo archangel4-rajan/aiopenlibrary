@@ -89,7 +89,7 @@ export default async function CategoryPage({
             </p>
             <Link
               href="/submit"
-              className="mt-4 inline-flex rounded-lg bg-stone-900 dark:bg-white px-4 py-2 text-sm font-medium text-white dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-100"
+              className="mt-4 inline-flex rounded-lg bg-stone-900 dark:bg-stone-50 px-4 py-2 text-sm font-medium text-white dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-100"
             >
               Submit a Prompt
             </Link>

@@ -103,7 +103,7 @@ export default function ThemeToggle() {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-36 rounded-lg border border-stone-200 bg-white py-1 shadow-lg dark:border-stone-700 dark:bg-stone-900">
+        <div className="absolute right-0 z-50 mt-2 w-36 rounded-lg border border-stone-200 bg-stone-50 py-1 shadow-lg dark:border-stone-700 dark:bg-stone-900">
           {options.map((opt) => (
             <button
               key={opt.value}

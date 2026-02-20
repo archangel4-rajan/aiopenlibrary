@@ -135,7 +135,7 @@ export default function SubmitPage() {
       <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
         <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
               <LogIn className="h-5 w-5" />
             </div>
             <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl dark:text-stone-100">
@@ -147,7 +147,7 @@ export default function SubmitPage() {
             </p>
             <Link
               href="/auth/login"
-              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-50"
             >
               Sign In
             </Link>
@@ -187,13 +187,13 @@ export default function SubmitPage() {
                   setDifficulty("Beginner");
                   setEmail("");
                 }}
-                className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+                className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-50"
               >
                 Submit Another
               </button>
               <Link
                 href="/"
-                className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-white px-6 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+                className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-stone-50 px-6 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
               >
                 Back to Home
               </Link>
@@ -205,14 +205,14 @@ export default function SubmitPage() {
   }
 
   const inputClass =
-    "mt-1 w-full rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-stone-500 dark:focus:ring-stone-700";
+    "mt-1 w-full rounded-lg border border-stone-300 bg-stone-50 px-4 py-2.5 text-sm text-stone-900 placeholder-stone-400 outline-none focus:border-stone-500 focus:ring-1 focus:ring-stone-200 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-100 dark:placeholder-stone-500 dark:focus:border-stone-500 dark:focus:ring-stone-700";
 
   return (
     <div className="min-h-screen bg-stone-50 dark:bg-stone-950">
       <div className="mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
         {/* Header */}
         <div className="text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
             <Send className="h-5 w-5" />
           </div>
           <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl dark:text-stone-100">
@@ -225,7 +225,7 @@ export default function SubmitPage() {
         </div>
 
         {/* Guidelines Box */}
-        <div className="mt-10 rounded-lg border border-stone-200 bg-white p-6 sm:p-8 dark:border-stone-700 dark:bg-stone-800">
+        <div className="mt-10 rounded-lg border border-stone-200 bg-stone-50 p-6 sm:p-8 dark:border-stone-700 dark:bg-stone-800">
           <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
             What makes a great submission
           </h2>
@@ -346,7 +346,7 @@ export default function SubmitPage() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-50"
               >
                 Next
                 <ChevronRight className="h-4 w-4" />
@@ -421,7 +421,7 @@ export default function SubmitPage() {
                 {DIFFICULTY_LEVELS.map((level) => (
                   <label
                     key={level}
-                    className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3 cursor-pointer transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-700 dark:hover:bg-stone-600"
+                    className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-3 cursor-pointer transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-700 dark:hover:bg-stone-600"
                   >
                     <input
                       type="radio"
@@ -445,14 +445,14 @@ export default function SubmitPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="flex-1 rounded-lg border border-stone-300 bg-white py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+                className="flex-1 rounded-lg border border-stone-300 bg-stone-50 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
               >
                 Back
               </button>
               <button
                 type="button"
                 onClick={handleNext}
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-50"
               >
                 Review
                 <ChevronRight className="h-4 w-4" />
@@ -465,7 +465,7 @@ export default function SubmitPage() {
         {currentStep === 3 && (
           <form onSubmit={handleSubmit} className="mt-8 space-y-8">
             {/* Review Box */}
-            <div className="rounded-lg border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-800">
+            <div className="rounded-lg border border-stone-200 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-800">
               <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100">
                 Review Your Submission
               </h3>
@@ -568,14 +568,14 @@ export default function SubmitPage() {
               <button
                 type="button"
                 onClick={handleBack}
-                className="flex-1 rounded-lg border border-stone-300 bg-white py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+                className="flex-1 rounded-lg border border-stone-300 bg-stone-50 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
               >
                 Back
               </button>
               <button
                 type="submit"
                 disabled={state === "submitting"}
-                className="flex-1 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-white dark:disabled:opacity-50"
+                className="flex-1 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-50 dark:disabled:opacity-50"
               >
                 {state === "submitting" ? "Submitting..." : "Submit Prompt for Review"}
               </button>

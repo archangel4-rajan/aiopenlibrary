@@ -45,7 +45,7 @@ export default async function Home() {
       <section className="relative overflow-hidden border-b border-stone-200 dark:border-stone-700">
         <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-12 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8">
           <div className="text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-1 text-xs text-stone-600 dark:text-stone-400 sm:mb-6 sm:px-4 sm:py-1.5 sm:text-sm">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-3 py-1 text-xs text-stone-600 dark:text-stone-400 sm:mb-6 sm:px-4 sm:py-1.5 sm:text-sm">
               <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Free and open source
             </div>
@@ -62,14 +62,14 @@ export default async function Home() {
             <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
               <Link
                 href="/categories"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 dark:bg-white px-6 py-3 text-sm font-medium text-white dark:text-stone-900 transition-all hover:bg-stone-800 dark:hover:bg-stone-100"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 dark:bg-stone-50 px-6 py-3 text-sm font-medium text-white dark:text-stone-900 transition-all hover:bg-stone-800 dark:hover:bg-stone-100"
               >
                 Start Exploring
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 px-6 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 transition-all hover:border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-700"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-6 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 transition-all hover:border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-700"
               >
                 Share a Prompt
               </Link>
@@ -101,7 +101,7 @@ export default async function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="border-b border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500">
@@ -202,7 +202,7 @@ export default async function Home() {
       </section>
 
       {/* Featured Prompts */}
-      <section className="border-b border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <div>
@@ -287,7 +287,7 @@ export default async function Home() {
               </p>
               <Link
                 href="/submit"
-                className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-medium text-stone-900 transition-all hover:bg-stone-100"
+                className="mt-8 inline-flex items-center gap-2 rounded-lg bg-stone-50 px-6 py-3 text-sm font-medium text-stone-900 transition-all hover:bg-stone-100"
               >
                 Share Your Prompt
                 <ArrowRight className="h-4 w-4" />

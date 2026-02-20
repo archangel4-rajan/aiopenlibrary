@@ -260,7 +260,7 @@ export default function ProfilePage() {
                   <Link
                     key={collection.id}
                     href={`/profile/collections/${collection.id}`}
-                    className="group rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
+                    className="group rounded-lg border border-stone-200 bg-stone-50 p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
                   >
                     <h3 className="mb-2 text-base font-semibold text-stone-900 transition-colors group-hover:text-stone-600 dark:text-stone-100 dark:group-hover:text-stone-300">
                       {collection.name}

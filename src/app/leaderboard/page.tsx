@@ -15,7 +15,7 @@ function getRankStyle(rank: number) {
   if (rank === 1) return "bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-900 dark:border-amber-800 dark:text-amber-200";
   if (rank === 2) return "bg-stone-50 border-stone-300 text-stone-600 dark:bg-stone-800 dark:border-stone-700 dark:text-stone-300";
   if (rank === 3) return "bg-orange-50 border-orange-200 text-orange-700 dark:bg-orange-900 dark:border-orange-800 dark:text-orange-200";
-  return "bg-white border-stone-200 text-stone-500 dark:bg-stone-800 dark:border-stone-700 dark:text-stone-400";
+  return "bg-stone-50 border-stone-200 text-stone-500 dark:bg-stone-800 dark:border-stone-700 dark:text-stone-400";
 }
 
 function getRankBadge(rank: number) {
@@ -51,7 +51,7 @@ export default async function LeaderboardPage() {
               ? "The most saved prompts this week"
               : "Most popular prompts of all time"}
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-1.5 text-sm text-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-4 py-1.5 text-sm text-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
             <Flame className="h-3.5 w-3.5 text-orange-500" />
             {hasWeeklySaves ? "Updated weekly" : "Based on total saves"}
           </div>

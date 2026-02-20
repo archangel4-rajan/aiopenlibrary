@@ -22,7 +22,7 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
   const promptPreview = prompt.prompt.replace(/\{\{[^}]+\}\}/g, "[...]").slice(0, 80);
 
   return (
-    <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
+    <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-stone-50 p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
       <Link
         href={`/prompts/${prompt.slug}`}
         className="absolute inset-0 z-0 rounded-lg"

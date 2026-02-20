@@ -73,7 +73,7 @@ export default async function PromptPage({
   }[];
 
   return (
-    <div className="bg-white dark:bg-stone-900">
+    <div className="bg-stone-50 dark:bg-stone-900">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Breadcrumb */}
         <div className="mb-6">
@@ -160,7 +160,7 @@ export default async function PromptPage({
             <h2 className="mb-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
               Pro Tips
             </h2>
-            <div className="rounded-lg border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 p-5">
+            <div className="rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-5">
               <ul className="space-y-2">
                 {prompt.tips.map((tip) => (
                   <li
@@ -183,13 +183,13 @@ export default async function PromptPage({
             Prompt Output
           </h2>
           {prompt.example_output ? (
-            <div className="rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-5 overflow-x-auto">
+            <div className="rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-5 overflow-x-auto">
               <pre className="text-xs text-stone-700 dark:text-stone-300 whitespace-pre-wrap break-words font-mono">
                 <code>{prompt.example_output}</code>
               </pre>
             </div>
           ) : (
-            <div className="rounded-lg border-2 border-dashed border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-8 text-center">
+            <div className="rounded-lg border-2 border-dashed border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-8 text-center">
               <ImageIcon className="mx-auto h-10 w-10 text-stone-300 dark:text-stone-600" />
               <p className="mt-2 text-sm text-stone-400 dark:text-stone-500">
                 See what this prompt produces — real output screenshots from
@@ -213,7 +213,7 @@ export default async function PromptPage({
                   href={ref.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 p-3 text-sm text-stone-600 dark:text-stone-300 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:bg-stone-50 dark:hover:bg-stone-750"
+                  className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-3 text-sm text-stone-600 dark:text-stone-300 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:bg-stone-50 dark:hover:bg-stone-750"
                 >
                   <ExternalLink className="h-4 w-4 shrink-0" />
                   {ref.title}

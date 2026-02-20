@@ -203,7 +203,7 @@ export default function CollectionDetailPage() {
         {/* Collection Header */}
         <div className="mb-10">
           {editing ? (
-            <div className="space-y-4 rounded-lg border border-stone-200 bg-white p-6 dark:border-stone-700 dark:bg-stone-900">
+            <div className="space-y-4 rounded-lg border border-stone-200 bg-stone-50 p-6 dark:border-stone-700 dark:bg-stone-900">
               <div>
                 <label className="block text-sm font-medium text-stone-700 dark:text-stone-300 mb-1">
                   Collection Name
@@ -212,7 +212,7 @@ export default function CollectionDetailPage() {
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100"
+                  className="w-full rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100"
                 />
               </div>
               <div>
@@ -223,7 +223,7 @@ export default function CollectionDetailPage() {
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
                   rows={3}
-                  className="w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100"
+                  className="w-full rounded-lg border border-stone-200 bg-stone-50 px-3 py-2 text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100"
                 />
               </div>
               <div className="flex gap-2">

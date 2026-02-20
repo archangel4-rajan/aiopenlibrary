@@ -36,7 +36,7 @@ export default async function AdminPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/admin/submissions"
-              className="inline-flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+              className="inline-flex items-center gap-2 rounded-lg border border-stone-200 bg-stone-50 px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
             >
               <Inbox className="h-4 w-4" />
               Submissions
@@ -53,19 +53,19 @@ export default async function AdminPage() {
 
         {/* Stats */}
         <div className="mb-8 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800">
             <p className="text-sm text-stone-500 dark:text-stone-400">Total Prompts</p>
             <p className="mt-1 text-2xl font-bold text-stone-900 dark:text-stone-100">
               {prompts.length}
             </p>
           </div>
-          <div className="rounded-xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800">
             <p className="text-sm text-stone-500 dark:text-stone-400">Published</p>
             <p className="mt-1 text-2xl font-bold text-green-600 dark:text-green-400">
               {prompts.filter((p) => p.is_published).length}
             </p>
           </div>
-          <div className="rounded-xl border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-800">
+          <div className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800">
             <p className="text-sm text-stone-500 dark:text-stone-400">Drafts</p>
             <p className="mt-1 text-2xl font-bold text-amber-600 dark:text-amber-400">
               {prompts.filter((p) => !p.is_published).length}
@@ -74,7 +74,7 @@ export default async function AdminPage() {
         </div>
 
         {/* Prompts Table */}
-        <div className="overflow-hidden rounded-xl border border-stone-200 bg-white dark:border-stone-700 dark:bg-stone-800">
+        <div className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-800">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-stone-50 dark:bg-stone-900">
