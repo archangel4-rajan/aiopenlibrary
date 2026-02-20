@@ -14,10 +14,21 @@ export default async function OGImage({
 
   // Use a lightweight Supabase client — the server cookie-based client
   // doesn't work here since OG image generation has no cookie context
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    return new ImageResponse(
+      (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", backgroundColor: "#1c1917", color: "#fafaf9", fontSize: 48, fontWeight: 700 }}>
+          AIOpenLibrary
+        </div>
+      ),
+      { ...size }
+    );
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
   const { data: prompt } = await supabase
     .from("prompts")

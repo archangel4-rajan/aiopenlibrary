@@ -1,0 +1,1351 @@
+{
+  "new_categories": [
+    {
+      "name": "Business & Strategy",
+      "slug": "business-strategy",
+      "emoji": "\ud83d\udcbc",
+      "description": "Business planning, competitive analysis, decision frameworks, and strategic thinking"
+    },
+    {
+      "name": "Career & Personal Development",
+      "slug": "career-development",
+      "emoji": "\ud83c\udfaf",
+      "description": "Career coaching, resume building, interview prep, and personal growth"
+    },
+    {
+      "name": "Finance & Analytics",
+      "slug": "finance",
+      "emoji": "\ud83d\udcb0",
+      "description": "Financial planning, investment analysis, budgeting, and accounting"
+    },
+    {
+      "name": "Creative & Storytelling",
+      "slug": "creative",
+      "emoji": "\ud83c\udfad",
+      "description": "Fiction writing, worldbuilding, character development, and creative expression"
+    },
+    {
+      "name": "Prompt Engineering",
+      "slug": "prompt-engineering",
+      "emoji": "\ud83e\udde0",
+      "description": "Meta-prompts for optimizing, building, and improving AI prompts themselves"
+    },
+    {
+      "name": "Health & Wellness",
+      "slug": "health-wellness",
+      "emoji": "\ud83c\udfe5",
+      "description": "Fitness, nutrition, mental health, and wellness guidance"
+    },
+    {
+      "name": "Legal & Compliance",
+      "slug": "legal",
+      "emoji": "\u2696\ufe0f",
+      "description": "Legal document drafting, contract review, compliance, and regulatory guidance"
+    },
+    {
+      "name": "Sales & Outreach",
+      "slug": "sales",
+      "emoji": "\ud83e\udd1d",
+      "description": "Sales emails, prospecting, negotiation, and customer communication"
+    },
+    {
+      "name": "Startup & Entrepreneurship",
+      "slug": "startup",
+      "emoji": "\ud83d\ude80",
+      "description": "Pitch decks, business models, fundraising, and startup operations"
+    }
+  ],
+  "prompts": [
+    {
+      "name": "Strategic Business Advisor",
+      "slug": "strategic-business-advisor",
+      "description": "Get structured strategic advice on any business situation with prioritized, actionable recommendations.",
+      "prompt_text": "You are a world-class strategic business advisor with experience across Fortune 500 companies and high-growth startups. I'm going to describe my business situation, and I want you to:\n\n1) Identify the 3 most critical issues\n2) For each issue, provide a specific, actionable recommendation\n3) Prioritize them by impact vs effort (use a simple 2x2 matrix)\n4) Give me the exact first step I should take tomorrow morning\n5) Identify one blind spot I'm likely not seeing\n\nHere's my situation:\n[BUSINESS_SITUATION]\n\nMy industry: [INDUSTRY]\nCompany stage: [STAGE]\nBiggest constraint: [CONSTRAINT]",
+      "category_slug": "business-strategy",
+      "tags": [
+        "strategy",
+        "business",
+        "decision-making",
+        "advisory"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Viral on X/Twitter among startup founders",
+      "why_it_works": "Forces structured analysis with prioritization and immediate next steps instead of vague advice."
+    },
+    {
+      "name": "Socratic Tutor",
+      "slug": "socratic-tutor",
+      "description": "An AI tutor that guides you to discover answers through questioning instead of just giving answers.",
+      "prompt_text": "You are a patient, expert tutor using the Socratic method. Your rules:\n\n1) NEVER give me the answer directly \u2014 guide me to discover it through questions\n2) Start by asking what I already know about the topic\n3) Build on my existing knowledge with progressively deeper questions\n4) If I'm stuck, give me a small hint, NOT the answer\n5) If I'm wrong, help me understand WHY through questioning\n6) Celebrate when I figure something out\n7) Adjust your question difficulty based on my responses\n\nTopic I want to learn: [TOPIC]\nMy current level: [BEGINNER/INTERMEDIATE/ADVANCED]\nMy goal: [WHAT_I_WANT_TO_UNDERSTAND]",
+      "category_slug": "education",
+      "tags": [
+        "learning",
+        "teaching",
+        "socratic-method",
+        "tutoring"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Referenced by Khan Academy's AI tutor, widely shared",
+      "why_it_works": "Mimics the most effective teaching methodology \u2014 creates real learning instead of passive consumption."
+    },
+    {
+      "name": "Chain of Thought Problem Solver",
+      "slug": "chain-of-thought-solver",
+      "description": "Forces step-by-step reasoning with verification for complex problems.",
+      "prompt_text": "Solve this problem using rigorous step-by-step reasoning:\n\n1) First, restate the problem in your own words to confirm understanding\n2) Identify what information you have and what you need\n3) Show your reasoning at each step \u2014 explain WHY, not just WHAT\n4) If you're uncertain about any step, explicitly say so and explain your confidence level\n5) Consider edge cases and potential pitfalls\n6) After reaching your solution, verify it by working backwards\n7) Rate your confidence in the answer (low/medium/high) and explain why\n\nProblem: [PROBLEM]",
+      "category_slug": "education",
+      "tags": [
+        "reasoning",
+        "problem-solving",
+        "chain-of-thought",
+        "verification"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Google Research \u2014 Wei et al., 'Chain-of-Thought Prompting Elicits Reasoning in LLMs'",
+      "why_it_works": "Chain-of-thought prompting dramatically improves accuracy on reasoning tasks by making the AI show its work."
+    },
+    {
+      "name": "CEO Briefing Generator",
+      "slug": "ceo-briefing",
+      "description": "Distill any complex topic into a structured executive briefing with recommendations.",
+      "prompt_text": "Act as my Chief of Staff preparing a briefing for a CEO. Take this complex topic and distill it into:\n\n1) **Executive Summary** \u2014 2 sentences, no jargon\n2) **3 Key Facts** \u2014 with data points or sources where possible\n3) **What This Means For Us** \u2014 specific implications for our business\n4) **Recommended Action** \u2014 one clear recommendation with timeline\n5) **Key Risk** \u2014 what happens if we do nothing\n6) **Decision Required** \u2014 frame the specific yes/no decision needed\n\nTopic: [TOPIC]\nOur industry: [INDUSTRY]\nOur company size: [SIZE]\nUrgency level: [LOW/MEDIUM/HIGH]",
+      "category_slug": "business-strategy",
+      "tags": [
+        "executive",
+        "briefing",
+        "decision-making",
+        "summary"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Viral among startup founders and executives",
+      "why_it_works": "Mirrors how the best chiefs of staff actually brief executives \u2014 structured, concise, decision-oriented."
+    },
+    {
+      "name": "PRD Generator",
+      "slug": "prd-generator",
+      "description": "Generate a comprehensive Product Requirements Document from a feature description.",
+      "prompt_text": "You are a Senior Product Manager at a top tech company. Create a comprehensive PRD for the following feature:\n\n**Include:**\n1) Problem Statement \u2014 what user pain point does this solve?\n2) User Stories \u2014 format: As a [PERSONA], I want [GOAL], so that [BENEFIT] (minimum 5)\n3) Success Metrics \u2014 specific, measurable KPIs (not vanity metrics)\n4) Functional Requirements \u2014 detailed feature specs\n5) Non-Functional Requirements \u2014 performance, security, scalability\n6) Edge Cases \u2014 at least 5 scenarios that could go wrong\n7) Launch Plan \u2014 phased rollout (alpha \u2192 beta \u2192 GA)\n8) Risks & Mitigations \u2014 what could derail this and how to prevent it\n9) Out of Scope \u2014 explicitly what this feature does NOT include\n\nFeature: [FEATURE_DESCRIPTION]\nTarget users: [TARGET_USERS]\nBusiness context: [BUSINESS_CONTEXT]\nTimeline constraint: [TIMELINE]",
+      "category_slug": "product-management",
+      "tags": [
+        "PRD",
+        "product",
+        "requirements",
+        "feature-planning"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "YC community, widely used in startups",
+      "why_it_works": "Covers every section a real PRD needs with explicit edge cases and out-of-scope, preventing scope creep."
+    },
+    {
+      "name": "Senior Code Reviewer",
+      "slug": "senior-code-reviewer",
+      "description": "Get a thorough code review covering correctness, security, performance, and best practices.",
+      "prompt_text": "You are a senior software engineer with 15+ years of experience conducting a thorough code review. For the code I share, analyze:\n\n1) **Correctness** \u2014 bugs, logic errors, edge cases not handled\n2) **Security** \u2014 vulnerabilities (injection, XSS, auth issues, data exposure)\n3) **Performance** \u2014 bottlenecks, unnecessary computations, memory issues\n4) **Readability** \u2014 naming conventions, code organization, comments\n5) **Best Practices** \u2014 design patterns, anti-patterns, SOLID principles\n6) **Test Coverage** \u2014 what tests are missing\n\nFor each issue found:\n- Severity: \ud83d\udd34 Critical / \ud83d\udfe1 Warning / \ud83d\udd35 Suggestion\n- Line reference\n- What's wrong and WHY\n- Suggested fix with code\n\nLanguage/Framework: [LANGUAGE]\nCode:\n```\n[CODE]\n```",
+      "category_slug": "software-engineering",
+      "tags": [
+        "code-review",
+        "debugging",
+        "security",
+        "best-practices"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4",
+      "source": "prompts.chat (143k\u2605 GitHub) \u2014 most used developer prompt",
+      "why_it_works": "Structured severity levels and line-level feedback mirrors how the best code reviews actually work."
+    },
+    {
+      "name": "System Design Architect",
+      "slug": "system-design-architect",
+      "description": "Design a complete system architecture from requirements, like a principal engineer interview.",
+      "prompt_text": "You are a principal engineer at a FAANG company conducting a system design session. Design a system for the following:\n\n1) **Clarifying Questions** \u2014 list 5 questions you'd ask before designing\n2) **Back-of-Envelope Calculations** \u2014 estimate users, storage, bandwidth, QPS\n3) **High-Level Architecture** \u2014 describe components and their interactions\n4) **Database Design** \u2014 schema, choice of SQL vs NoSQL, indexing strategy\n5) **API Design** \u2014 key endpoints with request/response formats\n6) **Scaling Strategy** \u2014 how to handle 10x, 100x growth\n7) **Failure Modes** \u2014 what breaks first and how to handle it\n8) **Monitoring & Alerting** \u2014 key metrics to track\n9) **Trade-offs** \u2014 what you'd optimize for and what you'd sacrifice\n\nSystem: [SYSTEM_DESCRIPTION]\nExpected scale: [USERS_OR_REQUESTS]\nKey requirements: [REQUIREMENTS]",
+      "category_slug": "software-engineering",
+      "tags": [
+        "system-design",
+        "architecture",
+        "scaling",
+        "interview"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Based on FAANG system design interview frameworks",
+      "why_it_works": "Follows the exact structure that top engineers use, ensuring nothing is missed."
+    },
+    {
+      "name": "Senior Debugger",
+      "slug": "senior-debugger",
+      "description": "Debug production issues with root cause analysis, minimal fix, and prevention strategy.",
+      "prompt_text": "You are a senior developer debugging a production issue. I'm going to share code that has a bug.\n\nYour approach:\n1) First, explain what the code is SUPPOSED to do\n2) Identify the bug and explain the ROOT CAUSE (not just symptoms)\n3) Show the **minimal fix** \u2014 smallest change to resolve the issue\n4) Show the **ideal fix** \u2014 the proper refactor if time allows\n5) Write the test that would have caught this bug\n6) Identify any OTHER potential issues in the same code\n7) Suggest a prevention strategy (linting rule, type check, etc.)\n\nCode:\n```[LANGUAGE]\n[CODE]\n```\nExpected behavior: [EXPECTED]\nActual behavior: [ACTUAL]\nError message (if any): [ERROR]",
+      "category_slug": "software-engineering",
+      "tags": [
+        "debugging",
+        "bug-fix",
+        "root-cause",
+        "testing"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4",
+      "source": "Developer community best practices",
+      "why_it_works": "Separates minimal fix from ideal fix and includes prevention \u2014 exactly how senior engineers think."
+    },
+    {
+      "name": "API Documentation Writer",
+      "slug": "api-documentation-writer",
+      "description": "Generate comprehensive, developer-friendly API documentation from code.",
+      "prompt_text": "You are a technical writer who believes great documentation is a product feature. For this API/code/feature, write:\n\n1) **One-Sentence Description** \u2014 a junior developer should understand it\n2) **Quick Start** \u2014 under 5 steps to see it working (copy-pasteable code)\n3) **API Reference** \u2014 every parameter explained with types, defaults, and constraints\n4) **Usage Examples** \u2014 3 real-world examples: simple, intermediate, advanced\n5) **Common Pitfalls** \u2014 top 5 mistakes developers make and how to avoid them\n6) **Error Handling** \u2014 every error code with meaning and resolution\n7) **FAQ** \u2014 the 5 questions people always ask\n\nCode/API to document:\n```\n[CODE_OR_API_SPEC]\n```\nTarget audience: [AUDIENCE_LEVEL]\nFramework/Language: [FRAMEWORK]",
+      "category_slug": "software-engineering",
+      "tags": [
+        "documentation",
+        "API",
+        "developer-experience",
+        "technical-writing"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Developer community best practices",
+      "why_it_works": "Covers every section developers actually need, with copy-pasteable examples that save hours."
+    },
+    {
+      "name": "Git Commit Message Crafter",
+      "slug": "git-commit-message-crafter",
+      "description": "Generate clear, conventional commit messages from code diffs.",
+      "prompt_text": "You are an expert at writing clear, conventional commit messages. Analyze this diff and write:\n\n1) A **conventional commit** message following the format: type(scope): description\n   - Types: feat, fix, refactor, docs, style, test, chore, perf, ci\n   - Scope: the area of code affected\n   - Description: imperative mood, under 72 chars\n2) A **body** (if needed) \u2014 explain WHAT changed and WHY, not HOW\n3) Any **breaking changes** or **issues closed**\n\nRules:\n- Be specific, not vague (\"fix bug\" is bad, \"fix race condition in user auth\" is good)\n- One logical change per commit message\n- If the diff contains multiple logical changes, suggest splitting into multiple commits\n\nDiff:\n```\n[DIFF]\n```",
+      "category_slug": "software-engineering",
+      "tags": [
+        "git",
+        "commits",
+        "workflow",
+        "best-practices"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Conventional Commits specification + developer community",
+      "why_it_works": "Enforces the conventional commit standard with the specific format that makes git history useful."
+    },
+    {
+      "name": "Regex Generator & Explainer",
+      "slug": "regex-generator",
+      "description": "Generate and explain regular expressions from plain English descriptions.",
+      "prompt_text": "You are a regex expert. I'll describe what I need to match and you will:\n\n1) Write the regex pattern\n2) Explain each part of the pattern in plain English\n3) Provide 5 test cases: 3 that SHOULD match and 2 that should NOT\n4) Note any edge cases or limitations\n5) If the regex is complex, also provide a simpler (possibly less precise) alternative\n6) Show usage in [LANGUAGE] with a code snippet\n\nWhat I need to match: [DESCRIPTION]\nLanguage: [LANGUAGE]\nStrictness: [STRICT/LOOSE] (strict = exact match only, loose = reasonable matches ok)",
+      "category_slug": "software-engineering",
+      "tags": [
+        "regex",
+        "pattern-matching",
+        "developer-tools"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Developer community \u2014 one of the most requested prompt types",
+      "why_it_works": "Provides test cases AND explanations, so you understand the regex instead of just copying it."
+    },
+    {
+      "name": "Master Copywriter",
+      "slug": "master-copywriter",
+      "description": "Write compelling copy using principles from legendary copywriters.",
+      "prompt_text": "You are a direct response copywriter trained in the methods of Gary Halbert, David Ogilvy, and Eugene Schwartz. Write [CONTENT_TYPE] for my product/service.\n\nFollow these principles:\n1) Lead with the BIGGEST benefit, not features\n2) Use specific numbers over vague claims (\"saves 4.2 hours/week\" not \"saves time\")\n3) Address the #1 objection in the first paragraph\n4) Write at a 6th-grade reading level (Hemingway-style)\n5) Use the PAS framework: Problem \u2192 Agitation \u2192 Solution\n6) End with urgency that feels genuine, not manufactured\n7) Include a specific, clear call-to-action\n\nProduct/Service: [PRODUCT]\nTarget audience: [AUDIENCE]\nKey benefit: [BENEFIT]\nMain objection they'll have: [OBJECTION]\nTone: [PROFESSIONAL/CASUAL/BOLD/FRIENDLY]",
+      "category_slug": "marketing",
+      "tags": [
+        "copywriting",
+        "sales",
+        "persuasion",
+        "direct-response"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Direct response copywriting principles + AI prompt community",
+      "why_it_works": "Combines proven copywriting frameworks (PAS) with specific constraints that prevent generic output."
+    },
+    {
+      "name": "SEO Blog Post Architect",
+      "slug": "seo-blog-architect",
+      "description": "Write a comprehensive, SEO-optimized blog post with proper structure and semantic keywords.",
+      "prompt_text": "Write a comprehensive blog post optimized for the keyword '[PRIMARY_KEYWORD]'.\n\nStructure requirements:\n1) **Hook** \u2014 first sentence addresses the reader's pain point (NOT 'In today's world...')\n2) **H2/H3 headings** \u2014 include semantic keyword variations naturally\n3) **Paragraphs** \u2014 max 3 sentences each for scannability\n4) **Data points** \u2014 include a statistic, data point, or expert quote in every section\n5) **Counter-intuitive insight** \u2014 at least one surprising angle most articles miss\n6) **Internal linking suggestions** \u2014 3 related topics to link to\n7) **Meta title** \u2014 under 60 characters, compelling\n8) **Meta description** \u2014 under 160 characters, includes CTA\n9) **CTA** \u2014 specific call-to-action at the end\n\nTarget word count: [WORD_COUNT]\nAudience expertise: [BEGINNER/INTERMEDIATE/EXPERT]\nTone: [TONE]\nBrand voice notes: [NOTES]",
+      "category_slug": "marketing",
+      "tags": [
+        "SEO",
+        "blogging",
+        "content-marketing",
+        "writing"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Content marketing community + SEO best practices",
+      "why_it_works": "Enforces SEO structure while preventing the generic 'AI voice' with specific data and counter-intuitive angle requirements."
+    },
+    {
+      "name": "Social Media Content Calendar",
+      "slug": "social-media-calendar",
+      "description": "Generate a week or month of social media content across platforms.",
+      "prompt_text": "You are a social media strategist. Create a [DURATION]-long content calendar for [BRAND/PRODUCT].\n\nFor each post, provide:\n- Platform: [PLATFORMS]\n- Day and time to post\n- Content type (carousel, video, text, story, reel)\n- The actual post copy (ready to publish)\n- Hashtags (5-10 relevant ones)\n- CTA\n- Visual direction (what the image/video should show)\n\nContent pillars to rotate through:\n1) Educational (teach something valuable)\n2) Engagement (ask questions, polls, debates)\n3) Social proof (testimonials, case studies, results)\n4) Behind-the-scenes (humanize the brand)\n5) Promotional (max 20% of posts)\n\nBrand: [BRAND]\nTarget audience: [AUDIENCE]\nBrand voice: [VOICE]\nKey message: [MESSAGE]\nAny upcoming events/launches: [EVENTS]",
+      "category_slug": "marketing",
+      "tags": [
+        "social-media",
+        "content-calendar",
+        "instagram",
+        "linkedin"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Social media marketing community",
+      "why_it_works": "The content pillar rotation prevents repetitive content and the 20% promotional cap keeps the feed engaging."
+    },
+    {
+      "name": "Email Sequence Builder",
+      "slug": "email-sequence-builder",
+      "description": "Create a multi-email nurture sequence that converts subscribers to customers.",
+      "prompt_text": "You are an email marketing expert who has generated millions in revenue through email sequences. Build a [NUMBER]-email nurture sequence.\n\nFor each email, provide:\n- Subject line (A/B variants)\n- Preview text\n- Email body (under 200 words)\n- CTA (one per email, clear and specific)\n- Send timing (days after signup)\n\nSequence structure:\n1) Welcome + deliver the lead magnet\n2) Quick win (give immediate value)\n3) Story (build connection and trust)\n4) Objection handler (address the #1 reason they won't buy)\n5) Social proof (case study or testimonial)\n6) Offer (the pitch)\n7) Urgency/last chance\n\nProduct: [PRODUCT]\nTarget audience: [AUDIENCE]\nLead magnet: [LEAD_MAGNET]\nPrice point: [PRICE]\nMain objection: [OBJECTION]",
+      "category_slug": "marketing",
+      "tags": [
+        "email-marketing",
+        "sequences",
+        "conversion",
+        "nurture"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Any",
+      "source": "Email marketing best practices + conversion optimization community",
+      "why_it_works": "Follows the proven welcome sequence framework with specific psychological triggers at each stage."
+    },
+    {
+      "name": "Explain Like I'm 5 to Expert Spectrum",
+      "slug": "eli5-to-expert",
+      "description": "Explain any concept at 5 different levels of complexity, from child to world expert.",
+      "prompt_text": "Explain [CONCEPT] at these 5 levels of complexity:\n\n1) **To a 5-year-old child** \u2014 use analogies from everyday life, simple words only\n2) **To a high school student** \u2014 introduce proper terminology, real-world relevance\n3) **To a college student studying the field** \u2014 technical accuracy, key frameworks\n4) **To a graduate researcher** \u2014 nuances, current debates, cutting-edge developments\n5) **To the world's leading expert** \u2014 challenge assumptions, propose novel angles\n\nEach explanation should:\n- Use vocabulary appropriate to that level\n- Include one example or analogy unique to that level\n- Be 3-5 sentences long\n- Build on the previous level without repeating",
+      "category_slug": "education",
+      "tags": [
+        "explanation",
+        "teaching",
+        "communication",
+        "levels"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "One of the earliest viral prompt patterns, widely adopted",
+      "why_it_works": "Tests and demonstrates true understanding while creating content adaptable to any audience."
+    },
+    {
+      "name": "Devil's Advocate",
+      "slug": "devils-advocate",
+      "description": "Stress-test any plan or idea by finding weaknesses, blind spots, and failure modes.",
+      "prompt_text": "I'm going to share a plan/idea. Take on the role of a brilliant but constructive devil's advocate.\n\nYour analysis:\n1) **Weakest Assumptions** \u2014 find the 3 assumptions my plan depends on that are most likely wrong\n2) **Failure Scenario** \u2014 describe in detail the most likely way this fails\n3) **Blind Spots** \u2014 what am I probably not seeing because of my position/biases?\n4) **Pre-Mortem** \u2014 it's one year from now and this failed spectacularly. Write a 3-sentence post-mortem explaining why\n5) **Steel Man** \u2014 now, what IS strong about this plan? What's the best version of this idea?\n6) **Recommendations** \u2014 3 specific changes that would make this plan significantly more resilient\n\nMy plan: [PLAN]\nMy role/context: [CONTEXT]\nWhat I'm most confident about: [CONFIDENCE]\nWhat I'm most worried about: [WORRY]",
+      "category_slug": "planning",
+      "tags": [
+        "critical-thinking",
+        "decision-making",
+        "risk-analysis",
+        "strategy"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Ethan Mollick (Wharton) + strategy consulting community",
+      "why_it_works": "The pre-mortem technique is proven to reduce overconfidence; the steel man prevents pure negativity."
+    },
+    {
+      "name": "Decision Matrix Builder",
+      "slug": "decision-matrix",
+      "description": "Make complex decisions using a structured multi-criteria framework.",
+      "prompt_text": "Help me make a rigorous decision using a structured framework.\n\nThe decision: [DECISION]\nMy options: [OPTION_1], [OPTION_2], [OPTION_3]\n\nFor each option, analyze:\n1) Score on 1-10 scale for each criterion:\n   - Financial impact (short-term and long-term)\n   - Time/effort investment\n   - Reversibility (how easy to undo)\n   - Alignment with my goals: [GOALS]\n   - Opportunity cost (what I give up)\n   - Risk level\n2) **Regret Minimization** \u2014 which would I regret NOT doing in 10 years?\n3) **Smallest Experiment** \u2014 what's the cheapest way to test each option before committing?\n4) **Wise Mentor** \u2014 what would a mentor who has my best interests at heart advise?\n5) **Final Recommendation** \u2014 with clear reasoning\n\nMy situation: [SITUATION]\nMy biggest constraint: [CONSTRAINT]\nMy risk tolerance: [LOW/MEDIUM/HIGH]",
+      "category_slug": "planning",
+      "tags": [
+        "decision-making",
+        "framework",
+        "analysis",
+        "strategy"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Bezos regret minimization framework + decision science",
+      "why_it_works": "Combines quantitative scoring with qualitative frameworks like regret minimization for better decisions."
+    },
+    {
+      "name": "Weekly Planning & Prioritization",
+      "slug": "weekly-planning",
+      "description": "Plan your week with clear priorities using the Eisenhower Matrix and time-blocking.",
+      "prompt_text": "You are a productivity coach. Help me plan my week for maximum impact.\n\nHere's everything on my plate:\n[TASKS_AND_COMMITMENTS]\n\nPlease:\n1) **Eisenhower Matrix** \u2014 categorize each item into: Do First / Schedule / Delegate / Eliminate\n2) **Top 3** \u2014 identify the 3 tasks that will create the most value this week\n3) **Time Blocks** \u2014 suggest a daily schedule (Mon-Fri) with focused work blocks, meetings, and buffer time\n4) **Energy Matching** \u2014 assign high-cognitive tasks to my peak energy time: [PEAK_TIME]\n5) **Say No List** \u2014 which items should I decline or defer? (be honest)\n6) **Weekly Review Questions** \u2014 3 questions to ask myself Friday afternoon\n\nMy role: [ROLE]\nMy top goal this quarter: [GOAL]\nMy peak energy time: [PEAK_TIME]\nFixed commitments: [MEETINGS_OR_DEADLINES]",
+      "category_slug": "planning",
+      "tags": [
+        "productivity",
+        "planning",
+        "time-management",
+        "prioritization"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Eisenhower Matrix + Cal Newport's Deep Work + GTD methodology",
+      "why_it_works": "Combines proven productivity frameworks with energy-aware scheduling for realistic plans."
+    },
+    {
+      "name": "OKR Creator",
+      "slug": "okr-creator",
+      "description": "Generate well-structured OKRs (Objectives and Key Results) for teams or individuals.",
+      "prompt_text": "You are an OKR coach who has helped companies like Google and Intel implement effective OKRs. Create OKRs for:\n\nContext: [TEAM_OR_ROLE]\nTime period: [QUARTER_OR_YEAR]\nCompany mission: [MISSION]\nTop priority: [PRIORITY]\n\nFor each Objective (create 3-5):\n1) The Objective \u2014 ambitious, qualitative, inspiring (not a metric)\n2) 3-5 Key Results \u2014 specific, measurable, time-bound\n   - Each KR should have a clear number (from X to Y)\n   - Include a mix of output KRs and outcome KRs\n3) Confidence level (50% = good stretch, 70% = sandbagging)\n4) One leading indicator to track weekly\n\nRules:\n- Objectives should be uncomfortable but not impossible\n- Key Results must be binary pass/fail (did we hit the number or not?)\n- No 'business as usual' OKRs \u2014 these should drive change\n- Include at least one 'moonshot' KR (10% chance of hitting)",
+      "category_slug": "planning",
+      "tags": [
+        "OKR",
+        "goal-setting",
+        "strategy",
+        "management"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "John Doerr's 'Measure What Matters' + Google OKR framework",
+      "why_it_works": "Enforces the distinction between objectives and key results, with stretch targets that prevent sandbagging."
+    },
+    {
+      "name": "Data Analysis Consultant",
+      "slug": "data-analysis-consultant",
+      "description": "Analyze data like a McKinsey consultant with structured insights and recommendations.",
+      "prompt_text": "You are a senior data analyst at McKinsey. Analyze the following data and provide:\n\n1) **Executive Summary** \u2014 3 bullets maximum\n2) **Key Patterns** \u2014 what trends, correlations, or anomalies do you see?\n3) **Statistical Confidence** \u2014 how confident are you in each finding? Be honest about limitations\n4) **So What?** \u2014 3 actionable insights ranked by business impact\n5) **Data Gaps** \u2014 what additional data would strengthen these conclusions?\n6) **Recommended Visualizations** \u2014 describe 2-3 charts that would best tell this story\n7) **Next Steps** \u2014 what should we investigate deeper?\n\nData:\n[DATA]\n\nBusiness context: [CONTEXT]\nKey question to answer: [QUESTION]\nDecision this will inform: [DECISION]",
+      "category_slug": "data-science",
+      "tags": [
+        "data-analysis",
+        "consulting",
+        "insights",
+        "McKinsey"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Consulting frameworks + data science community",
+      "why_it_works": "The 'So What?' framework forces business relevance, and explicit confidence levels prevent false certainty."
+    },
+    {
+      "name": "SQL Query Generator",
+      "slug": "sql-query-generator",
+      "description": "Generate optimized SQL queries from plain English descriptions of what you need.",
+      "prompt_text": "You are a senior database engineer. Generate a SQL query based on my description.\n\n1) Write the query in [SQL_DIALECT] (PostgreSQL/MySQL/SQLite/etc.)\n2) Add inline comments explaining each section\n3) If the query is complex, break it into CTEs for readability\n4) Include an EXPLAIN plan note if performance matters\n5) Suggest an index that would optimize this query\n6) Show expected output format with sample rows\n\nWhat I need: [DESCRIPTION_IN_PLAIN_ENGLISH]\n\nTable schema:\n```sql\n[SCHEMA]\n```\n\nPerformance requirements: [ANY_CONSTRAINTS]\nApproximate row count: [ROW_COUNT]",
+      "category_slug": "data-science",
+      "tags": [
+        "SQL",
+        "database",
+        "query",
+        "data-engineering"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Developer community \u2014 among the most common AI use cases",
+      "why_it_works": "Includes optimization hints and readable CTEs instead of just raw SQL dumps."
+    },
+    {
+      "name": "Python Data Pipeline Builder",
+      "slug": "python-data-pipeline",
+      "description": "Build a complete data pipeline in Python with error handling and logging.",
+      "prompt_text": "You are a senior data engineer. Build a Python data pipeline for:\n\nTask: [TASK_DESCRIPTION]\n\nRequirements:\n1) Use pandas/polars for data manipulation\n2) Include proper error handling (try/except with specific exceptions)\n3) Add logging at each stage (use Python's logging module)\n4) Include data validation checks (null counts, type checks, range checks)\n5) Make it idempotent (safe to re-run)\n6) Include a simple CLI interface (argparse)\n7) Add docstrings and type hints throughout\n8) Include a requirements.txt\n\nData source: [SOURCE] (CSV/API/Database/etc.)\nData destination: [DESTINATION]\nSchedule: [ONE_TIME/DAILY/HOURLY]\nExpected data volume: [VOLUME]",
+      "category_slug": "data-science",
+      "tags": [
+        "python",
+        "data-pipeline",
+        "ETL",
+        "data-engineering"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "Data engineering best practices",
+      "why_it_works": "Enforces production-quality patterns (idempotency, logging, validation) that most quick scripts miss."
+    },
+    {
+      "name": "Statistical Hypothesis Tester",
+      "slug": "hypothesis-tester",
+      "description": "Design and interpret statistical tests for A/B experiments and research.",
+      "prompt_text": "You are a biostatistician. Help me design and/or interpret a statistical test.\n\n1) **Hypothesis Formulation** \u2014 state H\u2080 and H\u2081 clearly\n2) **Test Selection** \u2014 which statistical test is appropriate and WHY\n   (t-test, chi-square, ANOVA, Mann-Whitney, etc.)\n3) **Assumptions Check** \u2014 what assumptions does this test require? How to verify them?\n4) **Sample Size** \u2014 calculate minimum sample size for desired power (0.8) and significance (0.05)\n5) **Results Interpretation** \u2014 explain p-value, effect size, and confidence interval in plain English\n6) **Common Mistakes** \u2014 what errors should I watch out for?\n7) **Python/R code** to run the test\n\nMy question: [RESEARCH_QUESTION]\nData description: [DATA_DESCRIPTION]\nSample size available: [SAMPLE_SIZE]\nSignificance level desired: [ALPHA]",
+      "category_slug": "data-science",
+      "tags": [
+        "statistics",
+        "A/B-testing",
+        "hypothesis",
+        "research"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Research methodology + data science education",
+      "why_it_works": "Covers the full statistical testing workflow including the assumptions most people skip."
+    },
+    {
+      "name": "UX Design Critique",
+      "slug": "ux-design-critique",
+      "description": "Get a professional UX review of any interface with specific improvement recommendations.",
+      "prompt_text": "You are a Senior UX Designer who has worked at Apple and Airbnb. Critique this interface design:\n\n1) **First Impression** (5-second test) \u2014 what's the immediate feeling? Is the purpose clear?\n2) **Information Hierarchy** \u2014 is the most important content most prominent?\n3) **User Flow** \u2014 map the steps to complete the primary action. Where are friction points?\n4) **Accessibility** \u2014 WCAG compliance issues (color contrast, touch targets, screen reader)\n5) **Mobile Responsiveness** \u2014 how would this adapt to mobile?\n6) **Heuristic Evaluation** \u2014 rate against Nielsen's 10 usability heuristics\n7) **Emotional Design** \u2014 what feeling does this evoke? Is it aligned with the brand?\n8) **Top 3 Changes** \u2014 specific, prioritized improvements with expected impact\n\nInterface description/URL: [INTERFACE]\nTarget users: [USERS]\nPrimary action users should take: [PRIMARY_ACTION]\nBrand personality: [BRAND]",
+      "category_slug": "design-ux",
+      "tags": [
+        "UX",
+        "design-critique",
+        "usability",
+        "accessibility"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "UX design community + Nielsen Norman Group heuristics",
+      "why_it_works": "Uses established UX frameworks (Nielsen's heuristics) for systematic evaluation instead of subjective opinions."
+    },
+    {
+      "name": "Design System Creator",
+      "slug": "design-system-creator",
+      "description": "Generate a complete design system specification including tokens, components, and guidelines.",
+      "prompt_text": "You are a Design Systems Lead. Create a comprehensive design system specification for [PROJECT_NAME].\n\nInclude:\n1) **Design Tokens** \u2014 color palette (primary, secondary, neutral, semantic), typography scale, spacing scale, border radius, shadows\n2) **Component Inventory** \u2014 list every UI component needed with variants\n3) **Component Specs** \u2014 for the top 5 most-used components:\n   - Props/variants\n   - States (default, hover, active, disabled, error, loading)\n   - Responsive behavior\n   - Accessibility requirements\n4) **Layout Grid** \u2014 column system, breakpoints, max-widths\n5) **Naming Conventions** \u2014 how to name components, tokens, and files\n6) **Do's and Don'ts** \u2014 visual examples of correct vs incorrect usage\n\nBrand personality: [BRAND_PERSONALITY]\nPrimary colors: [COLORS_IF_ANY]\nTarget platforms: [WEB/IOS/ANDROID]\nExisting framework: [TAILWIND/MATERIAL/CUSTOM]",
+      "category_slug": "design-ux",
+      "tags": [
+        "design-system",
+        "UI",
+        "components",
+        "tokens"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Any",
+      "source": "Design systems community + Figma/Storybook best practices",
+      "why_it_works": "Covers the full spectrum from tokens to component specs, which most design systems miss."
+    },
+    {
+      "name": "User Persona Generator",
+      "slug": "user-persona-generator",
+      "description": "Create detailed, research-backed user personas for product design and marketing.",
+      "prompt_text": "You are a UX researcher. Create a detailed user persona for [PRODUCT].\n\nInclude:\n1) **Demographics** \u2014 name, age, job title, income, location, education\n2) **Psychographics** \u2014 values, attitudes, lifestyle, personality traits\n3) **Goals** \u2014 primary goal and 2-3 secondary goals\n4) **Pain Points** \u2014 top 3 frustrations with current solutions\n5) **A Day in Their Life** \u2014 narrative describing their typical day and where your product fits\n6) **Technology Profile** \u2014 devices used, tech savviness, apps they love\n7) **Quotes** \u2014 3 things this person would actually say (revealing personality and needs)\n8) **Buying Behavior** \u2014 how they discover, evaluate, and decide on products like this\n9) **Objections** \u2014 top 3 reasons they might NOT use your product\n10) **How to Win Them** \u2014 the one thing that would make them a champion user\n\nProduct: [PRODUCT]\nTarget market: [MARKET]\nPersona type: [PRIMARY_USER/SECONDARY_USER/EDGE_CASE]",
+      "category_slug": "design-ux",
+      "tags": [
+        "personas",
+        "user-research",
+        "UX",
+        "product-design"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "UX research community + Alan Cooper's persona methodology",
+      "why_it_works": "Goes beyond demographics to include psychographics, quotes, and buying behavior that actually inform design decisions."
+    },
+    {
+      "name": "Market Research Analyst",
+      "slug": "market-research-analyst",
+      "description": "Conduct thorough market analysis with competitive landscape, sizing, and opportunity identification.",
+      "prompt_text": "You are a market research analyst at a top strategy firm. Conduct a thorough market analysis for [PRODUCT_OR_INDUSTRY].\n\nInclude:\n1) **Market Size** \u2014 TAM, SAM, SOM with methodology explained\n2) **Competitive Landscape** \u2014 top 5 competitors with:\n   - Positioning\n   - Strengths and weaknesses\n   - Pricing\n   - Market share estimate\n3) **Industry Trends** \u2014 5 key trends backed by data points\n4) **Customer Segments** \u2014 3-4 distinct segments with needs and willingness to pay\n5) **Barriers to Entry** \u2014 what makes this market hard to enter?\n6) **Opportunity Gaps** \u2014 where is the market underserved?\n7) **Pricing Strategy** \u2014 recommended pricing model with reasoning\n8) **Go-to-Market** \u2014 recommended initial channel strategy\n\nBe specific \u2014 use numbers, not adjectives. Say 'I'm estimating' when data isn't available.\n\nProduct/Industry: [PRODUCT]\nGeography: [GEOGRAPHY]\nTarget launch date: [DATE]",
+      "category_slug": "research",
+      "tags": [
+        "market-research",
+        "competitive-analysis",
+        "strategy",
+        "TAM"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Strategy consulting frameworks (McKinsey, BCG, Bain)",
+      "why_it_works": "The TAM/SAM/SOM framework with explicit methodology prevents made-up numbers."
+    },
+    {
+      "name": "Literature Review Assistant",
+      "slug": "literature-review",
+      "description": "Conduct a structured literature review on any academic or professional topic.",
+      "prompt_text": "You are an academic researcher conducting a literature review. For the topic below:\n\n1) **Research Question** \u2014 refine my topic into a clear, answerable research question\n2) **Key Themes** \u2014 identify 4-5 major themes in the existing literature\n3) **Seminal Works** \u2014 the 5-10 most important papers/books and their key contributions\n4) **Current Debates** \u2014 what do researchers disagree about?\n5) **Methodology Landscape** \u2014 what research methods are commonly used?\n6) **Gaps in Literature** \u2014 what questions remain unanswered?\n7) **Emerging Trends** \u2014 what new directions is research heading?\n8) **Synthesis** \u2014 a 200-word summary connecting the themes\n9) **Suggested Search Terms** \u2014 for Google Scholar, PubMed, etc.\n\nTopic: [TOPIC]\nField: [FIELD]\nPurpose: [THESIS/PAPER/GENERAL_UNDERSTANDING]\nScope: [NARROW/BROAD]\n\nNote: Please indicate when you're uncertain about specific citations and recommend I verify them.",
+      "category_slug": "research",
+      "tags": [
+        "literature-review",
+        "academic",
+        "research",
+        "synthesis"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "Academic research methodology",
+      "why_it_works": "Structures the review process and explicitly asks for gap identification, which is the hardest part."
+    },
+    {
+      "name": "Deep Dive Investigator",
+      "slug": "deep-dive-investigator",
+      "description": "Do a comprehensive deep-dive investigation on any topic with multiple perspectives.",
+      "prompt_text": "You are an investigative journalist and researcher. Conduct a comprehensive deep-dive on:\n\nTopic: [TOPIC]\n\nYour investigation should include:\n1) **Overview** \u2014 what is this and why does it matter?\n2) **History** \u2014 how did we get here? Key milestones and turning points\n3) **Key Players** \u2014 who are the most important people/organizations and what are their positions?\n4) **The Bull Case** \u2014 strongest arguments FOR this topic/trend\n5) **The Bear Case** \u2014 strongest arguments AGAINST\n6) **Follow the Money** \u2014 who benefits financially? Who loses?\n7) **Second-Order Effects** \u2014 what consequences are most people not thinking about?\n8) **Expert Consensus vs Contrarian View** \u2014 what does mainstream thinking say vs what do smart contrarians argue?\n9) **What to Watch** \u2014 3 leading indicators that will tell us which way this goes\n10) **Bottom Line** \u2014 your synthesis in 3 sentences\n\nDepth: [SURFACE/MODERATE/EXHAUSTIVE]\nPerspective: [NEUTRAL/BULLISH/BEARISH]",
+      "category_slug": "research",
+      "tags": [
+        "deep-dive",
+        "investigation",
+        "analysis",
+        "research"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Investigative journalism frameworks + investment research",
+      "why_it_works": "The 'follow the money' and 'second-order effects' sections surface insights most surface-level research misses."
+    },
+    {
+      "name": "Research Paper Summarizer",
+      "slug": "research-paper-summarizer",
+      "description": "Summarize academic papers with key findings, methodology, limitations, and implications.",
+      "prompt_text": "You are a research scientist. Summarize this academic paper/article:\n\n1) **One-Line Summary** \u2014 the key finding in plain English\n2) **Research Question** \u2014 what were they trying to answer?\n3) **Methodology** \u2014 how did they study it? (sample size, methods, duration)\n4) **Key Findings** \u2014 top 3 results with specific numbers\n5) **Limitations** \u2014 what weaknesses does this study have?\n6) **So What?** \u2014 practical implications for [MY_FIELD]\n7) **How Reliable?** \u2014 rate the evidence quality (weak/moderate/strong) with reasoning\n8) **Related Work** \u2014 what should I read next to go deeper?\n9) **Tweetable Takeaway** \u2014 the key insight in under 280 characters\n\nPaper/Article:\n[PAPER_TEXT_OR_LINK]\n\nMy field: [MY_FIELD]\nMy expertise level: [BEGINNER/INTERMEDIATE/EXPERT]",
+      "category_slug": "research",
+      "tags": [
+        "academic",
+        "papers",
+        "summary",
+        "research"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Academic community",
+      "why_it_works": "The 'How Reliable?' rating prevents treating all studies as equal, and the practical implications section ensures relevance."
+    },
+    {
+      "name": "Video Script Writer",
+      "slug": "video-script-writer",
+      "description": "Write a high-retention video script with hooks, pacing, and visual directions.",
+      "prompt_text": "You are a YouTube creator with 1M+ subscribers who understands retention analytics. Write a video script for:\n\nTopic: [TOPIC]\nTarget length: [DURATION]\nPlatform: [YOUTUBE/TIKTOK/INSTAGRAM]\n\nScript requirements:\n1) **5-Second Hook** \u2014 the first thing viewers see/hear that stops the scroll\n2) **Open Loop** \u2014 tease something that won't be resolved until later\n3) **Structure** \u2014 use the ABT framework (And, But, Therefore) for narrative flow\n4) **Retention Bumps** \u2014 every 30-60 seconds, include a pattern interrupt (visual change, question, surprising fact)\n5) **B-Roll Directions** \u2014 [in brackets] describe what viewers should see\n6) **Call-Out Boxes** \u2014 key text that should appear on screen\n7) **CTA Placement** \u2014 natural mid-roll and end CTA (not forced)\n8) **Thumbnail Concepts** \u2014 3 high-CTR thumbnail ideas with text overlay\n9) **Title Options** \u2014 3 titles optimized for click-through\n\nTone: [EDUCATIONAL/ENTERTAINING/DRAMATIC]\nTarget audience: [AUDIENCE]",
+      "category_slug": "video-creation",
+      "tags": [
+        "video-script",
+        "YouTube",
+        "retention",
+        "content"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "YouTube creator community + retention analytics best practices",
+      "why_it_works": "Bakes in retention optimization (hooks, open loops, pattern interrupts) that separate viral content from flat videos."
+    },
+    {
+      "name": "Storyboard Generator",
+      "slug": "storyboard-generator",
+      "description": "Create a detailed shot-by-shot storyboard for video or animation production.",
+      "prompt_text": "You are a film storyboard artist and director. Create a detailed storyboard for:\n\nProject: [PROJECT_DESCRIPTION]\nTotal duration: [DURATION]\nStyle: [LIVE_ACTION/ANIMATION/MIXED]\n\nFor each scene/shot, provide:\n- **Shot number** and timestamp\n- **Shot type** (wide, medium, close-up, extreme close-up, bird's eye, etc.)\n- **Camera movement** (static, pan, tilt, dolly, tracking, drone)\n- **Visual description** \u2014 exactly what the viewer sees\n- **Audio** \u2014 dialogue, music, sound effects\n- **Text overlay** (if any)\n- **Transition** to next shot (cut, dissolve, wipe, etc.)\n- **Duration** of this shot\n- **Mood/lighting** direction\n\nTotal shots should be [NUMBER] to fill the duration.\n\nKey message: [MESSAGE]\nBrand guidelines: [GUIDELINES]\nMust-include moments: [KEY_MOMENTS]",
+      "category_slug": "video-creation",
+      "tags": [
+        "storyboard",
+        "video-production",
+        "filmmaking",
+        "direction"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Any",
+      "source": "Film production methodology",
+      "why_it_works": "Covers every production element per shot, creating an actionable blueprint for the actual shoot."
+    },
+    {
+      "name": "Video Hook Generator",
+      "slug": "video-hook-generator",
+      "description": "Generate 10 scroll-stopping hooks for short-form video content.",
+      "prompt_text": "You are a viral content strategist specializing in short-form video (TikTok, Reels, Shorts). Generate 10 scroll-stopping hooks for:\n\nTopic: [TOPIC]\nTarget audience: [AUDIENCE]\nGoal: [EDUCATE/ENTERTAIN/SELL/INSPIRE]\n\nFor each hook:\n- **The first 3 seconds** \u2014 exact words to say (under 15 words)\n- **Visual** \u2014 what the viewer sees as these words are spoken\n- **Hook type** \u2014 which pattern it uses:\n  a) Controversy: \"Stop doing [common thing]...\"\n  b) Curiosity gap: \"I discovered [X] and it changed everything...\"\n  c) Direct value: \"Here's how to [desirable outcome] in [timeframe]\"\n  d) Social proof: \"[Authority figure] taught me this trick...\"\n  e) Pattern interrupt: unexpected visual or statement\n- **Retention strategy** \u2014 what keeps them watching past 3 seconds?\n\nRank them by predicted hook strength (1 = strongest).",
+      "category_slug": "video-creation",
+      "tags": [
+        "hooks",
+        "TikTok",
+        "short-form",
+        "viral"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Short-form video creator community + platform analytics",
+      "why_it_works": "Categorizes hooks by psychological pattern, making it systematic rather than random creativity."
+    },
+    {
+      "name": "Startup Pitch Deck Coach",
+      "slug": "startup-pitch-deck",
+      "description": "Get your startup pitch reviewed and restructured by a simulated YC partner.",
+      "prompt_text": "You are a partner at Y Combinator who has reviewed 10,000+ pitch decks and funded companies like Airbnb, Stripe, and Dropbox.\n\nReview my startup and provide:\n1) **Honest First Reaction** \u2014 would you take the meeting? (yes/maybe/no with reasoning)\n2) **The Question** \u2014 the single biggest question an investor would ask\n3) **Elevator Pitch** \u2014 rewrite my pitch in 30 seconds or less\n4) **The 10 Slides That Matter:**\n   - Problem (is it real and painful?)\n   - Solution (is it 10x better?)\n   - Market size (how big can this get?)\n   - Traction (what proves people want this?)\n   - Business model (how do you make money?)\n   - Competition (why will you win?)\n   - Team (why this team?)\n   - Financials (unit economics)\n   - The Ask (how much, for what?)\n   - Vision (where does this go in 10 years?)\n5) **The #1 Metric** \u2014 the single number you should lead with\n6) **Red Flags** \u2014 what would make an investor pass?\n\nMy startup: [DESCRIPTION]\nStage: [IDEA/PRE-SEED/SEED/SERIES_A]\nTraction: [TRACTION]\nAsking: [AMOUNT]",
+      "category_slug": "startup",
+      "tags": [
+        "pitch-deck",
+        "fundraising",
+        "YC",
+        "startup"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "YC community + startup fundraising best practices",
+      "why_it_works": "Simulates actual investor thinking with the 'would you take the meeting' honesty test upfront."
+    },
+    {
+      "name": "Business Model Canvas Generator",
+      "slug": "business-model-canvas",
+      "description": "Generate a complete Business Model Canvas with all 9 building blocks.",
+      "prompt_text": "You are a startup strategist. Create a complete Business Model Canvas for:\n\nBusiness idea: [IDEA]\n\nFill in all 9 blocks with specific, actionable content (not generic placeholders):\n\n1) **Customer Segments** \u2014 who exactly are we serving? Be specific (not 'everyone')\n2) **Value Propositions** \u2014 what unique value do we deliver? Why us over alternatives?\n3) **Channels** \u2014 how do customers discover, evaluate, purchase, and receive our product?\n4) **Customer Relationships** \u2014 what type of relationship (self-service, personal, automated, community)?\n5) **Revenue Streams** \u2014 how do we make money? Pricing model and estimated price points\n6) **Key Resources** \u2014 what assets are critical (IP, people, tech, data)?\n7) **Key Activities** \u2014 what must we do exceptionally well?\n8) **Key Partnerships** \u2014 who do we need to work with?\n9) **Cost Structure** \u2014 major costs, fixed vs variable, estimated burn rate\n\nAlso provide:\n- **Unit Economics** \u2014 estimated CAC, LTV, and LTV:CAC ratio\n- **Biggest Risk** \u2014 the single assumption that could kill this business\n- **First Experiment** \u2014 cheapest way to validate the riskiest assumption\n\nTarget market: [MARKET]\nStage: [IDEA/MVP/GROWTH]",
+      "category_slug": "startup",
+      "tags": [
+        "business-model",
+        "canvas",
+        "strategy",
+        "startup"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Alexander Osterwalder's Business Model Canvas framework",
+      "why_it_works": "Goes beyond the standard canvas with unit economics and experiment design for validation."
+    },
+    {
+      "name": "Cold Email That Gets Replies",
+      "slug": "cold-email-that-gets-replies",
+      "description": "Write cold outreach emails that actually get responses from busy people.",
+      "prompt_text": "Write a cold email that a [RECIPIENT_ROLE] would actually respond to.\n\nStrict rules:\n1) Subject line: under 6 words, lowercase, no clickbait\n2) First line: personalized and specific (NOT 'Hope this finds you well' or 'I came across your profile')\n3) Body: under 75 words total\n4) One clear ask (not 'I'd love to pick your brain')\n5) No attachments mentioned\n6) PS line with social proof or mutual connection\n7) Written like a human, not a template\n\nContext:\n- I am: [WHO_YOU_ARE]\n- Reaching out about: [PURPOSE]\n- Their company recently: [SOMETHING_SPECIFIC_ABOUT_THEM]\n- The value I can provide: [VALUE]\n- Desired outcome: [WHAT_YOU_WANT]\n\nGenerate 3 variants with different angles.",
+      "category_slug": "sales",
+      "tags": [
+        "cold-email",
+        "outreach",
+        "sales",
+        "networking"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Sales development community + email deliverability best practices",
+      "why_it_works": "The 75-word limit and personalization requirement prevent the generic templates that get ignored."
+    },
+    {
+      "name": "Sales Objection Handler",
+      "slug": "sales-objection-handler",
+      "description": "Prepare responses to every common sales objection for your product or service.",
+      "prompt_text": "You are a top-performing sales coach. For my [PRODUCT/SERVICE], prepare a comprehensive objection handling guide.\n\n1) List the **10 most common objections** buyers will raise\n2) For each objection, provide:\n   - The objection in the buyer's exact words\n   - What they REALLY mean (the underlying concern)\n   - The response using the LAER framework:\n     * Listen \u2014 acknowledge their concern\n     * Acknowledge \u2014 validate it's reasonable\n     * Explore \u2014 ask a clarifying question\n     * Respond \u2014 address with specific proof\n   - A case study or proof point to reference\n   - A bridge question to move the conversation forward\n\n3) Also provide **3 pre-emptive** statements that address common objections BEFORE they come up\n\nProduct/Service: [PRODUCT]\nPrice point: [PRICE]\nTarget buyer: [BUYER_ROLE]\nMain competitor: [COMPETITOR]\nBiggest weakness: [WEAKNESS]",
+      "category_slug": "sales",
+      "tags": [
+        "sales",
+        "objections",
+        "negotiation",
+        "closing"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "LAER framework + sales methodology community",
+      "why_it_works": "Addresses the real underlying concern, not just the surface objection, using a proven sales framework."
+    },
+    {
+      "name": "Negotiation Strategist",
+      "slug": "negotiation-strategist",
+      "description": "Prepare for any negotiation with tactics, BATNA analysis, and specific language.",
+      "prompt_text": "You are a negotiation expert trained in the Harvard Negotiation Project methodology (Getting to Yes). Help me prepare for this negotiation.\n\n1) **BATNA Analysis** \u2014 what's my best alternative if this negotiation fails?\n2) **Their BATNA** \u2014 estimate what their alternatives are\n3) **ZOPA** \u2014 what's the zone of possible agreement?\n4) **Interests vs Positions** \u2014 map out:\n   - My positions (what I'm asking for) vs interests (why I want it)\n   - Their likely positions vs interests\n5) **Value Creation** \u2014 what can we trade that costs me little but is valuable to them (and vice versa)?\n6) **Opening Strategy** \u2014 should I anchor first or let them? What anchor should I set?\n7) **Tactics to Watch For** \u2014 what manipulation tactics might they use?\n8) **Key Phrases** \u2014 5 specific sentences to use during the negotiation\n9) **Walk-Away Point** \u2014 at what point should I walk away?\n\nNegotiation context: [CONTEXT]\nWhat I want: [DESIRED_OUTCOME]\nWhat they want: [THEIR_LIKELY_GOAL]\nRelationship importance: [ONE_TIME/ONGOING]\nMy leverage: [LEVERAGE]",
+      "category_slug": "sales",
+      "tags": [
+        "negotiation",
+        "strategy",
+        "BATNA",
+        "communication"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Harvard Negotiation Project \u2014 'Getting to Yes' framework",
+      "why_it_works": "Uses the gold-standard negotiation framework (interests vs positions) with practical language templates."
+    },
+    {
+      "name": "Prompt Optimizer",
+      "slug": "prompt-optimizer",
+      "description": "Improve any existing prompt by finding ambiguities, adding constraints, and restructuring.",
+      "prompt_text": "You are a prompt engineering expert who has studied how LLMs process instructions. I'll share a prompt I've been using. Your job:\n\n1) **What's Working** \u2014 identify the effective elements\n2) **Ambiguities** \u2014 find phrases that could be interpreted multiple ways\n3) **Missing Constraints** \u2014 what guardrails would improve consistency?\n4) **Specificity Gaps** \u2014 where is it vague? (e.g., 'write a good email' vs 'write a 3-paragraph email in a professional but warm tone')\n5) **Structural Issues** \u2014 should the order of instructions change? Should it use numbered lists vs prose?\n6) **Output Format** \u2014 is the expected output format clearly defined?\n7) **Improved Version** \u2014 rewrite the prompt with all improvements applied\n8) **Explain Changes** \u2014 for each change, explain WHY\n9) **Testing Suggestion** \u2014 how to verify the improved prompt works better\n\nMy current prompt:\n[PROMPT]\n\nWhat I'm using it for: [PURPOSE]\nWhere it falls short: [PROBLEMS]",
+      "category_slug": "prompt-engineering",
+      "tags": [
+        "meta-prompt",
+        "optimization",
+        "prompt-design",
+        "improvement"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "Prompt engineering research community",
+      "why_it_works": "Systematic analysis of prompt weaknesses with specific categories of improvement."
+    },
+    {
+      "name": "Few-Shot Example Builder",
+      "slug": "few-shot-builder",
+      "description": "Build prompts with perfect few-shot examples for consistent AI output.",
+      "prompt_text": "I need to create a prompt that produces consistent, high-quality outputs for: [TASK]\n\nBuild a few-shot prompt by providing:\n1) **Task Description** \u2014 clear, unambiguous instruction\n2) **Output Format** \u2014 exact structure the output should follow\n3) **Example 1** \u2014 typical/common case (input \u2192 output)\n4) **Example 2** \u2014 edge case or unusual input (input \u2192 output)\n5) **Example 3** \u2014 common mistake to AVOID (input \u2192 incorrect output \u2192 correct output)\n6) **Negative Instructions** \u2014 what the output should NOT include\n7) **Quality Criteria** \u2014 how to evaluate if the output is good\n8) **The Complete Prompt** \u2014 assembled and ready to use\n\nDesired output style: [FORMAL/CASUAL/TECHNICAL]\nExpected input variation: [LOW/MEDIUM/HIGH]\nCritical requirement: [MUST_HAVE]",
+      "category_slug": "prompt-engineering",
+      "tags": [
+        "few-shot",
+        "examples",
+        "consistency",
+        "prompt-design"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Any",
+      "source": "Few-shot prompting research (Brown et al., GPT-3 paper)",
+      "why_it_works": "Including a 'mistake to avoid' example dramatically reduces common errors in AI output."
+    },
+    {
+      "name": "Multi-Perspective Roundtable",
+      "slug": "multi-perspective-roundtable",
+      "description": "Analyze any topic from multiple expert perspectives in a simulated discussion.",
+      "prompt_text": "Simulate a roundtable discussion about [TOPIC] between these experts:\n\n1) **The Scientist** \u2014 demands evidence, questions methodology, cites research\n2) **The Entrepreneur** \u2014 sees market opportunity, thinks about execution and scale\n3) **The Ethicist** \u2014 considers second-order effects, asks 'who gets harmed?'\n4) **The Pragmatist** \u2014 focuses on implementation, timelines, and real-world constraints\n5) **The Contrarian** \u2014 challenges every consensus view, plays devil's advocate\n\nDiscussion format:\n- Each expert gives their opening position (2-3 sentences)\n- Round 1: Each expert challenges one other expert's view\n- Round 2: Build on the strongest ideas, form coalitions\n- Round 3: Final synthesis \u2014 where do they agree? Where do they irreconcilably disagree?\n\n**Moderator Summary:** Key insights, unresolved tensions, and recommended next steps.\n\nTopic: [TOPIC]\nContext: [CONTEXT]\nSpecific question to resolve: [QUESTION]",
+      "category_slug": "prompt-engineering",
+      "tags": [
+        "multi-perspective",
+        "analysis",
+        "debate",
+        "synthesis"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Edward de Bono's Six Thinking Hats + debate methodology",
+      "why_it_works": "Forces genuinely different perspectives instead of one voice pretending to consider multiple angles."
+    },
+    {
+      "name": "Resume Bullet Point Optimizer",
+      "slug": "resume-optimizer",
+      "description": "Transform weak resume bullet points into compelling, metrics-driven achievement statements.",
+      "prompt_text": "You are a professional resume writer who has helped candidates land roles at Google, McKinsey, and Goldman Sachs.\n\nTransform these resume bullet points using the XYZ formula:\n\"Accomplished [X] as measured by [Y] by doing [Z]\"\n\nRules:\n1) Start every bullet with a strong action verb (not 'Responsible for' or 'Helped with')\n2) Include specific metrics (%, $, #) \u2014 estimate if needed\n3) Show IMPACT, not just activity\n4) Keep each bullet under 2 lines\n5) Use the PAR method: Problem \u2192 Action \u2192 Result\n6) Tailor to this target role: [TARGET_ROLE]\n\nMy current bullet points:\n[BULLET_POINTS]\n\nMy role was: [ROLE]\nIndustry: [INDUSTRY]\nTarget role: [TARGET_ROLE]\nKey skills they're looking for: [SKILLS]",
+      "category_slug": "career-development",
+      "tags": [
+        "resume",
+        "career",
+        "job-search",
+        "writing"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Google's XYZ resume formula + career coaching community",
+      "why_it_works": "The XYZ formula is what Google's recruiters recommend; combining it with PAR ensures every bullet tells a story."
+    },
+    {
+      "name": "Interview Prep Coach",
+      "slug": "interview-prep-coach",
+      "description": "Practice for job interviews with tailored questions, model answers, and feedback.",
+      "prompt_text": "You are an interview coach who has prepared candidates for [COMPANY_TYPE] roles. Conduct a mock interview for:\n\nTarget role: [ROLE]\nCompany: [COMPANY]\nInterview type: [BEHAVIORAL/TECHNICAL/CASE/MIXED]\n\nYour approach:\n1) Ask me ONE question at a time and wait for my response\n2) After each answer, provide:\n   - Score (1-10) with specific reasoning\n   - What was strong about my answer\n   - What was missing or could improve\n   - A model answer using the STAR framework\n3) Adjust difficulty based on my performance\n4) After 5 questions, provide:\n   - Overall assessment\n   - Pattern of strengths/weaknesses\n   - The #1 thing to improve before the real interview\n\nMy background: [BACKGROUND]\nMy biggest concern: [CONCERN]\n\nStart with the first question.",
+      "category_slug": "career-development",
+      "tags": [
+        "interview",
+        "career",
+        "STAR-method",
+        "preparation"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "prompts.chat \u2014 Job Interviewer prompt (one of the original viral prompts)",
+      "why_it_works": "Interactive one-at-a-time format with scoring mimics real interview prep coaching."
+    },
+    {
+      "name": "Career Transition Strategist",
+      "slug": "career-transition",
+      "description": "Plan a career change with transferable skills mapping, gap analysis, and 90-day action plan.",
+      "prompt_text": "You are an executive career coach specializing in career transitions. Help me plan my move.\n\n1) **Transferable Skills Audit** \u2014 identify my top 5 skills that translate to the new field\n2) **Gap Analysis** \u2014 what skills/credentials am I missing? How hard are they to acquire?\n3) **Hidden Paths** \u2014 3 career paths to my goal that I probably haven't considered\n4) **Bridge Roles** \u2014 intermediate positions that get me closer without a full leap\n5) **Positioning Statement** \u2014 how to explain my transition in 30 seconds (without sounding desperate)\n6) **Network Strategy** \u2014 who should I talk to and what should I ask them?\n7) **90-Day Action Plan** \u2014 weekly milestones for the first 3 months\n8) **Risk Assessment** \u2014 what's the worst case and how to mitigate it?\n\nCurrent role: [CURRENT_ROLE]\nYears of experience: [YEARS]\nTarget direction: [TARGET]\nWhy I want to change: [MOTIVATION]\nConstraints: [FINANCIAL/GEOGRAPHIC/TIME]",
+      "category_slug": "career-development",
+      "tags": [
+        "career-change",
+        "strategy",
+        "skills",
+        "planning"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Career coaching methodology",
+      "why_it_works": "The bridge roles and hidden paths concepts are what real career coaches use to find non-obvious transitions."
+    },
+    {
+      "name": "LinkedIn Profile Rewriter",
+      "slug": "linkedin-profile-rewriter",
+      "description": "Rewrite a LinkedIn profile to attract recruiters and opportunities in a specific field.",
+      "prompt_text": "You are a LinkedIn optimization expert. Rewrite my profile to attract [TARGET_OPPORTUNITY].\n\nRewrite these sections:\n1) **Headline** \u2014 not just job title, but value proposition (under 120 chars)\n   - Generate 3 options\n2) **About Section** \u2014 using this structure:\n   - Hook (first 2 lines visible before 'see more')\n   - What I do and who I help\n   - Key achievements (3 bullets with numbers)\n   - What I'm looking for / CTA\n   - Under 2,000 characters\n3) **Experience Bullet Points** \u2014 rewrite using achievement-oriented language\n4) **Skills** \u2014 top 10 skills to list for [TARGET] (SEO for recruiter search)\n5) **Featured Section** \u2014 what should I showcase?\n\nMy current profile info:\n[PROFILE_INFO]\n\nTarget: [TARGET_OPPORTUNITY]\nIndustry: [INDUSTRY]\nTone: [PROFESSIONAL/PERSONAL/THOUGHT_LEADER]",
+      "category_slug": "career-development",
+      "tags": [
+        "LinkedIn",
+        "personal-branding",
+        "profile",
+        "career"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "LinkedIn optimization community + recruiter insights",
+      "why_it_works": "Focuses on the hook (first 2 lines) which determines if anyone clicks 'see more', plus recruiter SEO."
+    },
+    {
+      "name": "Financial Model Builder",
+      "slug": "financial-model-builder",
+      "description": "Build a financial projection model with revenue, costs, and key metrics.",
+      "prompt_text": "You are a startup CFO. Build a financial projection model for:\n\nBusiness: [BUSINESS]\nProjection period: [12/24/36 months]\n\nInclude:\n1) **Revenue Model**\n   - Revenue streams with pricing\n   - Growth assumptions (monthly growth rate) \u2014 be conservative\n   - Customer acquisition funnel (visitors \u2192 trials \u2192 paid \u2192 retained)\n2) **Cost Structure**\n   - Fixed costs (team, office, tools) month by month\n   - Variable costs (COGS, hosting, support) as % of revenue\n   - Hiring plan with timeline\n3) **Key Metrics** per month:\n   - MRR / ARR\n   - Customer count\n   - CAC and LTV\n   - Burn rate\n   - Runway\n   - Gross margin\n4) **Break-Even Analysis** \u2014 when do we become profitable?\n5) **Sensitivity Analysis** \u2014 what happens if growth is 50% slower? 50% faster?\n6) **Funding Needs** \u2014 how much to raise and when\n\nPresent as a table with monthly columns.\n\nCurrent MRR: [MRR]\nCash in bank: [CASH]\nTeam size: [TEAM]\nMonthly burn: [BURN]",
+      "category_slug": "finance",
+      "tags": [
+        "financial-model",
+        "projections",
+        "startup",
+        "metrics"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Startup finance + VC community",
+      "why_it_works": "Includes sensitivity analysis and conservative assumptions, preventing the hockey-stick delusion."
+    },
+    {
+      "name": "Personal Budget Optimizer",
+      "slug": "budget-optimizer",
+      "description": "Analyze spending and create an optimized personal budget with savings goals.",
+      "prompt_text": "You are a certified financial planner. Analyze my finances and create an optimized budget.\n\n1) **Current State** \u2014 categorize my spending and calculate percentages\n2) **50/30/20 Analysis** \u2014 how does my spending compare to the 50% needs / 30% wants / 20% savings rule?\n3) **Quick Wins** \u2014 top 3 expenses I could reduce with minimal lifestyle impact\n4) **Subscription Audit** \u2014 which subscriptions should I cut or downgrade?\n5) **Optimized Budget** \u2014 a new monthly budget with specific dollar amounts per category\n6) **Savings Goals** \u2014 timeline to reach [SAVINGS_GOAL] with this budget\n7) **Emergency Fund** \u2014 how many months of expenses do I have? Target: 6 months\n8) **Automation Plan** \u2014 what to automate (savings transfers, bill pay) on what dates\n\nMy monthly income (after tax): [INCOME]\nMy monthly expenses:\n[EXPENSES]\n\nSavings goal: [GOAL]\nTimeline: [TIMELINE]\nRisk tolerance for investments: [LOW/MEDIUM/HIGH]",
+      "category_slug": "finance",
+      "tags": [
+        "budgeting",
+        "personal-finance",
+        "savings",
+        "planning"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Personal finance best practices + 50/30/20 rule",
+      "why_it_works": "Uses the proven 50/30/20 framework with specific quick wins that make saving feel achievable."
+    },
+    {
+      "name": "Contract Review Assistant",
+      "slug": "contract-review",
+      "description": "Review contracts and legal documents for red flags, missing clauses, and unfavorable terms.",
+      "prompt_text": "You are a corporate attorney reviewing a contract. Analyze this document and provide:\n\n1) **Plain English Summary** \u2014 what this contract actually says in simple terms\n2) **Key Terms** \u2014 the 5 most important provisions and what they mean for me\n3) **Red Flags** \u2014 clauses that are unusual, one-sided, or potentially harmful\n4) **Missing Protections** \u2014 standard clauses that should be included but aren't\n5) **Negotiation Points** \u2014 top 3 terms I should try to change, with suggested language\n6) **Hidden Obligations** \u2014 duties I'm agreeing to that aren't immediately obvious\n7) **Termination & Exit** \u2014 how can I get out of this? What are the penalties?\n8) **Risk Rating** \u2014 overall risk level (low/medium/high) with explanation\n\n\u26a0\ufe0f Disclaimer: This is for educational purposes. Consult a licensed attorney before signing.\n\nContract text:\n[CONTRACT_TEXT]\n\nMy role: [PARTY_A_OR_B]\nContract type: [EMPLOYMENT/NDA/SaaS/PARTNERSHIP/LEASE]\nMy main concern: [CONCERN]",
+      "category_slug": "legal",
+      "tags": [
+        "contract",
+        "legal",
+        "review",
+        "negotiation"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4",
+      "source": "Legal community + contract review best practices",
+      "why_it_works": "Focuses on what's missing (not just what's there) and includes specific negotiation language."
+    },
+    {
+      "name": "Terms of Service Generator",
+      "slug": "terms-of-service-generator",
+      "description": "Generate a comprehensive Terms of Service for a website or app.",
+      "prompt_text": "You are a tech attorney specializing in SaaS and digital products. Draft a Terms of Service for:\n\nBusiness: [BUSINESS_NAME]\nType: [SAAS/MARKETPLACE/CONTENT_PLATFORM/ECOMMERCE]\nURL: [WEBSITE]\n\nInclude these sections:\n1) Acceptance of Terms\n2) Description of Service\n3) User Accounts & Registration\n4) User Conduct & Prohibited Uses\n5) Intellectual Property Rights\n6) User-Generated Content (if applicable)\n7) Payment Terms & Refund Policy\n8) Privacy (reference to Privacy Policy)\n9) Disclaimers & Limitation of Liability\n10) Indemnification\n11) Termination\n12) Dispute Resolution (arbitration vs courts)\n13) Governing Law\n14) Changes to Terms\n15) Contact Information\n\nSpecific requirements:\n- Jurisdiction: [STATE/COUNTRY]\n- Users can upload content: [YES/NO]\n- Subscription-based: [YES/NO]\n- Free tier: [YES/NO]\n\n\u26a0\ufe0f Have a licensed attorney review before publishing.",
+      "category_slug": "legal",
+      "tags": [
+        "terms-of-service",
+        "legal",
+        "SaaS",
+        "compliance"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "SaaS legal templates + tech law community",
+      "why_it_works": "Covers every standard section with specific considerations for digital products."
+    },
+    {
+      "name": "Fitness & Workout Plan Generator",
+      "slug": "fitness-plan-generator",
+      "description": "Create a personalized workout plan based on goals, equipment, and schedule.",
+      "prompt_text": "You are a certified personal trainer and sports scientist. Create a personalized workout plan.\n\n1) **Assessment** \u2014 based on my info, identify my training age and appropriate intensity\n2) **Program Structure** \u2014 weekly split (e.g., PPL, Upper/Lower, Full Body)\n3) **Workout Details** \u2014 for each training day:\n   - Exercise name\n   - Sets \u00d7 Reps (or time)\n   - Rest periods\n   - RPE (Rate of Perceived Exertion) target\n   - Form cue (one key tip per exercise)\n4) **Progressive Overload Plan** \u2014 how to increase difficulty week to week\n5) **Warm-Up Routine** \u2014 specific to each day's workout (5 min)\n6) **Deload Week** \u2014 when and how to recover (every 4th week)\n7) **Nutrition Guidelines** \u2014 estimated daily calories and protein target\n\nMy details:\n- Goal: [LOSE_FAT/BUILD_MUSCLE/GET_STRONGER/GENERAL_FITNESS]\n- Experience: [BEGINNER/INTERMEDIATE/ADVANCED]\n- Available days: [DAYS_PER_WEEK]\n- Session length: [MINUTES]\n- Equipment: [GYM/HOME/BODYWEIGHT]\n- Injuries/limitations: [LIMITATIONS]\n- Age: [AGE]\n- Weight: [WEIGHT]",
+      "category_slug": "health-wellness",
+      "tags": [
+        "fitness",
+        "workout",
+        "exercise",
+        "health"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "prompts.chat \u2014 Personal Trainer prompt + exercise science",
+      "why_it_works": "Includes progressive overload and deload weeks \u2014 what separates a real program from random exercises."
+    },
+    {
+      "name": "Meal Plan & Nutrition Coach",
+      "slug": "meal-plan-coach",
+      "description": "Generate a weekly meal plan with macros, shopping list, and prep instructions.",
+      "prompt_text": "You are a registered dietitian. Create a [DURATION] meal plan for me.\n\nFor each day, provide:\n- Breakfast, Lunch, Dinner, and 1-2 Snacks\n- Calories and macros (protein, carbs, fat) per meal\n- Prep time for each meal\n- One meal prep batch tip per day\n\nAlso include:\n1) **Weekly Shopping List** \u2014 organized by grocery store section\n2) **Meal Prep Sunday** \u2014 what to prepare in advance (save time on weekdays)\n3) **Quick Swaps** \u2014 for each meal, an easier alternative for busy days\n4) **Eating Out Guide** \u2014 what to order at common restaurants that fits this plan\n\nMy requirements:\n- Daily calorie target: [CALORIES]\n- Dietary restrictions: [RESTRICTIONS]\n- Cuisine preferences: [PREFERENCES]\n- Cooking skill: [BEGINNER/INTERMEDIATE/ADVANCED]\n- Budget: [LOW/MEDIUM/HIGH]\n- Meals I need to prep in advance: [WHICH_MEALS]\n- Goal: [WEIGHT_LOSS/MUSCLE_GAIN/MAINTENANCE/HEALTH]",
+      "category_slug": "health-wellness",
+      "tags": [
+        "nutrition",
+        "meal-plan",
+        "diet",
+        "health"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Nutrition science + meal planning community",
+      "why_it_works": "The meal prep and quick swap features make it realistic for busy people instead of an ideal nobody follows."
+    },
+    {
+      "name": "Therapy-Informed Journaling Prompts",
+      "slug": "therapy-journaling",
+      "description": "Get CBT and mindfulness-based journaling prompts for emotional processing.",
+      "prompt_text": "You are a therapist-informed journaling coach (NOT a replacement for therapy). Based on what I'm experiencing, provide:\n\n1) **Validation** \u2014 acknowledge what I'm feeling without dismissing it\n2) **5 Journaling Prompts** \u2014 based on CBT and mindfulness principles:\n   - One to identify the thought pattern (cognitive distortion check)\n   - One to explore the feeling physically (body scan)\n   - One to challenge the narrative (is this thought 100% true?)\n   - One to find evidence both for and against my worry\n   - One to imagine what I'd say to a friend in this situation\n3) **Grounding Exercise** \u2014 one 5-4-3-2-1 or breathing exercise\n4) **Pattern to Watch** \u2014 what recurring theme might this connect to?\n5) **Small Action** \u2014 one tiny step I could take today\n\n\u26a0\ufe0f If you're in crisis, please contact: 988 Suicide & Crisis Lifeline (call/text 988)\n\nWhat I'm experiencing: [SITUATION]\nHow I'm feeling: [EMOTIONS]\nWhat I keep thinking: [THOUGHTS]",
+      "category_slug": "health-wellness",
+      "tags": [
+        "mental-health",
+        "journaling",
+        "CBT",
+        "mindfulness"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Cognitive Behavioral Therapy principles + journaling therapy research",
+      "why_it_works": "Uses evidence-based CBT techniques (thought challenging, cognitive distortion identification) in an accessible format."
+    },
+    {
+      "name": "Worldbuilder",
+      "slug": "worldbuilder",
+      "description": "Create a detailed fictional world with geography, culture, politics, and story hooks.",
+      "prompt_text": "You are a master worldbuilder in the tradition of Tolkien and Ursula K. Le Guin. Create a detailed world for a [GENRE] story.\n\n1) **The Central 'What If?'** \u2014 the one unique premise that makes this world different\n2) **Geography** \u2014 physical landscape and how it shapes culture and conflict\n3) **Power Structure** \u2014 who rules, how, and what tensions exist\n4) **Magic/Technology System** \u2014 the rules, costs, and limitations (every power has a price)\n5) **3 Distinct Cultures** \u2014 each with:\n   - Core values and beliefs\n   - Internal conflicts\n   - Daily life details (food, dress, rituals)\n   - How they view the other cultures\n6) **History in 5 Pivotal Moments** \u2014 the events that shaped this world\n7) **The Current Tension** \u2014 what's about to break?\n8) **3 Story Hooks** \u2014 compelling narratives that emerge naturally from this world\n9) **Sensory Details** \u2014 what does this world smell, sound, and feel like?\n\nGenre: [GENRE]\nTone: [DARK/HOPEFUL/GRITTY/WHIMSICAL]\nCore theme: [THEME]\nInspired by (but distinct from): [INSPIRATION]",
+      "category_slug": "creative",
+      "tags": [
+        "worldbuilding",
+        "fiction",
+        "creative-writing",
+        "fantasy"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4",
+      "source": "Creative writing community + speculative fiction methodology",
+      "why_it_works": "The 'every power has a price' constraint and sensory details create worlds that feel real, not generic."
+    },
+    {
+      "name": "Character Deep Dive",
+      "slug": "character-deep-dive",
+      "description": "Create a complex, three-dimensional character with contradictions, wounds, and authentic voice.",
+      "prompt_text": "Create a complex, three-dimensional character starting from this concept: [CHARACTER_CONCEPT]\n\n1) **The Contradiction** \u2014 what two opposing traits define them? (e.g., brave but terrified of vulnerability)\n2) **The Wound** \u2014 the formative experience that made them who they are\n3) **Want vs Need** \u2014 what they consciously pursue vs what they actually need (these should conflict)\n4) **Voice** \u2014 write 5 lines of dialogue that could ONLY come from this character\n5) **Relationships** \u2014 how they relate to:\n   - Power (do they seek it, avoid it, abuse it?)\n   - Love (how do they express or withhold it?)\n   - Truth (are they honest? Self-deceptive?)\n6) **The Breaking Point** \u2014 what situation would shatter their fa\u00e7ade?\n7) **Arc** \u2014 how would they change over the course of a story?\n8) **Physical Details** \u2014 3 specific details that reveal character (not just appearance)\n9) **Secret** \u2014 what do they hide from everyone?\n\nGenre: [GENRE]\nRole in story: [PROTAGONIST/ANTAGONIST/SUPPORTING]\nAge: [AGE]\nSetting: [SETTING]",
+      "category_slug": "creative",
+      "tags": [
+        "character",
+        "fiction",
+        "creative-writing",
+        "storytelling"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4",
+      "source": "Creative writing craft \u2014 influenced by Robert McKee's 'Story'",
+      "why_it_works": "The want vs need conflict and contradiction create characters that feel human, not like archetypes."
+    },
+    {
+      "name": "Short Story Generator",
+      "slug": "short-story-generator",
+      "description": "Write a complete short story with narrative structure, voice, and emotional impact.",
+      "prompt_text": "Write a short story (approximately [WORD_COUNT] words) with these parameters:\n\nGenre: [GENRE]\nTheme: [THEME]\nSetting: [SETTING]\nStarting image: [OPENING_IMAGE]\n\nCraft requirements:\n1) **Hook** \u2014 first paragraph must create immediate tension or intrigue\n2) **Voice** \u2014 write in [FIRST_PERSON/THIRD_LIMITED/OMNISCIENT] with a distinctive narrative voice\n3) **Show, don't tell** \u2014 convey emotion through action and sensory detail, not exposition\n4) **Dialogue** \u2014 at least 30% dialogue; each character should sound different\n5) **Structure** \u2014 follow the classic arc: status quo \u2192 disruption \u2192 escalation \u2192 climax \u2192 resolution\n6) **The Turn** \u2014 include one moment that changes everything (the reader should not see it coming but should feel it was inevitable in retrospect)\n7) **Ending** \u2014 [CLOSED/OPEN/AMBIGUOUS] \u2014 the last line should resonate\n8) **Subtext** \u2014 at least one conversation where the characters are really talking about something else\n\nTone: [TONE]\nDo NOT: use clich\u00e9s, explain the theme explicitly, or end with a moral lesson",
+      "category_slug": "creative",
+      "tags": [
+        "short-story",
+        "fiction",
+        "creative-writing",
+        "narrative"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "Creative writing craft \u2014 MFA workshop principles",
+      "why_it_works": "The subtext and 'show don't tell' constraints prevent the flat, on-the-nose writing AI tends to default to."
+    },
+    {
+      "name": "Poetry Workshop",
+      "slug": "poetry-workshop",
+      "description": "Write a poem in any form with attention to imagery, sound, and emotional resonance.",
+      "prompt_text": "You are a poet laureate. Write a poem about [SUBJECT].\n\nForm: [FREE_VERSE/SONNET/HAIKU/VILLANELLE/SPOKEN_WORD/OTHER]\nTone: [TONE]\nLength: [SHORT/MEDIUM/LONG]\n\nCraft requirements:\n1) **Concrete imagery** \u2014 use specific sensory details (not abstractions)\n2) **Sound** \u2014 pay attention to rhythm, assonance, consonance\n3) **Surprise** \u2014 include at least one unexpected image or turn of phrase\n4) **Economy** \u2014 every word must earn its place (cut any word that doesn't add meaning)\n5) **Ending** \u2014 the last line should land with weight or resonance\n6) **No clich\u00e9s** \u2014 avoid: heart, soul, darkness/light metaphors, tears like rain\n\nAfter the poem, provide:\n- A brief note on craft choices made\n- One line you're most proud of and why\n- An alternate ending option",
+      "category_slug": "creative",
+      "tags": [
+        "poetry",
+        "creative-writing",
+        "literary",
+        "craft"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Claude Opus 4",
+      "source": "Poetry craft \u2014 MFA workshop principles",
+      "why_it_works": "The explicit anti-clich\u00e9 list and economy requirement produce poetry that actually sounds human."
+    },
+    {
+      "name": "Meeting Agenda & Facilitator",
+      "slug": "meeting-agenda",
+      "description": "Create a structured meeting agenda with time boxes, decision points, and follow-up actions.",
+      "prompt_text": "You are a meeting facilitator who believes most meetings should be emails. Help me make this meeting worthwhile.\n\n1) **Should This Be a Meeting?** \u2014 honestly assess if this could be an email, Slack thread, or async doc instead\n2) **If Yes, create the agenda:**\n   - Meeting goal (one sentence \u2014 what decision or outcome?)\n   - Required attendees only (no 'nice to haves')\n   - Pre-read materials (what people should review BEFORE the meeting)\n   - Agenda items with strict time boxes\n   - Each item tagged: [INFORM] [DISCUSS] [DECIDE]\n   - Decision-making method for each [DECIDE] item\n   - Last 5 minutes: recap decisions and assign action items\n3) **If No, draft the async alternative** (email or document)\n\nMeeting purpose: [PURPOSE]\nAttendees: [ATTENDEES]\nAvailable time: [DURATION]\nKey decisions needed: [DECISIONS]\nContext: [CONTEXT]",
+      "category_slug": "planning",
+      "tags": [
+        "meetings",
+        "productivity",
+        "facilitation",
+        "management"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Meeting facilitation best practices + async-first culture",
+      "why_it_works": "The 'should this be a meeting?' check and inform/discuss/decide tags prevent wasteful meetings."
+    },
+    {
+      "name": "Project Kickoff Planner",
+      "slug": "project-kickoff",
+      "description": "Plan a project from inception to launch with milestones, risks, and team structure.",
+      "prompt_text": "You are a senior project manager with PMP certification. Create a project plan for:\n\nProject: [PROJECT_DESCRIPTION]\nDeadline: [DEADLINE]\nTeam size: [TEAM_SIZE]\nBudget: [BUDGET]\n\nInclude:\n1) **Project Charter** \u2014 scope, objectives, success criteria, out of scope\n2) **Milestone Timeline** \u2014 major milestones with dates (work backwards from deadline)\n3) **Work Breakdown Structure** \u2014 major workstreams and tasks\n4) **Team Roles** \u2014 who does what (RACI matrix for key decisions)\n5) **Risk Register** \u2014 top 5 risks with probability, impact, and mitigation plan\n6) **Dependencies** \u2014 what blocks what? Critical path identification\n7) **Communication Plan** \u2014 what updates, to whom, how often\n8) **Definition of Done** \u2014 how do we know each milestone is complete?\n9) **Contingency** \u2014 buffer time built in (where and how much)\n10) **Week 1 Action Items** \u2014 specific tasks for the first week\n\nMethodology preference: [AGILE/WATERFALL/HYBRID]\nBiggest constraint: [TIME/BUDGET/SCOPE/QUALITY]",
+      "category_slug": "planning",
+      "tags": [
+        "project-management",
+        "planning",
+        "kickoff",
+        "milestones"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "PMI/PMP methodology + agile frameworks",
+      "why_it_works": "Working backwards from deadline and including buffer time creates realistic plans instead of optimistic ones."
+    },
+    {
+      "name": "Technical Blog Post Writer",
+      "slug": "technical-blog-writer",
+      "description": "Write a technical blog post that developers actually want to read.",
+      "prompt_text": "You are a developer advocate who writes posts that consistently hit the front page of Hacker News. Write a technical blog post about:\n\nTopic: [TOPIC]\nTarget reader: [JUNIOR/MID/SENIOR] [ROLE]\n\nStructure:\n1) **Hook** \u2014 start with the problem or surprising insight (not 'In this post, we'll...')\n2) **The Why** \u2014 why should the reader care? What will they be able to do after reading this?\n3) **Code Examples** \u2014 working, copy-pasteable code with comments\n4) **Progression** \u2014 start simple, build complexity (beginner \u2192 advanced in one post)\n5) **Gotchas** \u2014 at least 3 common mistakes and how to avoid them\n6) **Real-World Context** \u2014 when to use this and when NOT to use it (trade-offs)\n7) **Performance Considerations** \u2014 benchmarks or complexity analysis if relevant\n8) **Conclusion** \u2014 summarize in 3 bullets + link to further resources\n\nTone: conversational but technically precise. Write like you're explaining to a smart colleague over coffee.\n\nLanguage/Framework: [LANGUAGE]\nPrerequisite knowledge: [PREREQUISITES]",
+      "category_slug": "writing-content",
+      "tags": [
+        "technical-writing",
+        "developer",
+        "blog",
+        "tutorial"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Developer writing community + HN front-page analysis",
+      "why_it_works": "The progression from simple to complex and gotchas section is what makes technical posts actually useful."
+    },
+    {
+      "name": "Newsletter Writer",
+      "slug": "newsletter-writer",
+      "description": "Write an engaging newsletter edition that readers actually open and read.",
+      "prompt_text": "You are a newsletter writer with a 45%+ open rate. Write this week's edition.\n\n1) **Subject Line** \u2014 3 options (under 50 chars, create curiosity or promise value)\n2) **Preview Text** \u2014 complements the subject line (not repeats it)\n3) **Opening** \u2014 personal, conversational hook (2-3 sentences max)\n4) **Main Story** \u2014 the primary insight, news, or lesson\n   - One key takeaway highlighted/bolded\n   - Specific examples or data\n5) **Quick Hits** \u2014 3-5 bullet items (links, tips, observations)\n6) **CTA** \u2014 one clear ask (reply, share, click, try something)\n7) **Sign-Off** \u2014 personal, memorable\n\nNewsletter topic: [TOPIC]\nAudience: [AUDIENCE]\nThis week's main story: [MAIN_STORY]\nBrand voice: [VOICE]\nRecurring sections: [SECTIONS]",
+      "category_slug": "writing-content",
+      "tags": [
+        "newsletter",
+        "email",
+        "content",
+        "engagement"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Newsletter growth community + email marketing data",
+      "why_it_works": "The separate subject line and preview text optimization plus one-CTA focus mirrors what top newsletters do."
+    },
+    {
+      "name": "Twitter/X Thread Writer",
+      "slug": "twitter-thread-writer",
+      "description": "Write a viral Twitter/X thread that drives engagement and followers.",
+      "prompt_text": "You are a Twitter/X content strategist. Write a thread about [TOPIC] that drives maximum engagement.\n\nThread structure:\n1) **Tweet 1 (Hook)** \u2014 must stop the scroll. Use one of these patterns:\n   - Bold claim: \"[X] is a lie. Here's why:\"\n   - List promise: \"I studied [X] for [time]. Here are [N] lessons:\"\n   - Story hook: \"In [year], [person] did [thing]. What happened next changed [field] forever.\"\n2) **Tweets 2-8 (Body)** \u2014 one idea per tweet, each can stand alone\n   - Use short sentences and line breaks\n   - Include specific numbers, names, examples\n   - Alternate between insight and evidence\n3) **Tweet 9 (Summary)** \u2014 recap the key points (for people who skimmed)\n4) **Tweet 10 (CTA)** \u2014 like, retweet, follow, or reply prompt\n\nRules:\n- Each tweet under 280 characters\n- No emoji spam (max 1 per tweet)\n- Include 2-3 tweets with images/diagrams described\n- Thread should be educational AND entertaining\n\nTopic: [TOPIC]\nTarget audience: [AUDIENCE]\nYour expertise angle: [ANGLE]\nGoal: [GROW_FOLLOWERS/DRIVE_TRAFFIC/BUILD_AUTHORITY]",
+      "category_slug": "writing-content",
+      "tags": [
+        "twitter",
+        "social-media",
+        "threads",
+        "viral"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Twitter growth community + viral content analysis",
+      "why_it_works": "Proven hook patterns combined with 'each tweet stands alone' rule maximizes both engagement and shareability."
+    },
+    {
+      "name": "Book Summary & Action Plan",
+      "slug": "book-summary-action-plan",
+      "description": "Summarize any book with key insights, counterarguments, and a personal action plan.",
+      "prompt_text": "You are a voracious reader and book analyst. Create a comprehensive summary of [BOOK_TITLE] by [AUTHOR].\n\n1) **One-Line Summary** \u2014 the book's thesis in one sentence\n2) **Key Ideas** \u2014 the 5 most important concepts, each explained in 2-3 sentences\n3) **Notable Quotes** \u2014 3 passages worth remembering (approximate if needed)\n4) **Framework/Model** \u2014 the main framework or mental model the author introduces\n5) **Strongest Argument** \u2014 the most compelling point in the book\n6) **Weakest Argument** \u2014 where the author's logic is weakest or evidence is thin\n7) **Who Should Read This** \u2014 ideal reader profile\n8) **Who Should Skip This** \u2014 who would waste their time\n9) **Similar Books** \u2014 3 books that pair well (one that agrees, one that disagrees)\n10) **Personal Action Plan** \u2014 3 specific things I could implement this week based on the book\n\nBook: [BOOK_TITLE] by [AUTHOR]\nMy context/role: [CONTEXT]\nWhat I hope to get from it: [GOAL]",
+      "category_slug": "writing-content",
+      "tags": [
+        "book-summary",
+        "reading",
+        "learning",
+        "action-plan"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Reading and learning community",
+      "why_it_works": "The 'weakest argument' and 'who should skip' sections provide honest analysis instead of pure summary."
+    },
+    {
+      "name": "Landing Page Copy Generator",
+      "slug": "landing-page-copy",
+      "description": "Write high-converting landing page copy with hero, benefits, social proof, and CTA.",
+      "prompt_text": "You are a conversion rate optimization expert. Write landing page copy for:\n\nProduct: [PRODUCT]\nTarget audience: [AUDIENCE]\n\nSections to write:\n1) **Hero Section**\n   - Headline (under 10 words, addresses primary desire)\n   - Subheadline (clarifies what it is and who it's for)\n   - CTA button text (action-oriented, specific)\n   - Social proof snippet (e.g., '10,000+ teams trust us')\n\n2) **Problem Section** \u2014 describe the pain (make them nod)\n\n3) **Solution Section** \u2014 how your product solves it (3 key benefits)\n   - Each benefit: icon-worthy headline + 1-2 sentence description\n   - Focus on outcomes, not features\n\n4) **Social Proof Section**\n   - 3 testimonial templates (with specific results)\n   - Trust badges/logos area\n\n5) **How It Works** \u2014 3-step process (keep it dead simple)\n\n6) **FAQ Section** \u2014 5 questions that address buying objections\n\n7) **Final CTA Section**\n   - Headline (different from hero \u2014 urgency or value-focused)\n   - Button text\n   - Risk reversal (guarantee, free trial, etc.)\n\nTone: [PROFESSIONAL/STARTUP/PLAYFUL]\nPrice point: [PRICE]\nMain competitor: [COMPETITOR]",
+      "category_slug": "marketing",
+      "tags": [
+        "landing-page",
+        "conversion",
+        "copywriting",
+        "CRO"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "CRO community + landing page optimization research",
+      "why_it_works": "Follows the proven landing page structure (problem \u2192 solution \u2192 proof \u2192 CTA) with conversion-specific details."
+    },
+    {
+      "name": "Competitive Intelligence Report",
+      "slug": "competitive-intelligence",
+      "description": "Analyze a competitor's strategy, strengths, weaknesses, and how to differentiate against them.",
+      "prompt_text": "You are a competitive intelligence analyst. Create a comprehensive competitor analysis for:\n\nCompetitor: [COMPETITOR]\nOur company: [OUR_COMPANY]\n\n1) **Company Overview** \u2014 what they do, founded when, funding, team size, revenue estimates\n2) **Product Analysis** \u2014 core features, pricing tiers, target market\n3) **Positioning** \u2014 their key message, brand voice, and value proposition\n4) **Strengths** \u2014 what they do better than anyone else (be honest)\n5) **Weaknesses** \u2014 where they fall short (based on reviews, social media, product gaps)\n6) **Customer Sentiment** \u2014 what do their customers love and complain about? (G2, Capterra, Reddit patterns)\n7) **Go-to-Market** \u2014 how they acquire customers (content, ads, sales, partnerships?)\n8) **Technology** \u2014 their tech stack, API capabilities, integration ecosystem\n9) **Our Differentiation** \u2014 based on all the above, where should we position differently?\n10) **Battle Card** \u2014 a one-page cheat sheet for our sales team to use against this competitor\n\nOur key strengths: [OUR_STRENGTHS]\nWhere we overlap: [OVERLAP]\nOur target market: [OUR_MARKET]",
+      "category_slug": "business-strategy",
+      "tags": [
+        "competitive-analysis",
+        "strategy",
+        "intelligence",
+        "positioning"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4 or GPT-5",
+      "source": "Strategy consulting + competitive intelligence methodology",
+      "why_it_works": "The battle card output makes this immediately actionable for sales, not just strategic knowledge."
+    },
+    {
+      "name": "Investor Update Email",
+      "slug": "investor-update",
+      "description": "Write a monthly investor update that builds confidence and gets help when needed.",
+      "prompt_text": "You are a startup CEO who writes investor updates that investors actually read and respond to. Write this month's update.\n\nFormat:\n1) **TL;DR** \u2014 3 bullet summary (wins, challenges, ask)\n2) **Key Metrics** (table format):\n   - MRR: [MRR] (vs last month)\n   - Customers: [CUSTOMERS]\n   - Burn rate: [BURN]\n   - Runway: [MONTHS]\n   - Key product metric: [METRIC]\n3) **Wins This Month** \u2014 top 3 achievements (specific and quantified)\n4) **Challenges** \u2014 top 2 challenges (be honest \u2014 investors respect transparency)\n5) **Key Learnings** \u2014 1-2 insights that changed your thinking\n6) **Plan Next Month** \u2014 top 3 priorities\n7) **Asks** \u2014 specific, concrete ways investors can help (intros, advice, hiring)\n8) **Team Update** \u2014 notable hires, departures, or org changes\n\nThis month's highlights: [HIGHLIGHTS]\nThis month's challenges: [CHALLENGES]\nWhat you need help with: [ASKS]\nTeam changes: [TEAM_UPDATES]",
+      "category_slug": "startup",
+      "tags": [
+        "investor-update",
+        "fundraising",
+        "startup",
+        "reporting"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "YC startup school + investor relations best practices",
+      "why_it_works": "The specific 'asks' section is what makes investors actually respond and help."
+    },
+    {
+      "name": "Product Hunt Launch Plan",
+      "slug": "product-hunt-launch",
+      "description": "Plan a Product Hunt launch from preparation to launch day execution.",
+      "prompt_text": "You are a Product Hunt launch strategist who has helped products reach #1 Product of the Day. Plan my launch.\n\n**Pre-Launch (2 weeks before):**\n1) Tagline options (under 60 chars, value-focused)\n2) Description (first paragraph is critical \u2014 what and why)\n3) Gallery images \u2014 describe 5 screenshots/images to create\n4) Maker comment \u2014 first comment to post at launch\n5) Hunter strategy \u2014 should I find a hunter or self-launch?\n6) Community warm-up \u2014 who to DM, which communities to engage\n\n**Launch Day:**\n7) Optimal launch time and day\n8) Hour-by-hour execution plan\n9) Social media posts (Twitter, LinkedIn, community forums)\n10) Email to send to your network (with specific ask)\n\n**Post-Launch:**\n11) How to engage with commenters\n12) Follow-up strategy for the week after\n\nProduct: [PRODUCT_NAME]\nWhat it does: [DESCRIPTION]\nTarget audience: [AUDIENCE]\nExisting user base: [USER_COUNT]\nUnique angle: [DIFFERENTIATOR]",
+      "category_slug": "startup",
+      "tags": [
+        "product-hunt",
+        "launch",
+        "marketing",
+        "growth"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Product Hunt launch playbooks + top launcher strategies",
+      "why_it_works": "Hour-by-hour execution plan with specific community warm-up tactics is what separates successful launches."
+    },
+    {
+      "name": "Customer Interview Script",
+      "slug": "customer-interview-script",
+      "description": "Design a customer interview that uncovers real insights, not just confirmation bias.",
+      "prompt_text": "You are a user researcher trained in 'The Mom Test' methodology. Design a customer interview script for:\n\nGoal: understand [RESEARCH_QUESTION]\n\nRules (from The Mom Test):\n- NEVER ask if they'd use your product\n- NEVER ask hypothetical questions ('Would you...')\n- ASK about their past behavior and real experiences\n- ASK about specific instances, not generalities\n\nScript:\n1) **Warm-Up** (2 min) \u2014 rapport building, not product pitching\n2) **Context Questions** (5 min) \u2014 understand their world\n   - 3 questions about their current workflow/situation\n3) **Problem Exploration** (10 min) \u2014 dig into pain points\n   - 5 questions that uncover real problems without leading\n   - Follow-up probes for each\n4) **Behavior Questions** (5 min) \u2014 what they actually DO (not what they say they do)\n   - 'Walk me through the last time you...' format\n5) **Value Questions** (5 min) \u2014 willingness to pay/switch\n   - Without mentioning your product\n6) **Wrap-Up** (3 min) \u2014 ask for referrals and permission to follow up\n\nAlso provide:\n- 5 **red flag responses** (answers that sound positive but mean nothing)\n- How to take notes during the interview\n- Post-interview synthesis template\n\nProduct/idea: [PRODUCT]\nTarget customer: [CUSTOMER]\nHypothesis to test: [HYPOTHESIS]",
+      "category_slug": "product-management",
+      "tags": [
+        "customer-research",
+        "interviews",
+        "Mom-Test",
+        "discovery"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Rob Fitzpatrick's 'The Mom Test' + UX research methodology",
+      "why_it_works": "The Mom Test rules prevent the #1 mistake in customer research: asking questions that always give positive answers."
+    },
+    {
+      "name": "Feature Prioritization Framework",
+      "slug": "feature-prioritization",
+      "description": "Prioritize a product backlog using RICE scoring with honest effort estimates.",
+      "prompt_text": "You are a VP of Product. Help me prioritize this feature backlog using the RICE framework.\n\nFor each feature, score:\n- **R**each \u2014 how many users/month will this impact? (number)\n- **I**mpact \u2014 how much will it move the needle per user? (3=massive, 2=high, 1=medium, 0.5=low, 0.25=minimal)\n- **C**onfidence \u2014 how sure are we about the estimates? (100%=high, 80%=medium, 50%=low)\n- **E**ffort \u2014 person-months to build (be honest, include testing and edge cases)\n\nRICE Score = (Reach \u00d7 Impact \u00d7 Confidence) / Effort\n\nAlso provide:\n1) **Ranked list** \u2014 features sorted by RICE score\n2) **Quick wins** \u2014 high score + low effort\n3) **Big bets** \u2014 high potential but uncertain\n4) **Time sinks** \u2014 features that feel important but score low (consider cutting)\n5) **Dependencies** \u2014 which features unlock other features?\n6) **Recommended roadmap** \u2014 suggested order considering dependencies\n\nFeature backlog:\n[FEATURES]\n\nCurrent team capacity: [ENGINEERS] engineers\nTimeline: [MONTHS] months\nCompany goal: [GOAL]",
+      "category_slug": "product-management",
+      "tags": [
+        "prioritization",
+        "RICE",
+        "roadmap",
+        "product"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Intercom's RICE framework + product management community",
+      "why_it_works": "RICE scoring with explicit confidence levels prevents gut-feeling prioritization."
+    },
+    {
+      "name": "User Story Writer",
+      "slug": "user-story-writer",
+      "description": "Write comprehensive user stories with acceptance criteria and edge cases.",
+      "prompt_text": "You are a product manager writing user stories for a development team. For this feature:\n\nFeature: [FEATURE]\n\nWrite:\n1) **Epic** \u2014 one-sentence description of the overall capability\n2) **User Stories** (5-10) \u2014 each in format:\n   - As a [persona], I want [goal], so that [benefit]\n   - **Acceptance Criteria** \u2014 specific, testable conditions (Given/When/Then format)\n   - **Edge Cases** \u2014 unusual scenarios to handle\n   - **Design Notes** \u2014 UX considerations\n   - **Story Points Estimate** \u2014 S/M/L/XL\n3) **Technical Notes** \u2014 implementation considerations for the dev team\n4) **Out of Scope** \u2014 what this does NOT include (prevent scope creep)\n5) **Dependencies** \u2014 what needs to exist first\n6) **Definition of Done** \u2014 how do we know the story is complete?\n\nTarget personas: [PERSONAS]\nTech stack: [TECH_STACK]\nDesign system: [DESIGN_SYSTEM]",
+      "category_slug": "product-management",
+      "tags": [
+        "user-stories",
+        "agile",
+        "requirements",
+        "development"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "Agile methodology + product management best practices",
+      "why_it_works": "Given/When/Then acceptance criteria and explicit out-of-scope prevent ambiguity and scope creep."
+    },
+    {
+      "name": "Database Schema Designer",
+      "slug": "database-schema-designer",
+      "description": "Design a normalized database schema with relationships, indexes, and migration plan.",
+      "prompt_text": "You are a senior database architect. Design a database schema for:\n\nApplication: [APPLICATION]\nDatabase: [POSTGRESQL/MYSQL/MONGODB/SQLITE]\n\nProvide:\n1) **Entity Relationship Diagram** \u2014 describe all entities, their attributes, and relationships (text format)\n2) **Schema DDL** \u2014 complete CREATE TABLE statements with:\n   - Proper data types\n   - Primary keys (UUID vs auto-increment \u2014 justify choice)\n   - Foreign keys with ON DELETE behavior\n   - NOT NULL constraints where appropriate\n   - CHECK constraints for validation\n   - Indexes for common query patterns\n3) **Normalization** \u2014 ensure 3NF minimum, note any intentional denormalization and why\n4) **Row-Level Security** \u2014 policies for multi-tenant or user-specific data\n5) **Seed Data** \u2014 sample INSERT statements for testing\n6) **Migration Plan** \u2014 if evolving an existing schema, provide ALTER statements\n7) **Common Queries** \u2014 5 queries the application will frequently run, with EXPLAIN analysis\n8) **Scaling Considerations** \u2014 what breaks first at 1M, 10M, 100M rows?\n\nKey entities: [ENTITIES]\nExpected data volume: [VOLUME]\nAccess patterns: [PATTERNS]\nMulti-tenant: [YES/NO]",
+      "category_slug": "software-engineering",
+      "tags": [
+        "database",
+        "schema",
+        "SQL",
+        "architecture"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "Database engineering best practices",
+      "why_it_works": "Includes scaling considerations and common query optimization, not just the schema itself."
+    },
+    {
+      "name": "CI/CD Pipeline Designer",
+      "slug": "cicd-pipeline-designer",
+      "description": "Design a complete CI/CD pipeline with testing, security, and deployment stages.",
+      "prompt_text": "You are a DevOps engineer. Design a CI/CD pipeline for:\n\nProject: [PROJECT_TYPE] ([LANGUAGE/FRAMEWORK])\nHosting: [AWS/GCP/VERCEL/RAILWAY/OTHER]\nTeam size: [TEAM_SIZE]\n\nProvide:\n1) **Pipeline Stages** \u2014 diagram each stage in order:\n   - Trigger conditions (push, PR, tag, schedule)\n   - Lint + format check\n   - Unit tests\n   - Integration tests\n   - Security scan (SAST/dependency audit)\n   - Build\n   - Deploy to staging\n   - E2E tests on staging\n   - Deploy to production\n   - Post-deploy verification\n2) **GitHub Actions / GitLab CI YAML** \u2014 complete, working config file\n3) **Environment Strategy** \u2014 dev \u2192 staging \u2192 production setup\n4) **Secrets Management** \u2014 how to handle API keys and credentials\n5) **Rollback Plan** \u2014 how to quickly revert a bad deploy\n6) **Monitoring** \u2014 what to alert on post-deploy\n7) **Branch Strategy** \u2014 recommended branching model\n\nCurrent setup: [CURRENT]\nPain points: [PAIN_POINTS]",
+      "category_slug": "software-engineering",
+      "tags": [
+        "CI/CD",
+        "DevOps",
+        "pipeline",
+        "deployment"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Any",
+      "source": "DevOps community + CI/CD best practices",
+      "why_it_works": "Includes rollback plan and post-deploy verification \u2014 the stages most pipelines are missing when things go wrong."
+    },
+    {
+      "name": "Presentation Outline Builder",
+      "slug": "presentation-outline",
+      "description": "Structure a compelling presentation with narrative arc, data slides, and speaker notes.",
+      "prompt_text": "You are a presentation coach who has trained TED speakers. Create a presentation outline for:\n\nTopic: [TOPIC]\nAudience: [AUDIENCE]\nDuration: [MINUTES]\nGoal: [INFORM/PERSUADE/INSPIRE/SELL]\n\nStructure:\n1) **Opening (10% of time)** \u2014 hook that creates curiosity or tension (NOT 'Today I'm going to talk about...')\n2) **Context (15%)** \u2014 why this matters NOW to THIS audience\n3) **Main Body (60%)** \u2014 3 key points, each with:\n   - Claim\n   - Evidence (data, story, or demo)\n   - Transition to next point\n4) **Objection Handling (5%)** \u2014 address the elephant in the room\n5) **Closing (10%)** \u2014 callback to opening + clear call to action\n\nFor each slide:\n- **Slide title** (one key message, not a label)\n- **Visual** \u2014 describe what the slide should show\n- **Speaker notes** \u2014 key talking points (not a script)\n- **Data points** to include\n\nPresentation style: [MINIMAL/DATA_HEAVY/STORYTELLING]\nKey constraint: [CONSTRAINT]",
+      "category_slug": "writing-content",
+      "tags": [
+        "presentation",
+        "slides",
+        "public-speaking",
+        "storytelling"
+      ],
+      "difficulty": "intermediate",
+      "recommended_model": "Any",
+      "source": "TED talk structure + presentation design principles",
+      "why_it_works": "Time-based structure with speaker notes (not scripts) creates natural, engaging presentations."
+    },
+    {
+      "name": "Onboarding Flow Designer",
+      "slug": "onboarding-flow-designer",
+      "description": "Design a user onboarding flow that drives activation and reduces drop-off.",
+      "prompt_text": "You are a growth product manager specializing in user activation. Design an onboarding flow for:\n\nProduct: [PRODUCT]\nActivation metric: [WHAT_MEANS_USER_GOT_VALUE]\n\n1) **Aha Moment** \u2014 what's the fastest path to the user experiencing core value?\n2) **Onboarding Steps** \u2014 ordered sequence:\n   - Each step: what the user does, why it matters, what they see\n   - Maximum friction allowed at each step\n   - Skip/defer options for non-critical steps\n3) **Progressive Disclosure** \u2014 what to hide initially and reveal later\n4) **Empty States** \u2014 what do screens look like before the user has data?\n5) **Checklist/Progress** \u2014 visible progress indicator design\n6) **Nudges** \u2014 when to send emails/notifications if they stall (timing + content)\n7) **Drop-off Points** \u2014 where users are most likely to abandon and how to prevent it\n8) **Success Moment** \u2014 how to celebrate when they complete onboarding\n9) **Metrics to Track** \u2014 conversion rate at each step, time to activate\n\nUser type: [USER_TYPE]\nTechnical level: [TECHNICAL_LEVEL]\nCompetitor's onboarding weakness: [WEAKNESS]",
+      "category_slug": "product-management",
+      "tags": [
+        "onboarding",
+        "activation",
+        "growth",
+        "UX"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Any",
+      "source": "Growth product management + activation framework",
+      "why_it_works": "Focuses on time-to-value and identifies specific drop-off points with prevention strategies."
+    },
+    {
+      "name": "Refactoring Advisor",
+      "slug": "refactoring-advisor",
+      "description": "Get a structured refactoring plan for messy code with priority, risk, and step-by-step approach.",
+      "prompt_text": "You are a software architect specializing in refactoring legacy code. Analyze this code and create a refactoring plan.\n\nCode:\n```[LANGUAGE]\n[CODE]\n```\n\nProvide:\n1) **Code Smell Inventory** \u2014 list every issue, categorized:\n   - \ud83d\udd34 Critical (bugs waiting to happen)\n   - \ud83d\udfe1 Major (maintainability problems)\n   - \ud83d\udd35 Minor (style/readability)\n2) **Refactoring Priority** \u2014 what to fix first and why\n3) **Step-by-Step Plan** \u2014 ordered refactoring steps:\n   - Each step should leave the code in a WORKING state\n   - Include what test to write BEFORE refactoring each piece\n4) **Design Pattern Suggestions** \u2014 which patterns would improve this code?\n5) **Before/After** \u2014 show the critical section refactored\n6) **Risk Assessment** \u2014 what could break during refactoring?\n7) **Time Estimate** \u2014 rough estimate per step\n\nContext: [WHAT_THIS_CODE_DOES]\nTest coverage: [NONE/SOME/GOOD]\nCan we break backward compatibility: [YES/NO]",
+      "category_slug": "software-engineering",
+      "tags": [
+        "refactoring",
+        "code-quality",
+        "legacy-code",
+        "architecture"
+      ],
+      "difficulty": "advanced",
+      "recommended_model": "Claude Opus 4",
+      "source": "Martin Fowler's 'Refactoring' + software engineering best practices",
+      "why_it_works": "The 'write test first, leave code working after each step' approach is the safe way to refactor."
+    },
+    {
+      "name": "Email Subject Line Generator",
+      "slug": "email-subject-lines",
+      "description": "Generate high-open-rate email subject lines with psychological triggers.",
+      "prompt_text": "Generate 20 email subject lines for:\n\nEmail purpose: [PURPOSE]\nAudience: [AUDIENCE]\nKey message: [MESSAGE]\n\nFor each subject line:\n- Keep under 50 characters (mobile-friendly)\n- Label the psychological trigger used:\n  a) Curiosity gap\n  b) Urgency/scarcity\n  c) Personal benefit\n  d) Social proof\n  e) Controversy/contrarian\n  f) Question\n  g) How-to/number\n  h) Personalization\n- Rate predicted open rate: \u2b50 to \u2b50\u2b50\u2b50\u2b50\u2b50\n\nProvide:\n- 10 options for the main send\n- 5 A/B test variants\n- 5 'risky but could work' options\n\nIndustry: [INDUSTRY]\nBrand tone: [FORMAL/CASUAL/PLAYFUL]\nAvoid: [SPAM_TRIGGERS_OR_WORDS]",
+      "category_slug": "marketing",
+      "tags": [
+        "email",
+        "subject-lines",
+        "open-rate",
+        "copywriting"
+      ],
+      "difficulty": "beginner",
+      "recommended_model": "Any",
+      "source": "Email marketing optimization community",
+      "why_it_works": "Labeling the psychological trigger makes subject line writing systematic instead of guesswork."
+    }
+  ]
+}

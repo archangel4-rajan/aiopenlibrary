@@ -9,6 +9,8 @@ export function sanitizeSearchQuery(query: string): string {
   return query
     .replace(/\\/g, "\\\\") // escape backslashes first
     .replace(/%/g, "\\%") // escape literal percent signs
+    .replace(/_/g, "\\_") // escape underscore (wildcard in ILIKE)
+    .replace(/'/g, "''") // escape single quotes
     .replace(/,/g, "") // remove commas (PostgREST condition separator)
     .replace(/\(/g, "") // remove open parens (PostgREST operator syntax)
     .replace(/\)/g, ""); // remove close parens

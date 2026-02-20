@@ -2,15 +2,19 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Logo from "@/components/Logo";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const urlError = searchParams.get("error");
+  const urlMessage = searchParams.get("message");
+  const [error, setError] = useState<string | null>(urlError ? decodeURIComponent(urlError) : null);
+  const [message] = useState<string | null>(urlMessage ? decodeURIComponent(urlMessage) : null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -73,6 +77,12 @@ export default function LoginPage() {
         {error && (
           <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
             {error}
+          </div>
+        )}
+
+        {message && (
+          <div className="mt-6 rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-600 dark:border-green-800 dark:bg-green-900/20 dark:text-green-400">
+            {message}
           </div>
         )}
 

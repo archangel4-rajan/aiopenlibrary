@@ -4,12 +4,22 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
+  const error = searchParams.get("error");
+  const errorDescription = searchParams.get("error_description");
   const next = searchParams.get("next") ?? "/";
+
+  // Handle explicit errors from Supabase
+  if (error) {
+    const message = errorDescription || error;
+    return NextResponse.redirect(
+      `${origin}/auth/login?error=${encodeURIComponent(message)}`
+    );
+  }
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) {
+    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+    if (!exchangeError) {
       // If this was a password reset, redirect to the reset page
       const type = searchParams.get("type");
       if (type === "recovery") {
@@ -17,10 +27,14 @@ export async function GET(request: Request) {
       }
       return NextResponse.redirect(`${origin}${next}`);
     }
+
+    return NextResponse.redirect(
+      `${origin}/auth/login?error=${encodeURIComponent(exchangeError.message)}`
+    );
   }
 
-  // Return the user to the login page with an error
+  // No code and no error — invalid callback
   return NextResponse.redirect(
-    `${origin}/auth/login?error=Could+not+authenticate`
+    `${origin}/auth/login?error=${encodeURIComponent("Authentication failed. Please try again.")}`
   );
 }

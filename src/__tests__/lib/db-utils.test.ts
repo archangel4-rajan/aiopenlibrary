@@ -27,7 +27,25 @@ describe("sanitizeSearchQuery", () => {
     expect(result).toBe("test50\\%\\\\end");
   });
 
+  it("handles combined with underscore and quote", () => {
+    const result = sanitizeSearchQuery("user_name's (value)");
+    expect(result).toBe("user\\_name''s value");
+  });
+
   it("handles empty string", () => {
     expect(sanitizeSearchQuery("")).toBe("");
+  });
+
+  it("escapes underscores (ILIKE wildcard)", () => {
+    expect(sanitizeSearchQuery("test_value")).toBe("test\\_value");
+  });
+
+  it("escapes single quotes", () => {
+    expect(sanitizeSearchQuery("it's a test")).toBe("it''s a test");
+  });
+
+  it("handles combined special characters including underscore and quote", () => {
+    const result = sanitizeSearchQuery("it's_a,test");
+    expect(result).toBe("it''s\\_atest");
   });
 });
