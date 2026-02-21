@@ -6,7 +6,9 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const error = searchParams.get("error");
   const errorDescription = searchParams.get("error_description");
-  const next = searchParams.get("next") ?? "/";
+  // Sanitize redirect target — only allow relative paths (prevent open redirect)
+  const rawNext = searchParams.get("next") ?? "/";
+  const next = rawNext.startsWith("/") && !rawNext.startsWith("//") ? rawNext : "/";
 
   // Handle explicit errors from Supabase
   if (error) {
