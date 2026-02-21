@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Trophy, TrendingUp, ArrowRight, Flame, Heart, Clock, Bookmark } from "lucide-react";
+import { Trophy, ArrowRight, Flame, Heart, Clock, Bookmark } from "lucide-react";
 import { getLeaderboardPromptsSorted, getUserSavedPromptIds, validateLeaderboardSort } from "@/lib/db";
 import type { LeaderboardSort } from "@/lib/db";
 import { getUser } from "@/lib/auth";
@@ -142,28 +142,6 @@ export default async function LeaderboardPage({
 
                   {/* Stats */}
                   <div className="z-10 flex shrink-0 items-center gap-2 sm:gap-4">
-                    {sort === "trending" && prompt.weekly_saves > 0 && (
-                      <div className="hidden text-center sm:block">
-                        <div className="flex items-center gap-1 text-sm font-semibold text-orange-600 dark:text-orange-400">
-                          <TrendingUp className="h-3.5 w-3.5" />
-                          {prompt.weekly_saves}
-                        </div>
-                        <div className="text-[10px] text-stone-400 dark:text-stone-500">
-                          this week
-                        </div>
-                      </div>
-                    )}
-                    {sort === "liked" && (
-                      <div className="hidden text-center sm:block">
-                        <div className="flex items-center gap-1 text-sm font-semibold text-rose-600 dark:text-rose-400">
-                          <Heart className="h-3.5 w-3.5" />
-                          {prompt.likes_count ?? 0}
-                        </div>
-                        <div className="text-[10px] text-stone-400 dark:text-stone-500">
-                          votes
-                        </div>
-                      </div>
-                    )}
                     <SaveButton
                       promptId={prompt.id}
                       initialSaved={savedIds.includes(prompt.id)}
