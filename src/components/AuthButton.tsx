@@ -28,7 +28,8 @@ export default function AuthButton() {
     const supabase = createClient();
     await supabase.auth.signOut();
     setMenuOpen(false);
-    router.refresh();
+    // Full page reload to clear all cached auth state
+    window.location.href = "/";
   };
 
   if (isLoading) {
