@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, Menu, X, Trophy, Library } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -17,6 +17,22 @@ export default function Navbar() {
   const router = useRouter();
   const { user, isAdmin } = useAuth();
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const tagName = target.tagName.toLowerCase();
+      if (tagName === "input" || tagName === "textarea" || tagName === "select" || target.isContentEditable) {
+        return;
+      }
+      if (e.key === "/") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

@@ -186,27 +186,19 @@ export default async function PromptPage({
         )}
 
         {/* Output Screenshots or Example Output */}
-        <div className="mt-8">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900 dark:text-stone-100">
-            <ImageIcon className="h-5 w-5 text-stone-500 dark:text-stone-400" />
-            Prompt Output
-          </h2>
-          {prompt.example_output ? (
+        {prompt.example_output && (
+          <div className="mt-8">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-stone-900 dark:text-stone-100">
+              <ImageIcon className="h-5 w-5 text-stone-500 dark:text-stone-400" />
+              Prompt Output
+            </h2>
             <div className="rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-5 overflow-x-auto">
               <pre className="text-xs text-stone-700 dark:text-stone-300 whitespace-pre-wrap break-words font-mono">
                 <code>{prompt.example_output}</code>
               </pre>
             </div>
-          ) : (
-            <div className="rounded-lg border-2 border-dashed border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-8 text-center">
-              <ImageIcon className="mx-auto h-10 w-10 text-stone-300 dark:text-stone-600" />
-              <p className="mt-2 text-sm text-stone-400 dark:text-stone-500">
-                See what this prompt produces — real output screenshots from
-                community members, coming soon.
-              </p>
-            </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* References */}
         {references.length > 0 && (

@@ -10,10 +10,15 @@ type SubmitState = "idle" | "submitting" | "success" | "error";
 type WizardStep = 1 | 2 | 3;
 
 const MODEL_OPTIONS = [
+  "Claude Opus 4",
+  "Claude Sonnet 4",
+  "Claude Sonnet 4.5",
+  "Claude Haiku 3.5",
   "GPT-4o",
-  "Claude 3.5 Sonnet",
-  "Claude 3.5 Haiku",
-  "Gemini 2.0 Flash",
+  "Grok 4.20",
+  "Gemini 2.5 Pro",
+  "o3",
+  "Llama 3.3",
   "Any Model",
 ];
 

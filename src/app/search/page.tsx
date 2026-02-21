@@ -220,10 +220,15 @@ function SearchContent() {
                 className="rounded-lg border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 px-3 py-2 text-sm text-stone-700 dark:text-stone-300 outline-none"
               >
                 <option value="">All Models</option>
+                <option value="Claude Opus 4">Claude Opus 4</option>
+                <option value="Claude Sonnet 4">Claude Sonnet 4</option>
+                <option value="Claude Sonnet 4.5">Claude Sonnet 4.5</option>
+                <option value="Claude Haiku 3.5">Claude Haiku 3.5</option>
                 <option value="GPT-4o">GPT-4o</option>
-                <option value="Claude 3.5 Sonnet">Claude 3.5 Sonnet</option>
-                <option value="Claude 3.5 Haiku">Claude 3.5 Haiku</option>
-                <option value="Gemini 2.0 Flash">Gemini 2.0 Flash</option>
+                <option value="Grok 4.20">Grok 4.20</option>
+                <option value="Gemini 2.5 Pro">Gemini 2.5 Pro</option>
+                <option value="o3">o3</option>
+                <option value="Llama 3.3">Llama 3.3</option>
                 <option value="Any Model">Any Model</option>
               </select>
 

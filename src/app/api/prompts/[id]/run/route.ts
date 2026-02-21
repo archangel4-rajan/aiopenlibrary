@@ -5,7 +5,9 @@ import { InferenceClient } from "@huggingface/inference";
 
 const runLimiter = createRateLimiter("prompt-run", 60_000, 10);
 
-const HF_API_TOKEN = process.env.HF_API_TOKEN;
+function getHfApiToken() {
+  return process.env.HF_API_TOKEN;
+}
 
 // Models per prompt type
 const MODELS = {
@@ -62,6 +64,7 @@ export async function POST(
     );
   }
 
+  const HF_API_TOKEN = getHfApiToken();
   if (!HF_API_TOKEN) {
     return NextResponse.json(
       { error: "Inference service not configured" },
