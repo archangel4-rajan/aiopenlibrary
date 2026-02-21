@@ -369,7 +369,8 @@ function normalizePrompt(p: Record<string, unknown>): LeaderboardPrompt {
   return {
     ...p,
     saves_count: (p.saves_count as number) ?? 0,
-    votes_count: (p.votes_count as number) ?? 0,
+    likes_count: (p.likes_count as number) ?? 0,
+    dislikes_count: (p.dislikes_count as number) ?? 0,
     weekly_saves: (p.weekly_saves as number) ?? 0,
   } as LeaderboardPrompt;
 }
@@ -405,7 +406,7 @@ export async function getLeaderboardPromptsSorted(
 
     // Static map — only whitelisted column names, never user input
     const orderColumn =
-      safeSort === "liked" ? "votes_count" :
+      safeSort === "liked" ? "likes_count" :
       safeSort === "newest" ? "created_at" :
       "saves_count";
 

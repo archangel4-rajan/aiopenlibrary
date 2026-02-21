@@ -327,7 +327,7 @@ describe("Database functions", () => {
       expect(mockFrom).toHaveBeenCalledWith("prompts");
     });
 
-    it("returns prompts sorted by votes_count for 'liked'", async () => {
+    it("returns prompts sorted by likes_count for 'liked'", async () => {
       mockFrom.mockReturnValue(createChain([samplePrompt]));
       const result = await getLeaderboardPromptsSorted("liked", 10);
       expect(result.length).toBeGreaterThan(0);
@@ -367,20 +367,21 @@ describe("Database functions", () => {
       expect(result).toEqual([]);
     });
 
-    it("coalesces null saves_count and votes_count to 0", async () => {
-      const promptWithNulls = { ...samplePrompt, saves_count: null, votes_count: null };
+    it("coalesces null saves_count and likes_count to 0", async () => {
+      const promptWithNulls = { ...samplePrompt, saves_count: null, likes_count: null, dislikes_count: null };
       mockFrom.mockReturnValue(createChain([promptWithNulls]));
       const result = await getLeaderboardPromptsSorted("saved", 10);
       expect(result[0].saves_count).toBe(0);
-      expect(result[0].votes_count).toBe(0);
+      expect(result[0].likes_count).toBe(0);
+      expect(result[0].dislikes_count).toBe(0);
       expect(result[0].weekly_saves).toBe(0);
     });
 
-    it("handles prompts with negative votes_count", async () => {
-      const promptWithNegative = { ...samplePrompt, votes_count: -5 };
-      mockFrom.mockReturnValue(createChain([promptWithNegative]));
+    it("handles prompts with zero likes_count", async () => {
+      const promptWithZero = { ...samplePrompt, likes_count: 0 };
+      mockFrom.mockReturnValue(createChain([promptWithZero]));
       const result = await getLeaderboardPromptsSorted("liked", 10);
-      expect(result[0].votes_count).toBe(-5);
+      expect(result[0].likes_count).toBe(0);
     });
 
     it("defaults to 'saved' sort for invalid sort param at runtime", async () => {

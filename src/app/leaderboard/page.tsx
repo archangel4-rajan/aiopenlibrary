@@ -157,7 +157,7 @@ export default async function LeaderboardPage({
                       <div className="hidden text-center sm:block">
                         <div className="flex items-center gap-1 text-sm font-semibold text-rose-600 dark:text-rose-400">
                           <Heart className="h-3.5 w-3.5" />
-                          {prompt.votes_count ?? 0}
+                          {prompt.likes_count ?? 0}
                         </div>
                         <div className="text-[10px] text-stone-400 dark:text-stone-500">
                           votes
