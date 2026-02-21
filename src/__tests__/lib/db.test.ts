@@ -71,6 +71,8 @@ import {
   getUserVote,
   getUserVotedPromptIds,
   getLeaderboardPrompts,
+  getLeaderboardPromptsSorted,
+  validateLeaderboardSort,
   getUserProfile,
 } from "@/lib/db";
 
@@ -289,6 +291,104 @@ describe("Database functions", () => {
       const result = await getLeaderboardPrompts(10);
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]).toHaveProperty("weekly_saves");
+    });
+  });
+
+  describe("validateLeaderboardSort", () => {
+    it("returns valid sort values unchanged", () => {
+      expect(validateLeaderboardSort("saved")).toBe("saved");
+      expect(validateLeaderboardSort("liked")).toBe("liked");
+      expect(validateLeaderboardSort("trending")).toBe("trending");
+      expect(validateLeaderboardSort("newest")).toBe("newest");
+    });
+
+    it("defaults to 'saved' for invalid string input", () => {
+      expect(validateLeaderboardSort("DROP TABLE prompts")).toBe("saved");
+      expect(validateLeaderboardSort("votes_count; --")).toBe("saved");
+      expect(validateLeaderboardSort("")).toBe("saved");
+      expect(validateLeaderboardSort("SAVED")).toBe("saved");
+    });
+
+    it("defaults to 'saved' for non-string input", () => {
+      expect(validateLeaderboardSort(undefined)).toBe("saved");
+      expect(validateLeaderboardSort(null)).toBe("saved");
+      expect(validateLeaderboardSort(123)).toBe("saved");
+      expect(validateLeaderboardSort({})).toBe("saved");
+      expect(validateLeaderboardSort([])).toBe("saved");
+    });
+  });
+
+  describe("getLeaderboardPromptsSorted", () => {
+    it("returns prompts sorted by saves_count for 'saved'", async () => {
+      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      const result = await getLeaderboardPromptsSorted("saved", 10);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]).toHaveProperty("weekly_saves", 0);
+      expect(mockFrom).toHaveBeenCalledWith("prompts");
+    });
+
+    it("returns prompts sorted by votes_count for 'liked'", async () => {
+      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      const result = await getLeaderboardPromptsSorted("liked", 10);
+      expect(result.length).toBeGreaterThan(0);
+      expect(mockFrom).toHaveBeenCalledWith("prompts");
+    });
+
+    it("returns prompts sorted by created_at for 'newest'", async () => {
+      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      const result = await getLeaderboardPromptsSorted("newest", 10);
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it("uses RPC for 'trending' sort", async () => {
+      mockRpc.mockResolvedValue({ data: [{ ...samplePrompt, weekly_saves: 5 }], error: null });
+      const result = await getLeaderboardPromptsSorted("trending", 10);
+      expect(result.length).toBeGreaterThan(0);
+      expect(mockRpc).toHaveBeenCalledWith("get_weekly_leaderboard", { limit_count: 10 });
+    });
+
+    it("falls back to saves for 'trending' when RPC returns empty", async () => {
+      mockRpc.mockResolvedValue({ data: [], error: null });
+      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      const result = await getLeaderboardPromptsSorted("trending", 10);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0]).toHaveProperty("weekly_saves", 0);
+    });
+
+    it("returns empty array on error", async () => {
+      mockFrom.mockImplementation(() => { throw new Error("fail"); });
+      const result = await getLeaderboardPromptsSorted("saved", 10);
+      expect(result).toEqual([]);
+    });
+
+    it("returns empty array when DB returns empty results", async () => {
+      mockFrom.mockReturnValue(createChain([]));
+      const result = await getLeaderboardPromptsSorted("saved", 10);
+      expect(result).toEqual([]);
+    });
+
+    it("coalesces null saves_count and votes_count to 0", async () => {
+      const promptWithNulls = { ...samplePrompt, saves_count: null, votes_count: null };
+      mockFrom.mockReturnValue(createChain([promptWithNulls]));
+      const result = await getLeaderboardPromptsSorted("saved", 10);
+      expect(result[0].saves_count).toBe(0);
+      expect(result[0].votes_count).toBe(0);
+      expect(result[0].weekly_saves).toBe(0);
+    });
+
+    it("handles prompts with negative votes_count", async () => {
+      const promptWithNegative = { ...samplePrompt, votes_count: -5 };
+      mockFrom.mockReturnValue(createChain([promptWithNegative]));
+      const result = await getLeaderboardPromptsSorted("liked", 10);
+      expect(result[0].votes_count).toBe(-5);
+    });
+
+    it("defaults to 'saved' sort for invalid sort param at runtime", async () => {
+      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      // Force invalid value past TypeScript
+      const result = await getLeaderboardPromptsSorted("malicious_input" as never, 10);
+      expect(result.length).toBeGreaterThan(0);
+      expect(mockFrom).toHaveBeenCalledWith("prompts");
     });
   });
 

@@ -352,6 +352,76 @@ export interface LeaderboardPrompt extends DbPrompt {
   weekly_saves: number;
 }
 
+export type LeaderboardSort = "saved" | "liked" | "trending" | "newest";
+
+const VALID_SORTS: ReadonlySet<string> = new Set(["saved", "liked", "trending", "newest"]);
+
+/** Validate and sanitize sort param at runtime. Returns a safe LeaderboardSort. */
+export function validateLeaderboardSort(input: unknown): LeaderboardSort {
+  if (typeof input === "string" && VALID_SORTS.has(input)) {
+    return input as LeaderboardSort;
+  }
+  return "saved";
+}
+
+/** Coalesce nullable numeric fields to 0. */
+function normalizePrompt(p: Record<string, unknown>): LeaderboardPrompt {
+  return {
+    ...p,
+    saves_count: (p.saves_count as number) ?? 0,
+    votes_count: (p.votes_count as number) ?? 0,
+    weekly_saves: (p.weekly_saves as number) ?? 0,
+  } as LeaderboardPrompt;
+}
+
+/** Returns leaderboard prompts sorted by the given criterion. */
+export async function getLeaderboardPromptsSorted(
+  sort: LeaderboardSort = "saved",
+  limit: number = 20
+): Promise<LeaderboardPrompt[]> {
+  // Runtime whitelist — never trust caller even with TS types
+  const safeSort = validateLeaderboardSort(sort);
+
+  try {
+    const supabase = await createClient();
+
+    if (safeSort === "trending") {
+      // Use the weekly leaderboard RPC for trending
+      const { data, error } = await supabase.rpc("get_weekly_leaderboard", {
+        limit_count: limit,
+      });
+      if (!error && data && data.length > 0) {
+        return (data as Record<string, unknown>[]).map(normalizePrompt);
+      }
+      // Fall back to saves if no weekly data
+      const { data: fallback } = await supabase
+        .from("prompts")
+        .select("*")
+        .eq("is_published", true)
+        .order("saves_count", { ascending: false })
+        .limit(limit);
+      return (fallback ?? []).map((p) => normalizePrompt({ ...p, weekly_saves: 0 }));
+    }
+
+    // Static map — only whitelisted column names, never user input
+    const orderColumn =
+      safeSort === "liked" ? "votes_count" :
+      safeSort === "newest" ? "created_at" :
+      "saves_count";
+
+    const { data } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("is_published", true)
+      .order(orderColumn, { ascending: false })
+      .limit(limit);
+
+    return (data ?? []).map((p) => normalizePrompt({ ...p, weekly_saves: 0 }));
+  } catch {
+    return [];
+  }
+}
+
 /** Returns leaderboard prompts ranked by weekly saves, falling back to total saves. */
 export async function getLeaderboardPrompts(
   limit: number = 20

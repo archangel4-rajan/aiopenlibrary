@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Trophy, TrendingUp, ArrowRight, Flame } from "lucide-react";
-import { getLeaderboardPrompts, getUserSavedPromptIds } from "@/lib/db";
+import { Trophy, TrendingUp, ArrowRight, Flame, Heart, Clock, Bookmark } from "lucide-react";
+import { getLeaderboardPromptsSorted, getUserSavedPromptIds, validateLeaderboardSort } from "@/lib/db";
+import type { LeaderboardSort } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ModelBadge from "@/components/ModelBadge";
 import SaveButton from "@/components/SaveButton";
@@ -10,6 +11,13 @@ export const metadata: Metadata = {
   title: "Leaderboard - AIOpenLibrary",
   description: "Discover the most popular prompts of the week.",
 };
+
+const SORT_OPTIONS: { key: LeaderboardSort; label: string; icon: React.ElementType; description: string }[] = [
+  { key: "saved", label: "Most Saved", icon: Bookmark, description: "Most saved prompts of all time" },
+  { key: "liked", label: "Most Liked", icon: Heart, description: "Highest rated by the community" },
+  { key: "trending", label: "Trending", icon: Flame, description: "Hot prompts this week" },
+  { key: "newest", label: "Newest", icon: Clock, description: "Recently published prompts" },
+];
 
 function getRankStyle(rank: number) {
   if (rank === 1) return "bg-amber-50 border-amber-200 text-amber-700 dark:bg-amber-900 dark:border-amber-800 dark:text-amber-200";
@@ -25,21 +33,28 @@ function getRankBadge(rank: number) {
   return "bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300";
 }
 
-export default async function LeaderboardPage() {
+export default async function LeaderboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sort?: string }>;
+}) {
+  const params = await searchParams;
+  const sort: LeaderboardSort = validateLeaderboardSort(params.sort);
+
+  const currentOption = SORT_OPTIONS.find((o) => o.key === sort)!;
+
   const [leaderboard, user] = await Promise.all([
-    getLeaderboardPrompts(20),
+    getLeaderboardPromptsSorted(sort, 20),
     getUser(),
   ]);
 
   const savedIds = user ? await getUserSavedPromptIds(user.id) : [];
 
-  const hasWeeklySaves = leaderboard.some((p) => p.weekly_saves > 0);
-
   return (
     <div className="bg-stone-50 dark:bg-stone-950">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Header */}
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-amber-200 bg-amber-50 text-amber-600 dark:border-amber-800 dark:bg-amber-900 dark:text-amber-200">
             <Trophy className="h-5 w-5" />
           </div>
@@ -47,14 +62,30 @@ export default async function LeaderboardPage() {
             Leaderboard
           </h1>
           <p className="mt-3 text-base text-stone-500 dark:text-stone-400">
-            {hasWeeklySaves
-              ? "The most saved prompts this week"
-              : "Most popular prompts of all time"}
+            {currentOption.description}
           </p>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-stone-200 bg-stone-50 px-4 py-1.5 text-sm text-stone-500 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-400">
-            <Flame className="h-3.5 w-3.5 text-orange-500" />
-            {hasWeeklySaves ? "Updated weekly" : "Based on total saves"}
-          </div>
+        </div>
+
+        {/* Sort Tabs */}
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
+          {SORT_OPTIONS.map((option) => {
+            const Icon = option.icon;
+            const isActive = option.key === sort;
+            return (
+              <Link
+                key={option.key}
+                href={option.key === "saved" ? "/leaderboard" : `/leaderboard?sort=${option.key}`}
+                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+                  isActive
+                    ? "bg-stone-900 text-white shadow-sm dark:bg-stone-100 dark:text-stone-900"
+                    : "bg-white text-stone-600 border border-stone-200 hover:bg-stone-100 hover:text-stone-900 dark:bg-stone-800 dark:text-stone-400 dark:border-stone-700 dark:hover:bg-stone-700 dark:hover:text-stone-200"
+                }`}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {option.label}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Leaderboard List */}
@@ -111,7 +142,7 @@ export default async function LeaderboardPage() {
 
                   {/* Stats */}
                   <div className="z-10 flex shrink-0 items-center gap-2 sm:gap-4">
-                    {prompt.weekly_saves > 0 && (
+                    {sort === "trending" && prompt.weekly_saves > 0 && (
                       <div className="hidden text-center sm:block">
                         <div className="flex items-center gap-1 text-sm font-semibold text-orange-600 dark:text-orange-400">
                           <TrendingUp className="h-3.5 w-3.5" />
@@ -119,6 +150,17 @@ export default async function LeaderboardPage() {
                         </div>
                         <div className="text-[10px] text-stone-400 dark:text-stone-500">
                           this week
+                        </div>
+                      </div>
+                    )}
+                    {sort === "liked" && (
+                      <div className="hidden text-center sm:block">
+                        <div className="flex items-center gap-1 text-sm font-semibold text-rose-600 dark:text-rose-400">
+                          <Heart className="h-3.5 w-3.5" />
+                          {prompt.votes_count ?? 0}
+                        </div>
+                        <div className="text-[10px] text-stone-400 dark:text-stone-500">
+                          votes
                         </div>
                       </div>
                     )}
