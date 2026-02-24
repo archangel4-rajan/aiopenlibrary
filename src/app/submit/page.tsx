@@ -146,7 +146,7 @@ export default function SubmitPage() {
             <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl dark:text-stone-100">
               Sign in to share a prompt
             </h1>
-            <p className="mt-3 text-base text-stone-500 dark:text-stone-400">
+            <p className="mt-3 text-base text-stone-500 dark:text-stone-300">
               Create a free account to contribute your best prompts to the
               community.
             </p>
@@ -173,7 +173,7 @@ export default function SubmitPage() {
             <h1 className="mt-6 text-3xl font-bold text-stone-900 sm:text-4xl dark:text-stone-100">
               Thanks for sharing!
             </h1>
-            <p className="mt-3 text-base text-stone-500 dark:text-stone-400">
+            <p className="mt-3 text-base text-stone-500 dark:text-stone-300">
               Your prompt is in the review queue. We&apos;ll publish it once
               it&apos;s been checked — usually within a few days.
             </p>

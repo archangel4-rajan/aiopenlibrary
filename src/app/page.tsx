@@ -53,7 +53,7 @@ export default async function Home() {
               Get better results from{" "}
               <span className="gradient-text">every AI prompt</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-500 dark:text-stone-400 sm:mt-6 sm:text-xl">
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-500 dark:text-stone-300 sm:mt-6 sm:text-xl">
               Stop writing prompts from scratch. Browse {promptsCount}+ expert-crafted,
               ready-to-use prompts across {categories.length} categories — customize the
               variables and copy.
@@ -101,7 +101,7 @@ export default async function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500">
@@ -114,7 +114,7 @@ export default async function Home() {
 
           <div className="mt-8 grid gap-6 sm:mt-12 sm:grid-cols-3 sm:gap-8">
             <div className="relative text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-stone-600 dark:text-stone-300">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
                 <Lightbulb className="h-5 w-5" />
               </div>
               <div className="mt-3 text-xs font-medium text-stone-400 dark:text-stone-500">
@@ -123,14 +123,14 @@ export default async function Home() {
               <h3 className="mt-1 text-base font-semibold text-stone-900 dark:text-stone-100">
                 Find Your Prompt
               </h3>
-              <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+              <p className="mt-2 text-sm text-stone-500 dark:text-stone-300">
                 Browse {categories.length} categories — from coding and writing
                 to research, marketing, and beyond.
               </p>
             </div>
 
             <div className="relative text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-stone-600 dark:text-stone-300">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
                 <Copy className="h-5 w-5" />
               </div>
               <div className="mt-3 text-xs font-medium text-stone-400 dark:text-stone-500">
@@ -139,14 +139,14 @@ export default async function Home() {
               <h3 className="mt-1 text-base font-semibold text-stone-900 dark:text-stone-100">
                 Make It Yours
               </h3>
-              <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+              <p className="mt-2 text-sm text-stone-500 dark:text-stone-300">
                 Fill in the variables, tweak the wording, and tailor every
                 prompt to your exact situation.
               </p>
             </div>
 
             <div className="relative text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 text-stone-600 dark:text-stone-300">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 text-stone-600 dark:text-stone-300">
                 <Zap className="h-5 w-5" />
               </div>
               <div className="mt-3 text-xs font-medium text-stone-400 dark:text-stone-500">
@@ -155,7 +155,7 @@ export default async function Home() {
               <h3 className="mt-1 text-base font-semibold text-stone-900 dark:text-stone-100">
                 Get Better Output
               </h3>
-              <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+              <p className="mt-2 text-sm text-stone-500 dark:text-stone-300">
                 Paste into ChatGPT, Claude, Gemini, or any AI — and see the
                 difference a great prompt makes.
               </p>
@@ -202,7 +202,7 @@ export default async function Home() {
       </section>
 
       {/* Featured Prompts */}
-      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <div>

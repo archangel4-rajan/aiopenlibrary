@@ -71,13 +71,13 @@ export default function Navbar() {
 
   const getMobileMenuItemClassName = (href: string): string => {
     const baseClass = "rounded-lg px-3 py-2 text-sm transition-colors";
-    const activeClass = "text-stone-900 font-medium dark:text-stone-100 bg-stone-100 dark:bg-stone-900";
-    const inactiveClass = "text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-900 hover:text-stone-900 dark:hover:text-stone-100";
+    const activeClass = "text-stone-900 font-medium dark:text-stone-100 bg-stone-100 dark:bg-stone-800";
+    const inactiveClass = "text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-100";
     return `${baseClass} ${isActive(href) ? activeClass : inactiveClass}`;
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-stone-200 dark:border-stone-800 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 border-b border-stone-200 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between sm:h-20">
           <div className="flex items-center gap-4 sm:gap-8">
@@ -136,7 +136,7 @@ export default function Navbar() {
                   placeholder="Search prompts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-32 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 px-3 py-1.5 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-500 dark:focus:border-stone-600 focus:ring-1 focus:ring-stone-200 dark:focus:ring-stone-800 sm:w-64"
+                  className="w-32 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3 py-1.5 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-500 dark:focus:border-stone-600 focus:ring-1 focus:ring-stone-200 dark:focus:ring-stone-800 sm:w-64"
                   autoFocus
                 />
                 <button
@@ -150,11 +150,11 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => setSearchOpen(true)}
-                className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 px-3 py-1.5 text-sm text-stone-400 dark:text-stone-500 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:text-stone-600 dark:hover:text-stone-400"
+                className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3 py-1.5 text-sm text-stone-400 dark:text-stone-500 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:text-stone-600 dark:hover:text-stone-400"
               >
                 <Search className="h-4 w-4" />
                 <span className="hidden sm:inline">Search...</span>
-                <kbd className="hidden rounded border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 px-1.5 py-0.5 font-mono text-[10px] text-stone-400 dark:text-stone-500 sm:inline">
+                <kbd className="hidden rounded border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-1.5 py-0.5 font-mono text-[10px] text-stone-400 dark:text-stone-500 sm:inline">
                   /
                 </kbd>
               </button>
@@ -166,7 +166,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-lg p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 md:hidden"
+              className="rounded-lg p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 md:hidden"
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -178,7 +178,7 @@ export default function Navbar() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="border-t border-stone-100 dark:border-stone-800 py-4 md:hidden dark:bg-stone-950/50">
+          <div className="border-t border-stone-100 dark:border-stone-700 py-4 md:hidden dark:bg-stone-950/50">
             <div className="flex flex-col gap-3">
               <Link
                 href="/"

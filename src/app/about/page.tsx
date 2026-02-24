@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="bg-stone-50 dark:bg-stone-900">
+    <div className="bg-stone-50 dark:bg-stone-950">
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-stone-900 dark:text-stone-100 sm:text-5xl">
             Prompting is <span className="gradient-text">not trivial</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500 dark:text-stone-400">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-stone-500 dark:text-stone-300">
             The difference between a mediocre AI response and a great one usually
             comes down to the prompt. We&apos;re building the open resource that
             helps everyone write better ones.
@@ -31,7 +31,7 @@ export default function AboutPage() {
             <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
               Open Knowledge
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
               Every prompt in our library is free to use, learn from, and
               improve — no paywalls, no sign-up walls, no strings attached.
             </p>
@@ -44,7 +44,7 @@ export default function AboutPage() {
             <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
               Community Driven
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
               The best prompts come from practitioners who use AI daily.
               Contributors share what actually works so everyone levels up
               together.
@@ -58,7 +58,7 @@ export default function AboutPage() {
             <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
               Learn by Doing
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
               Every prompt includes variables, use cases, and tips so you
               understand why it works — not just how to paste it.
             </p>
@@ -71,7 +71,7 @@ export default function AboutPage() {
             <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
               Model Agnostic
             </h3>
-            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+            <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
               Each prompt includes a recommended model, but they all work across
               ChatGPT, Claude, Gemini, and more. Use whatever you prefer.
             </p>
@@ -82,7 +82,7 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-white dark:text-stone-100 sm:text-3xl">
             Ready to get more from AI?
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base text-stone-400 dark:text-stone-500">
+          <p className="mx-auto mt-4 max-w-lg text-base text-stone-400 dark:text-stone-400">
             Whether you code, write, research, or market — there&apos;s a prompt
             here that will save you hours.
           </p>

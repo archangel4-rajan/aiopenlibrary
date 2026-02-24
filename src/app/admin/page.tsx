@@ -77,7 +77,7 @@ export default async function AdminPage() {
         <div className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-800">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-stone-50 dark:bg-stone-900">
+              <tr className="bg-stone-50 dark:bg-stone-800">
                 <th className="px-4 py-3 text-left font-semibold text-stone-600 dark:text-stone-400">
                   Title
                 </th>

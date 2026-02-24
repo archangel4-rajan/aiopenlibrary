@@ -9,9 +9,7 @@
 
 .dark {
   --background: #0c0a09;
-  --foreground: #e7e5e4;
-  --accent: #a8a29e;
-  --accent-light: #57534e;
+  --foreground: #fafaf9;
 }
 
 @theme inline {
@@ -70,8 +68,8 @@ html {
 }
 
 .dark .prompt-content pre {
-  background: #1c1917;
-  border-color: #292524;
+  background: #292524;
+  border-color: #44403c;
 }
 
 .prompt-content code {

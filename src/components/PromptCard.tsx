@@ -22,7 +22,7 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
   const promptPreview = prompt.prompt.replace(/\{\{[^}]+\}\}/g, "[...]").slice(0, 80);
 
   return (
-    <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-stone-50 p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
+    <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
       <Link
         href={`/prompts/${prompt.slug}`}
         className="absolute inset-0 z-0 rounded-lg"
@@ -30,7 +30,7 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
 
       <div className="mb-3 flex items-start justify-between">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-xs text-stone-600 dark:bg-stone-800 dark:text-stone-400">
+          <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-xs text-stone-600 dark:bg-stone-800 dark:text-stone-300">
             <span>{getCategoryIcon(prompt.category_slug)}</span>
             {prompt.category_name}
           </span>
@@ -54,12 +54,12 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
       <h3 className="mb-2 text-base font-semibold text-stone-900 transition-colors group-hover:text-stone-600 dark:text-stone-100 dark:group-hover:text-stone-300">
         {prompt.title}
       </h3>
-      <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+      <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
         {prompt.description}
       </p>
 
       {/* Prompt preview snippet */}
-      <p className="mb-4 line-clamp-1 rounded bg-stone-50 px-2 py-1 font-mono text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-500">
+      <p className="mb-4 line-clamp-1 rounded bg-stone-50 px-2 py-1 font-mono text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400">
         {promptPreview}
         {prompt.prompt.length > 80 && "..."}
       </p>
@@ -72,13 +72,13 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
             <TagLink key={tag} tag={tag} size="sm" />
           ))}
           {prompt.tags.length > 3 && (
-            <span className="rounded bg-stone-50 px-2 py-0.5 text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-500">
+            <span className="rounded bg-stone-50 px-2 py-0.5 text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400">
               +{prompt.tags.length - 3}
             </span>
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-stone-100 pt-3 dark:border-stone-800">
+        <div className="flex items-center justify-between border-t border-stone-100 pt-3 dark:border-stone-700">
           <DifficultyBadge difficulty={prompt.difficulty} />
           <span className="flex items-center gap-1 text-xs text-stone-400 opacity-0 transition-opacity group-hover:opacity-100 dark:text-stone-500">
             View prompt <ArrowRight className="h-3 w-3" />

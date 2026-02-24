@@ -73,7 +73,7 @@ export default async function CategoryPage({
   };
 
   return (
-    <div className="bg-stone-50 dark:bg-stone-900">
+    <div className="bg-stone-50 dark:bg-stone-950">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(categoryJsonLd) }}
@@ -96,7 +96,7 @@ export default async function CategoryPage({
               <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100">
                 {category.name}
               </h1>
-              <p className="mt-1 text-base text-stone-500 dark:text-stone-400">
+              <p className="mt-1 text-base text-stone-500 dark:text-stone-300">
                 {category.description}
               </p>
             </div>

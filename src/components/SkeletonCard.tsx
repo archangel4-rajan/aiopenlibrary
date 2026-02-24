@@ -1,6 +1,6 @@
 export default function SkeletonCard() {
   return (
-    <div className="flex flex-col rounded-lg border border-stone-200 bg-stone-50 p-5 dark:border-stone-700 dark:bg-stone-900">
+    <div className="flex flex-col rounded-lg border border-stone-200 bg-white p-5 dark:border-stone-700 dark:bg-stone-900">
       {/* Category badge + save button area */}
       <div className="mb-3 flex items-start justify-between">
         <div className="h-6 w-28 animate-pulse rounded-md bg-stone-100 dark:bg-stone-800" />
