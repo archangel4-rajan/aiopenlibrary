@@ -17,9 +17,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const category = await getCategoryBySlug(slug);
   if (!category) return {};
+  const title = `${category.name} AI Prompts — Free Templates & Examples`;
+  const description = category.description || `Browse curated ${category.name} AI prompts. Ready-to-use templates for ChatGPT, Claude, and more.`;
+  const url = `https://aiopenlibrary.com/category/${category.slug}`;
+
   return {
-    title: `${category.name} Prompts - AIOpenLibrary`,
-    description: category.description,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url,
+      siteName: "AIOpenLibrary",
+    },
+    twitter: { card: "summary", title, description },
   };
 }
 
@@ -41,8 +54,30 @@ export default async function CategoryPage({
 
   const savedIds = user ? await getUserSavedPromptIds(user.id) : [];
 
+  const categoryJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${category.name} AI Prompts`,
+    description: category.description,
+    url: `https://aiopenlibrary.com/category/${category.slug}`,
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: categoryPrompts.length,
+      itemListElement: categoryPrompts.slice(0, 10).map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.title,
+        url: `https://aiopenlibrary.com/prompts/${p.slug}`,
+      })),
+    },
+  };
+
   return (
-    <div className="bg-stone-50 dark:bg-stone-950">
+    <div className="bg-stone-50 dark:bg-stone-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(categoryJsonLd) }}
+      />
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mb-6">
           <Breadcrumb

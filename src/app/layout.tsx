@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { getUser, getProfile } from "@/lib/auth";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,17 +19,42 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AIOpenLibrary - Explore the Best Prompts in the World",
+  metadataBase: new URL("https://aiopenlibrary.com"),
+  title: {
+    default: "AIOpenLibrary - The Wikipedia for AI Prompts",
+    template: "%s | AIOpenLibrary",
+  },
   description:
-    "The Wikipedia for prompts. Discover, learn, and master AI prompting with curated prompts for every use case. Prompting is not trivial.",
+    "The Wikipedia for prompts. Browse 113+ expert-crafted, ready-to-use AI prompts across 20 categories. Discover, customize, and master prompt engineering for ChatGPT, Claude, Gemini, and more.",
   keywords: [
     "AI prompts",
     "prompt engineering",
+    "prompt library",
     "ChatGPT prompts",
     "Claude prompts",
+    "Gemini prompts",
     "AI tools",
-    "prompt library",
+    "best AI prompts",
+    "free AI prompts",
+    "prompt templates",
+    "AI prompt examples",
+    "writing prompts AI",
+    "coding prompts AI",
   ],
+  authors: [{ name: "AIOpenLibrary" }],
+  creator: "AIOpenLibrary",
+  publisher: "AIOpenLibrary",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -38,12 +65,82 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "AIOpenLibrary - Explore the Best Prompts in the World",
+    type: "website",
+    locale: "en_US",
+    siteName: "AIOpenLibrary",
+    title: "AIOpenLibrary - The Wikipedia for AI Prompts",
     description:
-      "The Wikipedia for prompts. Discover, learn, and master AI prompting with curated prompts for every use case.",
-    images: [{ url: "/logo.png", width: 512, height: 512, alt: "AIOpenLibrary" }],
+      "Browse 113+ expert-crafted AI prompts across 20 categories. Free, open-source prompt library for ChatGPT, Claude, Gemini, and more.",
+    url: "https://aiopenlibrary.com",
+    images: [
+      {
+        url: "/logo.png",
+        width: 512,
+        height: 512,
+        alt: "AIOpenLibrary - The Wikipedia for AI Prompts",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "AIOpenLibrary - The Wikipedia for AI Prompts",
+    description:
+      "Browse 113+ expert-crafted AI prompts across 20 categories. Free and open-source.",
+    images: ["/logo.png"],
+  },
+  alternates: {
+    canonical: "https://aiopenlibrary.com",
+  },
+  verification: {},
 };
+
+// Site-wide JSON-LD structured data
+function SiteJsonLd() {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "AIOpenLibrary",
+    url: "https://aiopenlibrary.com",
+    logo: "https://aiopenlibrary.com/logo.png",
+    description:
+      "The Wikipedia for AI prompts. A free, open-source library of expert-crafted prompts.",
+    sameAs: [],
+  };
+
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "AIOpenLibrary",
+    url: "https://aiopenlibrary.com",
+    description:
+      "Browse 113+ expert-crafted AI prompts across 20 categories.",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://aiopenlibrary.com/search?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(organizationSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema),
+        }}
+      />
+    </>
+  );
+}
 
 export default async function RootLayout({
   children,
@@ -57,6 +154,7 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <SiteJsonLd />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -84,6 +182,8 @@ export default async function RootLayout({
           <main className="min-h-screen">{children}</main>
           <Footer />
         </AuthProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -8,7 +8,8 @@ import SaveButton from "@/components/SaveButton";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Leaderboard - AIOpenLibrary",
+  title: "Top AI Prompts — Weekly Leaderboard",
+  alternates: { canonical: "https://aiopenlibrary.com/leaderboard" },
   description: "Discover the most popular prompts of the week.",
 };
 
@@ -51,7 +52,7 @@ export default async function LeaderboardPage({
   const savedIds = user ? await getUserSavedPromptIds(user.id) : [];
 
   return (
-    <div className="bg-stone-50 dark:bg-stone-950">
+    <div className="bg-stone-50 dark:bg-stone-900">
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Header */}
         <div className="mb-8 text-center">

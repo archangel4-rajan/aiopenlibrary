@@ -32,9 +32,47 @@ export async function generateMetadata({
   const { slug } = await params;
   const prompt = await getPromptBySlug(slug);
   if (!prompt) return {};
+
+  const title = `${prompt.title} - AI Prompt`;
+  const description = prompt.description || `${prompt.title} — a curated AI prompt for ${prompt.category_name}. Ready to use with ${prompt.recommended_model || "any AI model"}.`;
+  const url = `https://aiopenlibrary.com/prompts/${prompt.slug}`;
+
   return {
-    title: `${prompt.title} - AIOpenLibrary`,
-    description: prompt.description,
+    title,
+    description,
+    keywords: [
+      ...(prompt.tags || []),
+      prompt.category_name,
+      "AI prompt",
+      "prompt template",
+      prompt.recommended_model,
+    ].filter(Boolean),
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url,
+      siteName: "AIOpenLibrary",
+      publishedTime: prompt.created_at,
+      modifiedTime: prompt.updated_at,
+      tags: prompt.tags,
+      images: [
+        {
+          url: "/logo.png",
+          width: 512,
+          height: 512,
+          alt: prompt.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   };
 }
 
@@ -72,8 +110,40 @@ export default async function PromptPage({
     url: string;
   }[];
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: prompt.title,
+    description: prompt.description,
+    url: `https://aiopenlibrary.com/prompts/${prompt.slug}`,
+    datePublished: prompt.created_at,
+    dateModified: prompt.updated_at,
+    keywords: prompt.tags?.join(", "),
+    genre: prompt.category_name,
+    inLanguage: "en",
+    isAccessibleForFree: true,
+    publisher: {
+      "@type": "Organization",
+      name: "AIOpenLibrary",
+      url: "https://aiopenlibrary.com",
+    },
+    ...(prompt.likes_count > 0 && {
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: prompt.likes_count > prompt.dislikes_count ? 4.5 : 3.5,
+        bestRating: 5,
+        worstRating: 1,
+        ratingCount: prompt.likes_count + prompt.dislikes_count,
+      },
+    }),
+  };
+
   return (
     <div className="bg-stone-50 dark:bg-stone-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         {/* Breadcrumb */}
         <div className="mb-6">
