@@ -30,6 +30,7 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 /* Custom selection color */

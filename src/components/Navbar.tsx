@@ -63,14 +63,14 @@ export default function Navbar() {
   };
 
   const getLinkClassName = (href: string): string => {
-    const baseClass = "text-sm transition-colors";
+    const baseClass = "text-[15px] transition-colors";
     const activeClass = "text-stone-900 font-medium dark:text-stone-100";
     const inactiveClass = "text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100";
     return `${baseClass} ${isActive(href) ? activeClass : inactiveClass}`;
   };
 
   const getMobileMenuItemClassName = (href: string): string => {
-    const baseClass = "rounded-lg px-3 py-2 text-sm transition-colors";
+    const baseClass = "rounded-lg px-3 py-2.5 text-[15px] transition-colors";
     const activeClass = "text-stone-900 font-medium dark:text-stone-100 bg-stone-100 dark:bg-stone-800";
     const inactiveClass = "text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 hover:text-stone-900 dark:hover:text-stone-100";
     return `${baseClass} ${isActive(href) ? activeClass : inactiveClass}`;
@@ -79,16 +79,16 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-stone-200 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-14 items-center justify-between sm:h-20">
-          <div className="flex items-center gap-4 sm:gap-8">
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-2.5">
-              <Logo size={64} className="h-9 w-9 sm:h-16 sm:w-16" />
-              <span className="text-sm font-semibold tracking-tight text-stone-900 dark:text-stone-100 sm:text-[27px]">
+        <div className="flex h-16 items-center justify-between sm:h-24">
+          <div className="flex items-center gap-5 sm:gap-10">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3">
+              <Logo size={76} className="h-11 w-11 sm:h-[76px] sm:w-[76px]" />
+              <span className="text-base font-semibold tracking-tight text-stone-900 dark:text-stone-100 sm:text-[32px]">
                 AIOpenLibrary
               </span>
             </Link>
 
-            <div className="hidden items-center gap-6 md:flex">
+            <div className="hidden items-center gap-7 md:flex">
               <Link
                 href="/"
                 className={getLinkClassName("/")}
@@ -103,17 +103,17 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/leaderboard"
-                className={`${getLinkClassName("/leaderboard")} flex items-center gap-1`}
+                className={`${getLinkClassName("/leaderboard")} flex items-center gap-1.5`}
               >
-                <Trophy className="h-3.5 w-3.5" />
+                <Trophy className="h-4 w-4" />
                 Leaderboard
               </Link>
               {user && (
                 <Link
                   href="/profile"
-                  className={`${getLinkClassName("/profile")} flex items-center gap-1`}
+                  className={`${getLinkClassName("/profile")} flex items-center gap-1.5`}
                 >
-                  <Library className="h-3.5 w-3.5" />
+                  <Library className="h-4 w-4" />
                   Your Library
                 </Link>
               )}
@@ -128,7 +128,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-4">
             {searchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center">
                 <input
@@ -136,7 +136,7 @@ export default function Navbar() {
                   placeholder="Search prompts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-32 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3 py-1.5 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-500 dark:focus:border-stone-600 focus:ring-1 focus:ring-stone-200 dark:focus:ring-stone-800 sm:w-64"
+                  className="w-36 rounded-lg border border-stone-300 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2 text-[15px] text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-500 dark:focus:border-stone-600 focus:ring-1 focus:ring-stone-200 dark:focus:ring-stone-800 sm:w-72"
                   autoFocus
                 />
                 <button
@@ -144,17 +144,17 @@ export default function Navbar() {
                   onClick={() => setSearchOpen(false)}
                   className="ml-2 text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-400"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-5 w-5" />
                 </button>
               </form>
             ) : (
               <button
                 onClick={() => setSearchOpen(true)}
-                className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3 py-1.5 text-sm text-stone-400 dark:text-stone-500 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:text-stone-600 dark:hover:text-stone-400"
+                className="flex items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-3.5 py-2 text-[15px] text-stone-400 dark:text-stone-500 transition-colors hover:border-stone-300 dark:hover:border-stone-600 hover:text-stone-600 dark:hover:text-stone-400"
               >
-                <Search className="h-4 w-4" />
+                <Search className="h-[18px] w-[18px]" />
                 <span className="hidden sm:inline">Search...</span>
-                <kbd className="hidden rounded border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-1.5 py-0.5 font-mono text-[10px] text-stone-400 dark:text-stone-500 sm:inline">
+                <kbd className="hidden rounded border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-1.5 py-0.5 font-mono text-[11px] text-stone-400 dark:text-stone-500 sm:inline">
                   /
                 </kbd>
               </button>
@@ -166,12 +166,12 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-lg p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 md:hidden"
+              className="rounded-lg p-2.5 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 md:hidden"
             >
               {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
+                <X className="h-6 w-6" />
               ) : (
-                <Menu className="h-5 w-5" />
+                <Menu className="h-6 w-6" />
               )}
             </button>
           </div>
