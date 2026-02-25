@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
-import { Variable, Lightbulb, X } from "lucide-react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { Variable, Lightbulb, X, ChevronDown, ChevronUp } from "lucide-react";
 import CopyButton from "./CopyButton";
 import RunPrompt from "./RunPrompt";
+
+const COLLAPSE_LINE_THRESHOLD = 150;
 
 interface PromptVariable {
   name: string;
@@ -28,6 +30,11 @@ export default function PromptCustomizer({
   onPromptChange,
 }: PromptCustomizerProps) {
   const [values, setValues] = useState<Record<string, string>>({});
+  const [isExpanded, setIsExpanded] = useState(false);
+  const preRef = useRef<HTMLPreElement>(null);
+
+  const lineCount = useMemo(() => promptText.split("\n").length, [promptText]);
+  const isLongPrompt = lineCount > COLLAPSE_LINE_THRESHOLD;
 
   const handleChange = useCallback((name: string, value: string) => {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -206,37 +213,87 @@ export default function PromptCustomizer({
                 — customized with your values
               </span>
             )}
+            {isLongPrompt && (
+              <span className="ml-2 normal-case tracking-normal text-stone-400 dark:text-stone-500">
+                · {lineCount} lines
+              </span>
+            )}
           </h2>
           <CopyButton
             text={augmentedPrompt}
             className="px-4 py-2 text-sm font-medium"
           />
         </div>
-        <pre className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs leading-relaxed text-stone-700 dark:border-stone-700 dark:bg-stone-700 dark:text-stone-200 sm:p-5 sm:text-sm">
-          {renderPromptSegments.map((seg, i) => {
-            if (seg.type === "filled") {
-              return (
-                <span
-                  key={i}
-                  className="rounded bg-emerald-100 px-0.5 font-semibold text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
-                >
-                  {seg.text}
-                </span>
-              );
-            }
-            if (seg.type === "unfilled") {
-              return (
-                <span
-                  key={i}
-                  className="rounded bg-amber-100 px-0.5 text-amber-700 dark:bg-amber-900 dark:text-amber-200"
-                >
-                  {seg.text}
-                </span>
-              );
-            }
-            return <span key={i}>{seg.text}</span>;
-          })}
-        </pre>
+
+        <div className="relative">
+          <div
+            style={{
+              maxHeight: isLongPrompt && !isExpanded ? "400px" : "none",
+              overflow: "hidden",
+              transition: "max-height 0.4s ease-in-out",
+            }}
+          >
+            <pre
+              ref={preRef}
+              className="whitespace-pre-wrap rounded-lg border border-stone-200 bg-stone-50 p-3 font-mono text-xs leading-relaxed text-stone-700 dark:border-stone-700 dark:bg-stone-700 dark:text-stone-200 sm:p-5 sm:text-sm"
+            >
+              {renderPromptSegments.map((seg, i) => {
+                if (seg.type === "filled") {
+                  return (
+                    <span
+                      key={i}
+                      className="rounded bg-emerald-100 px-0.5 font-semibold text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200"
+                    >
+                      {seg.text}
+                    </span>
+                  );
+                }
+                if (seg.type === "unfilled") {
+                  return (
+                    <span
+                      key={i}
+                      className="rounded bg-amber-100 px-0.5 text-amber-700 dark:bg-amber-900 dark:text-amber-200"
+                    >
+                      {seg.text}
+                    </span>
+                  );
+                }
+                return <span key={i}>{seg.text}</span>;
+              })}
+            </pre>
+          </div>
+
+          {/* Fade overlay + expand button for long prompts */}
+          {isLongPrompt && !isExpanded && (
+            <div className="absolute inset-x-0 bottom-0 flex flex-col items-center">
+              <div className="h-24 w-full rounded-b-lg bg-gradient-to-t from-stone-50 via-stone-50/90 to-transparent dark:from-stone-800 dark:via-stone-800/90" />
+              <button
+                onClick={() => setIsExpanded(true)}
+                className="-mt-5 z-10 inline-flex items-center gap-1.5 rounded-full border border-stone-300 bg-white px-4 py-2 text-xs font-medium text-stone-600 shadow-sm transition-all hover:border-stone-400 hover:bg-stone-50 hover:shadow-md dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:bg-stone-700"
+              >
+                <ChevronDown className="h-3.5 w-3.5" />
+                Show full prompt ({lineCount} lines)
+              </button>
+            </div>
+          )}
+
+          {/* Collapse button when expanded */}
+          {isLongPrompt && isExpanded && (
+            <div className="mt-3 flex justify-center">
+              <button
+                onClick={() => {
+                  setIsExpanded(false);
+                  // Scroll back to the prompt section
+                  preRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="inline-flex items-center gap-1.5 rounded-full border border-stone-300 bg-white px-4 py-2 text-xs font-medium text-stone-600 shadow-sm transition-all hover:border-stone-400 hover:bg-stone-50 hover:shadow-md dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:border-stone-500 dark:hover:bg-stone-700"
+              >
+                <ChevronUp className="h-3.5 w-3.5" />
+                Collapse prompt
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* Run Prompt */}
         {promptId && (
