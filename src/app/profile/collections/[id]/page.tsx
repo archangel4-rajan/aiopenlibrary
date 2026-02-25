@@ -38,6 +38,10 @@ export default function CollectionDetailPage() {
 
         // Fetch collection details
         const collRes = await fetch(`/api/collections/${collectionId}`);
+        if (collRes.status === 401) {
+          window.location.href = "/auth/login";
+          return;
+        }
         if (!collRes.ok) {
           router.push("/profile");
           return;
@@ -47,15 +51,24 @@ export default function CollectionDetailPage() {
         setEditName(collData.name);
         setEditDescription(collData.description);
 
-        // Fetch collection prompts via the API that returns prompt details
-        const promptsRes = await fetch(`/api/collections/${collectionId}/prompts`);
+        // Fetch collection prompts + saved IDs in parallel
+        const [promptsRes, savedRes] = await Promise.all([
+          fetch(`/api/collections/${collectionId}/prompts`),
+          fetch("/api/user/saved-ids"),
+        ]);
+
+        if (promptsRes.status === 401 || savedRes.status === 401) {
+          window.location.href = "/auth/login";
+          return;
+        }
+
         if (promptsRes.ok) {
           const promptIds = await promptsRes.json();
+          const ids = Array.isArray(promptIds) ? promptIds : [];
 
-          // Fetch the actual prompt details
-          if (promptIds && promptIds.length > 0) {
+          if (ids.length > 0) {
             const detailRes = await fetch(
-              `/api/prompts?ids=${promptIds.join(",")}`
+              `/api/prompts?ids=${ids.join(",")}`
             );
             if (detailRes.ok) {
               const detailData = await detailRes.json();
@@ -64,8 +77,6 @@ export default function CollectionDetailPage() {
           }
         }
 
-        // Fetch saved IDs for bookmark status
-        const savedRes = await fetch("/api/user/saved-ids");
         if (savedRes.ok) {
           const savedData = await savedRes.json();
           setSavedIds(Array.isArray(savedData) ? savedData : []);
@@ -96,10 +107,18 @@ export default function CollectionDetailPage() {
         }),
       });
 
+      if (res.status === 401) {
+        window.location.href = "/auth/login";
+        return;
+      }
+
       if (res.ok) {
         const updated = await res.json();
         setCollection(updated);
         setEditing(false);
+      } else {
+        const err = await res.json().catch(() => ({ error: "Update failed" }));
+        alert(err.error || "Failed to update collection");
       }
     } catch (error) {
       console.error("Error updating collection:", error);
@@ -132,6 +151,11 @@ export default function CollectionDetailPage() {
         `/api/collections/${collectionId}/prompts/${promptId}`,
         { method: "DELETE" }
       );
+
+      if (res.status === 401) {
+        window.location.href = "/auth/login";
+        return;
+      }
 
       if (res.ok) {
         setPrompts(prompts.filter((p) => p.id !== promptId));

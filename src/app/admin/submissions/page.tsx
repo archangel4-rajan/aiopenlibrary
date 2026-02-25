@@ -43,12 +43,16 @@ export default function AdminSubmissionsPage() {
   const fetchSubmissions = async () => {
     try {
       const res = await fetch("/api/admin/submissions");
+      if (res.status === 401 || res.status === 403) {
+        router.push("/auth/login");
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
-        setSubmissions(data);
+        setSubmissions(Array.isArray(data) ? data : []);
       }
-    } catch {
-      // ignore
+    } catch (err) {
+      console.error("Failed to fetch submissions:", err);
     } finally {
       setIsLoading(false);
     }

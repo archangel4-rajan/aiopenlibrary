@@ -123,6 +123,11 @@ export default function SubmitPage() {
         }),
       });
 
+      if (res.status === 401) {
+        window.location.href = "/auth/login";
+        return;
+      }
+
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to submit");
