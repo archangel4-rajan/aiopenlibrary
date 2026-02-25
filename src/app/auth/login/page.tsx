@@ -22,16 +22,24 @@ function LoginForm() {
     setIsGoogleLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            prompt: "select_account",
+          },
+        },
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        setError(error.message);
+        setIsGoogleLoading(false);
+      }
+    } catch (err) {
+      setError("Failed to connect to authentication service. Please try again.");
       setIsGoogleLoading(false);
     }
   };
@@ -41,18 +49,24 @@ function LoginForm() {
     setIsLoading(true);
     setError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        setError(error.message);
+        setIsLoading(false);
+      } else {
+        // Full page reload ensures server components pick up the new session
+        // router.push + refresh can leave stale auth state, especially on mobile
+        window.location.href = "/";
+      }
+    } catch (err) {
+      setError("Failed to connect to authentication service. Please try again.");
       setIsLoading(false);
-    } else {
-      router.push("/");
-      router.refresh();
     }
   };
 

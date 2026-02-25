@@ -22,7 +22,13 @@ export async function createClient() {
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, {
+                ...options,
+                // Ensure cookies work on mobile browsers (Safari ITP, Chrome)
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+                path: "/",
+              })
             );
           } catch {
             // The `setAll` method was called from a Server Component.

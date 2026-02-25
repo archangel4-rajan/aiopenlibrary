@@ -51,14 +51,40 @@ export function AuthProvider({
   useEffect(() => {
     const supabase = createClient();
 
+    // Check for existing session on mount (handles page reloads, mobile resume)
+    const checkSession = async () => {
+      try {
+        const { data: { user: currentUser } } = await supabase.auth.getUser();
+        if (currentUser && !user) {
+          setUser(currentUser);
+          setIsLoading(true);
+          await fetchProfile(currentUser.id);
+          setIsLoading(false);
+        } else if (!currentUser && user) {
+          setUser(null);
+          setProfile(null);
+        }
+      } catch {
+        // Silent fail — server-rendered initial state is still valid
+      }
+    };
+
+    // Only check if we don't have initial state (handles mobile resume from background)
+    if (!initialUser) {
+      checkSession();
+    }
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session?.user) {
+      if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && session?.user) {
         setUser(session.user);
-        setIsLoading(true);
-        await fetchProfile(session.user.id);
-        setIsLoading(false);
+        // Only fetch profile if we don't already have one for this user
+        if (!profile || profile.id !== session.user.id) {
+          setIsLoading(true);
+          await fetchProfile(session.user.id);
+          setIsLoading(false);
+        }
       } else if (event === "SIGNED_OUT") {
         setUser(null);
         setProfile(null);
@@ -68,7 +94,7 @@ export function AuthProvider({
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchProfile]);
+  }, [fetchProfile, initialUser, user, profile]);
 
   return (
     <AuthContext.Provider

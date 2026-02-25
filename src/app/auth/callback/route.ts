@@ -13,26 +13,56 @@ export async function GET(request: Request) {
   // Handle explicit errors from Supabase
   if (error) {
     const message = errorDescription || error;
+    console.error("[auth/callback] OAuth error:", error, errorDescription);
     return NextResponse.redirect(
       `${origin}/auth/login?error=${encodeURIComponent(message)}`
     );
   }
 
   if (code) {
-    const supabase = await createClient();
-    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-    if (!exchangeError) {
+    try {
+      const supabase = await createClient();
+      const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+
+      if (exchangeError) {
+        console.error("[auth/callback] Code exchange failed:", exchangeError.message);
+
+        // Common mobile issue: code already used (user hit back button or double-tapped)
+        if (exchangeError.message.includes("code") && exchangeError.message.includes("already")) {
+          // Try to check if session exists anyway
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            // Session is valid, redirect normally
+            return NextResponse.redirect(`${origin}${next}`);
+          }
+        }
+
+        return NextResponse.redirect(
+          `${origin}/auth/login?error=${encodeURIComponent(exchangeError.message)}`
+        );
+      }
+
       // If this was a password reset, redirect to the reset page
       const type = searchParams.get("type");
       if (type === "recovery") {
         return NextResponse.redirect(`${origin}/auth/reset-password`);
       }
-      return NextResponse.redirect(`${origin}${next}`);
-    }
 
-    return NextResponse.redirect(
-      `${origin}/auth/login?error=${encodeURIComponent(exchangeError.message)}`
-    );
+      const response = NextResponse.redirect(`${origin}${next}`);
+
+      // Ensure cookies are set with proper attributes for mobile browsers
+      // The supabase client should handle this, but we ensure the response
+      // has the right cache headers to prevent stale auth state
+      response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate");
+      response.headers.set("Pragma", "no-cache");
+
+      return response;
+    } catch (err) {
+      console.error("[auth/callback] Unexpected error:", err);
+      return NextResponse.redirect(
+        `${origin}/auth/login?error=${encodeURIComponent("Authentication failed. Please try again.")}`
+      );
+    }
   }
 
   // No code and no error — invalid callback
