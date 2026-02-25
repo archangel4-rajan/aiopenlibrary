@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   useCallback,
+  useRef,
 } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
@@ -37,50 +38,39 @@ export function AuthProvider({
   const [user, setUser] = useState<User | null>(initialUser);
   const [profile, setProfile] = useState<DbProfile | null>(initialProfile);
   const [isLoading, setIsLoading] = useState(false);
+  const profileFetchedForId = useRef<string | null>(initialProfile?.id ?? null);
 
   const fetchProfile = useCallback(async (userId: string) => {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", userId)
-      .single();
-    setProfile(data);
+    // Guard against redundant fetches
+    if (profileFetchedForId.current === userId) return;
+    profileFetchedForId.current = userId;
+
+    try {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+      setProfile(data);
+    } catch {
+      // Profile fetch failed — user is still authenticated, just no profile data
+      profileFetchedForId.current = null;
+    }
   }, []);
 
   useEffect(() => {
     const supabase = createClient();
 
-    // Check for existing session on mount (handles page reloads, mobile resume)
-    const checkSession = async () => {
-      try {
-        const { data: { user: currentUser } } = await supabase.auth.getUser();
-        if (currentUser && !user) {
-          setUser(currentUser);
-          setIsLoading(true);
-          await fetchProfile(currentUser.id);
-          setIsLoading(false);
-        } else if (!currentUser && user) {
-          setUser(null);
-          setProfile(null);
-        }
-      } catch {
-        // Silent fail — server-rendered initial state is still valid
-      }
-    };
-
-    // Only check if we don't have initial state (handles mobile resume from background)
-    if (!initialUser) {
-      checkSession();
-    }
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && session?.user) {
+      if (
+        (event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") &&
+        session?.user
+      ) {
         setUser(session.user);
-        // Only fetch profile if we don't already have one for this user
-        if (!profile || profile.id !== session.user.id) {
+        if (profileFetchedForId.current !== session.user.id) {
           setIsLoading(true);
           await fetchProfile(session.user.id);
           setIsLoading(false);
@@ -88,13 +78,14 @@ export function AuthProvider({
       } else if (event === "SIGNED_OUT") {
         setUser(null);
         setProfile(null);
+        profileFetchedForId.current = null;
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchProfile, initialUser, user, profile]);
+  }, [fetchProfile]);
 
   return (
     <AuthContext.Provider

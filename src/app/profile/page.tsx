@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Library, ArrowRight, FolderPlus } from "lucide-react";
+import { Library, ArrowRight, FolderPlus, AlertCircle } from "lucide-react";
 import LibraryFilter from "@/components/LibraryFilter";
 import SkeletonCard from "@/components/SkeletonCard";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -24,6 +24,22 @@ interface UserProfile {
   avatar_url: string | null;
 }
 
+async function fetchWithAuth<T>(url: string, fallback: T): Promise<{ data: T; authed: boolean }> {
+  try {
+    const res = await fetch(url);
+    if (res.status === 401) {
+      return { data: fallback, authed: false };
+    }
+    if (!res.ok) {
+      return { data: fallback, authed: true };
+    }
+    const data = await res.json();
+    return { data, authed: true };
+  } catch {
+    return { data: fallback, authed: true };
+  }
+}
+
 export default function ProfilePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [email, setEmail] = useState<string>("");
@@ -32,48 +48,61 @@ export default function ProfilePage() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [activeTab, setActiveTab] = useState<"all" | "collections">("all");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(null);
 
-        // Fetch user
-        const userRes = await fetch("/api/auth/user");
-        if (!userRes.ok) {
+        // Fetch user — this is the auth gate
+        const userResult = await fetchWithAuth<{ id?: string; email?: string; error?: string }>(
+          "/api/auth/user",
+          { error: "Unauthorized" }
+        );
+
+        if (!userResult.authed || !userResult.data?.id) {
           window.location.href = "/auth/login";
           return;
         }
-        const userData = await userRes.json();
-        setEmail(userData.email);
 
-        // Fetch profile
-        const profileRes = await fetch("/api/user/profile");
-        const profileData = await profileRes.json();
-        setProfile(profileData);
+        const userData = userResult.data;
+        setEmail(userData.email || "");
 
-        // Fetch saved prompts — API returns a plain array of IDs
-        const savedRes = await fetch("/api/user/saved-ids");
-        const savedIdsArr: string[] = await savedRes.json();
-        const ids = Array.isArray(savedIdsArr) ? savedIdsArr : [];
-        setSavedIds(ids);
+        // Fetch remaining data in parallel — all auth-gated but we know we're logged in
+        const [profileResult, savedIdsResult, collectionsResult] = await Promise.all([
+          fetchWithAuth<UserProfile>("/api/user/profile", { display_name: null, avatar_url: null }),
+          fetchWithAuth<string[]>("/api/user/saved-ids", []),
+          fetchWithAuth<Collection[]>("/api/collections", []),
+        ]);
 
-        // Fetch the actual prompts
-        if (ids.length > 0) {
-          const promptRes = await fetch(
-            `/api/prompts?ids=${ids.join(",")}`
-          );
-          const promptData = await promptRes.json();
-          setSavedPrompts(promptData.prompts || []);
+        // Handle any individual 401s (session expired mid-request)
+        if (!profileResult.authed || !savedIdsResult.authed || !collectionsResult.authed) {
+          window.location.href = "/auth/login";
+          return;
         }
 
-        // Fetch collections
-        const collRes = await fetch("/api/collections");
-        const collData = await collRes.json();
-        setCollections(collData || []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        setProfile(profileResult.data);
+
+        const ids = Array.isArray(savedIdsResult.data) ? savedIdsResult.data : [];
+        setSavedIds(ids);
+
+        const colls = Array.isArray(collectionsResult.data) ? collectionsResult.data : [];
+        setCollections(colls);
+
+        // Fetch saved prompt details
+        if (ids.length > 0) {
+          const promptResult = await fetchWithAuth<{ prompts: DbPrompt[] }>(
+            `/api/prompts?ids=${ids.join(",")}`,
+            { prompts: [] }
+          );
+          setSavedPrompts(promptResult.data.prompts || []);
+        }
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
+        setError("Something went wrong loading your profile. Please try refreshing.");
       } finally {
         setLoading(false);
       }
@@ -84,7 +113,7 @@ export default function ProfilePage() {
 
   const handleCreateCollection = async () => {
     const name = prompt("Enter collection name:");
-    if (!name) return;
+    if (!name?.trim()) return;
 
     const description = prompt("Enter collection description (optional):");
 
@@ -93,15 +122,25 @@ export default function ProfilePage() {
       const res = await fetch("/api/collections", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, description: description || "" }),
+        body: JSON.stringify({ name: name.trim(), description: description || "" }),
       });
 
-      if (res.ok) {
-        const newCollection = await res.json();
-        setCollections([newCollection, ...collections]);
+      if (res.status === 401) {
+        window.location.href = "/auth/login";
+        return;
       }
-    } catch (error) {
-      console.error("Error creating collection:", error);
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Failed to create collection" }));
+        alert(err.error || "Failed to create collection");
+        return;
+      }
+
+      const newCollection = await res.json();
+      setCollections([newCollection, ...collections]);
+    } catch (err) {
+      console.error("Error creating collection:", err);
+      alert("Failed to create collection. Please try again.");
     } finally {
       setCollectionLoading(false);
     }
@@ -115,6 +154,23 @@ export default function ProfilePage() {
       day: "numeric",
     });
   };
+
+  if (error) {
+    return (
+      <div className="bg-stone-50 dark:bg-stone-950">
+        <div className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8">
+          <AlertCircle className="mx-auto h-10 w-10 text-red-400" />
+          <p className="mt-4 text-stone-600 dark:text-stone-400">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-stone-50 dark:bg-stone-950">

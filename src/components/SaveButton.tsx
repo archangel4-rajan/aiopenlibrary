@@ -44,6 +44,14 @@ export default function SaveButton({
         method: saved ? "DELETE" : "POST",
       });
 
+      if (response.status === 401) {
+        // Session expired — redirect to login
+        setSaved(wasSaved);
+        setCount(savesCount);
+        window.location.href = "/auth/login";
+        return;
+      }
+
       if (!response.ok) {
         setSaved(wasSaved);
         setCount(savesCount);

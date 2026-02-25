@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const ids = idsParam.split(",").filter((id) => id.trim());
+  const ids = idsParam.split(",").filter((id) => id.trim()).slice(0, 100); // Cap at 100 IDs
 
   if (ids.length === 0) {
     return NextResponse.json({

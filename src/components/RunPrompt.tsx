@@ -52,6 +52,12 @@ export default function RunPrompt({
 
       const data = await response.json();
 
+      if (response.status === 401) {
+        setError("Please sign in to run prompts.");
+        setIsRunning(false);
+        return;
+      }
+
       if (!response.ok) {
         if (data.loading) {
           setError(data.error);

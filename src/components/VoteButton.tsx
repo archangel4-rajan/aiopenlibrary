@@ -62,21 +62,30 @@ export default function VoteButton({
     }
 
     try {
+      let res: Response;
       if (vote === voteType) {
         // Remove vote
-        const res = await fetch(`/api/prompts/${promptId}/vote`, {
+        res = await fetch(`/api/prompts/${promptId}/vote`, {
           method: "DELETE",
         });
-        if (!res.ok) throw new Error();
       } else {
         // Set vote
-        const res = await fetch(`/api/prompts/${promptId}/vote`, {
+        res = await fetch(`/api/prompts/${promptId}/vote`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ vote_type: voteType }),
         });
-        if (!res.ok) throw new Error();
       }
+
+      if (res.status === 401) {
+        // Session expired
+        setVote(prevVote);
+        setLikes(prevLikes);
+        setDislikes(prevDislikes);
+        window.location.href = "/auth/login";
+        return;
+      }
+      if (!res.ok) throw new Error();
     } catch {
       // Revert on error
       setVote(prevVote);
