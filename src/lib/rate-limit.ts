@@ -78,6 +78,9 @@ export const submissionLimiter = createRateLimiter("submissions", 3_600_000, 5);
 /** Save/unsave toggle: 60 per minute per user */
 export const saveLimiter = createRateLimiter("save", 60_000, 60);
 
+/** Comments: 10 per hour per user */
+export const commentLimiter = createRateLimiter("comments", 3_600_000, 10);
+
 /**
  * Extract a client identifier from a request.
  * Uses X-Forwarded-For (set by Vercel/reverse proxies) or falls back to "unknown".

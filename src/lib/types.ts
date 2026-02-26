@@ -21,6 +21,8 @@ export interface DbPrompt {
   likes_count: number;
   dislikes_count: number;
   is_published: boolean;
+  is_premium: boolean;
+  premium_preview_length: number | null;
   created_by: string | null;
   created_at: string;
   updated_at: string;
@@ -49,7 +51,29 @@ export interface DbProfile {
   email: string;
   display_name: string | null;
   avatar_url: string | null;
-  role: "user" | "admin";
+  username: string | null;
+  bio: string | null;
+  role: "user" | "admin" | "creator";
   created_at: string;
   updated_at: string;
+}
+
+export interface DbComment {
+  id: string;
+  prompt_id: string;
+  user_id: string;
+  content: string;
+  parent_id: string | null;
+  is_deleted: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CommentWithAuthor extends DbComment {
+  author: {
+    display_name: string | null;
+    avatar_url: string | null;
+    username: string | null;
+  };
+  replies?: CommentWithAuthor[];
 }

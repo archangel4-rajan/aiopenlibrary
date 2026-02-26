@@ -18,6 +18,8 @@ interface PromptCustomizerProps {
   useCases: string[];
   promptId?: string;
   promptType?: "text" | "image" | "video" | "unspecified";
+  isPremium?: boolean;
+  premiumPreviewLength?: number;
   onPromptChange?: (augmented: string) => void;
 }
 
@@ -27,6 +29,8 @@ export default function PromptCustomizer({
   useCases,
   promptId,
   promptType,
+  isPremium,
+  premiumPreviewLength,
   onPromptChange,
 }: PromptCustomizerProps) {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -70,11 +74,19 @@ export default function PromptCustomizer({
     onPromptChange?.(augmentedPrompt);
   }, [augmentedPrompt, onPromptChange]);
 
+  // For premium prompts, truncate the source text
+  const displayPromptText = useMemo(() => {
+    if (!isPremium) return promptText;
+    const maxLen = premiumPreviewLength ?? 200;
+    if (promptText.length <= maxLen) return promptText;
+    return promptText.slice(0, maxLen);
+  }, [promptText, isPremium, premiumPreviewLength]);
+
   // Render the prompt with visual highlighting for variables
   const renderPromptSegments = useMemo(() => {
     const segments: { text: string; type: "text" | "filled" | "unfilled" }[] =
       [];
-    const remaining = promptText;
+    const remaining = displayPromptText;
 
     // Build a regex matching all variable placeholders
     if (variables.length === 0) {
@@ -120,7 +132,7 @@ export default function PromptCustomizer({
     }
 
     return segments;
-  }, [promptText, variables, values]);
+  }, [displayPromptText, variables, values]);
 
   return (
     <>
@@ -219,10 +231,12 @@ export default function PromptCustomizer({
               </span>
             )}
           </h2>
-          <CopyButton
-            text={augmentedPrompt}
-            className="px-4 py-2 text-sm font-medium"
-          />
+          {!isPremium && (
+            <CopyButton
+              text={augmentedPrompt}
+              className="px-4 py-2 text-sm font-medium"
+            />
+          )}
         </div>
 
         <div className="relative">
@@ -295,8 +309,23 @@ export default function PromptCustomizer({
           )}
         </div>
 
+        {/* Premium overlay */}
+        {isPremium && promptText.length > (premiumPreviewLength ?? 200) && (
+          <>
+            <div className="relative -mt-12 h-24 bg-gradient-to-t from-stone-50 via-stone-50/90 to-transparent dark:from-stone-800 dark:via-stone-800/90" />
+            <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-5 text-center dark:border-amber-800 dark:bg-amber-900/20">
+              <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                &#10022; Full prompt coming soon
+              </p>
+              <p className="mt-1 text-xs text-amber-600 dark:text-amber-500">
+                This is a premium prompt. The full version will be available soon.
+              </p>
+            </div>
+          </>
+        )}
+
         {/* Run Prompt */}
-        {promptId && (
+        {promptId && !isPremium && (
           <RunPrompt promptId={promptId} customizedPrompt={augmentedPrompt} promptType={promptType} />
         )}
       </div>

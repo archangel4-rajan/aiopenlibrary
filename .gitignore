@@ -40,3 +40,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code worktrees
+.claude/worktrees/
+sessions/
+
+tmp/
+
+# Temp/build artifacts
+tmp/
+sessions/
+
+# Claude Code
+.claude/worktrees/
+.claude/settings.local.json
+
+# Misc
+*.docx
+IMPLEMENTATION_PLAN.md
+logo-new.gif
+

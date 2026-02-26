@@ -10,12 +10,16 @@ interface PromptFormProps {
   prompt?: DbPrompt;
   categories: DbCategory[];
   mode: "create" | "edit";
+  apiBase?: string;
+  backUrl?: string;
 }
 
 export default function PromptForm({
   prompt,
   categories,
   mode,
+  apiBase = "/api/admin/prompts",
+  backUrl = "/admin",
 }: PromptFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,6 +40,10 @@ export default function PromptForm({
   );
   const [isPublished, setIsPublished] = useState(
     prompt?.is_published ?? true
+  );
+  const [isPremium, setIsPremium] = useState(prompt?.is_premium ?? false);
+  const [premiumPreviewLength, setPremiumPreviewLength] = useState<number>(
+    prompt?.premium_preview_length ?? 200
   );
 
   // Dynamic lists
@@ -85,6 +93,8 @@ export default function PromptForm({
       model_icon: modelIcon,
       difficulty,
       is_published: isPublished,
+      is_premium: isPremium,
+      premium_preview_length: isPremium ? premiumPreviewLength : null,
       use_cases: useCases.filter(Boolean),
       variables: variables.filter((v) => v.name),
       tips: tips.filter(Boolean),
@@ -94,8 +104,8 @@ export default function PromptForm({
     try {
       const url =
         mode === "create"
-          ? "/api/admin/prompts"
-          : `/api/admin/prompts/${prompt?.id}`;
+          ? apiBase
+          : `${apiBase}/${prompt?.id}`;
       const method = mode === "create" ? "POST" : "PUT";
 
       const res = await fetch(url, {
@@ -109,7 +119,7 @@ export default function PromptForm({
         throw new Error(data.error || "Failed to save");
       }
 
-      router.push("/admin");
+      router.push(backUrl);
       router.refresh();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -409,6 +419,41 @@ export default function PromptForm({
         </button>
       </div>
 
+      {/* Premium toggle */}
+      <div className="space-y-3">
+        <div className="flex items-center gap-3">
+          <label className="relative inline-flex cursor-pointer items-center">
+            <input
+              type="checkbox"
+              checked={isPremium}
+              onChange={(e) => setIsPremium(e.target.checked)}
+              className="peer sr-only"
+            />
+            <div className="peer h-6 w-11 rounded-full bg-stone-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-stone-50 after:transition-all after:content-[''] peer-checked:bg-amber-500 peer-checked:after:translate-x-full dark:bg-stone-600 dark:after:bg-stone-300 dark:peer-checked:bg-amber-600" />
+          </label>
+          <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            {isPremium ? "Premium prompt" : "Free prompt"}
+          </span>
+        </div>
+        {isPremium && (
+          <div>
+            <label className={labelClass}>Preview Length (characters)</label>
+            <input
+              type="number"
+              value={premiumPreviewLength}
+              onChange={(e) => setPremiumPreviewLength(Number(e.target.value))}
+              min={50}
+              max={5000}
+              className={inputClass}
+              placeholder="200"
+            />
+            <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
+              Number of characters visible before the premium gate
+            </p>
+          </div>
+        )}
+      </div>
+
       {/* Published toggle */}
       <div className="flex items-center gap-3">
         <label className="relative inline-flex cursor-pointer items-center">
@@ -441,7 +486,7 @@ export default function PromptForm({
         </button>
         <button
           type="button"
-          onClick={() => router.push("/admin")}
+          onClick={() => router.push(backUrl)}
           className="rounded-lg border border-stone-200 px-6 py-2.5 text-sm font-medium text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
         >
           Cancel

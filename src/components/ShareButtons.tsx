@@ -1,18 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { Link2, Check } from "lucide-react";
+import { Link2, Check, Download } from "lucide-react";
 
 interface ShareButtonsProps {
   url: string;
   title: string;
+  promptId?: string;
 }
 
 export default function ShareButtons({
   url,
   title,
+  promptId,
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownloadCard = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!promptId || downloading) return;
+    setDownloading(true);
+    try {
+      const res = await fetch(`/api/prompts/${promptId}/card`);
+      if (!res.ok) throw new Error("Failed to generate card");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      // Download failed silently
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const handleCopyLink = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -76,6 +103,16 @@ export default function ShareButtons({
         </svg>
         LinkedIn
       </a>
+      {promptId && (
+        <button
+          onClick={handleDownloadCard}
+          disabled={downloading}
+          className="flex items-center gap-1.5 rounded-lg border border-stone-200 px-2.5 py-1.5 text-xs text-stone-500 transition-colors hover:border-stone-300 hover:bg-stone-50 hover:text-stone-700 disabled:opacity-50 dark:border-stone-700 dark:text-stone-400 dark:hover:border-stone-600 dark:hover:bg-stone-800"
+        >
+          <Download className="h-3.5 w-3.5" />
+          {downloading ? "Generating..." : "Download Card"}
+        </button>
+      )}
     </div>
   );
 }

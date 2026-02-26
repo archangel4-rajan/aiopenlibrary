@@ -16,6 +16,7 @@ interface AuthContextType {
   user: User | null;
   profile: DbProfile | null;
   isAdmin: boolean;
+  isCreator: boolean;
   isLoading: boolean;
 }
 
@@ -23,6 +24,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
   isAdmin: false,
+  isCreator: false,
   isLoading: true,
 });
 
@@ -93,6 +95,7 @@ export function AuthProvider({
         user,
         profile,
         isAdmin: profile?.role === "admin",
+        isCreator: profile?.role === "creator" || profile?.role === "admin",
         isLoading,
       }}
     >

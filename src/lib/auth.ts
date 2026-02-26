@@ -40,3 +40,9 @@ export async function isAdmin(): Promise<boolean> {
   const profile = await getProfile();
   return profile?.role === "admin";
 }
+
+/** Returns true if the currently authenticated user is a creator or admin. */
+export async function isCreator(): Promise<boolean> {
+  const profile = await getProfile();
+  return profile?.role === "creator" || profile?.role === "admin";
+}

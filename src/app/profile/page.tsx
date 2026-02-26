@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Library, ArrowRight, FolderPlus, AlertCircle } from "lucide-react";
+import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink } from "lucide-react";
 import LibraryFilter from "@/components/LibraryFilter";
 import SkeletonCard from "@/components/SkeletonCard";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useAuth } from "@/components/AuthProvider";
 import type { DbPrompt } from "@/lib/types";
 
 interface Collection {
@@ -22,6 +23,9 @@ interface UserProfile {
   email?: string;
   display_name: string | null;
   avatar_url: string | null;
+  username?: string | null;
+  bio?: string | null;
+  role?: string;
 }
 
 async function fetchWithAuth<T>(url: string, fallback: T): Promise<{ data: T; authed: boolean }> {
@@ -50,6 +54,12 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
+  const { isCreator } = useAuth();
+  const [creatorUsername, setCreatorUsername] = useState("");
+  const [creatorBio, setCreatorBio] = useState("");
+  const [creatorSaving, setCreatorSaving] = useState(false);
+  const [creatorSuccess, setCreatorSuccess] = useState(false);
+  const [creatorError, setCreatorError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,6 +95,8 @@ export default function ProfilePage() {
         }
 
         setProfile(profileResult.data);
+        setCreatorUsername(profileResult.data?.username || "");
+        setCreatorBio(profileResult.data?.bio || "");
 
         const ids = Array.isArray(savedIdsResult.data) ? savedIdsResult.data : [];
         setSavedIds(ids);
@@ -350,6 +362,105 @@ export default function ProfilePage() {
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Creator Settings */}
+        {isCreator && !loading && (
+          <div className="mt-12 border-t border-stone-200 pt-8 dark:border-stone-700">
+            <div className="mb-6 flex items-center gap-2">
+              <Settings className="h-5 w-5 text-stone-600 dark:text-stone-400" />
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+                Creator Settings
+              </h2>
+            </div>
+
+            <div className="max-w-lg space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  value={creatorUsername}
+                  onChange={(e) => setCreatorUsername(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+                  placeholder="your-username"
+                  maxLength={30}
+                  className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700"
+                />
+                <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
+                  3-30 characters, lowercase letters, numbers, and hyphens only
+                </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-stone-700 dark:text-stone-300">
+                  Bio
+                </label>
+                <textarea
+                  value={creatorBio}
+                  onChange={(e) => setCreatorBio(e.target.value.slice(0, 200))}
+                  placeholder="Tell people about yourself..."
+                  rows={3}
+                  maxLength={200}
+                  className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 px-4 py-2.5 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700"
+                />
+                <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
+                  {creatorBio.length}/200 characters
+                </p>
+              </div>
+
+              {creatorError && (
+                <p className="text-sm text-red-600 dark:text-red-400">{creatorError}</p>
+              )}
+              {creatorSuccess && (
+                <p className="text-sm text-emerald-600 dark:text-emerald-400">Settings saved!</p>
+              )}
+
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={async () => {
+                    setCreatorSaving(true);
+                    setCreatorError(null);
+                    setCreatorSuccess(false);
+                    try {
+                      const res = await fetch("/api/user/profile", {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          display_name: profile?.display_name,
+                          username: creatorUsername || null,
+                          bio: creatorBio || null,
+                        }),
+                      });
+                      if (!res.ok) {
+                        const data = await res.json();
+                        throw new Error(data.error || "Failed to save");
+                      }
+                      setCreatorSuccess(true);
+                      setTimeout(() => setCreatorSuccess(false), 3000);
+                    } catch (err) {
+                      setCreatorError(err instanceof Error ? err.message : "Failed to save");
+                    } finally {
+                      setCreatorSaving(false);
+                    }
+                  }}
+                  disabled={creatorSaving}
+                  className="inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200"
+                >
+                  {creatorSaving ? "Saving..." : "Save Settings"}
+                </button>
+                {creatorUsername && (
+                  <Link
+                    href={`/creators/${creatorUsername}`}
+                    className="flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    View Public Profile
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

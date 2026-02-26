@@ -12,6 +12,7 @@ import {
   getUserSavedPromptIds,
   getUserVote,
   getRelatedPromptsByTags,
+  getUserProfile,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ModelBadge from "@/components/ModelBadge";
@@ -23,6 +24,8 @@ import TagLink from "@/components/TagLink";
 import Breadcrumb from "@/components/Breadcrumb";
 import PromptCard from "@/components/PromptCard";
 import PromptCustomizer from "@/components/PromptCustomizer";
+import CommentSection from "@/components/CommentSection";
+import CreatorEditLink from "@/components/CreatorEditLink";
 
 export async function generateMetadata({
   params,
@@ -91,7 +94,7 @@ export default async function PromptPage({
     notFound();
   }
 
-  const [isSaved, related, savedIds, userVote, crossCategoryRelated] = await Promise.all([
+  const [isSaved, related, savedIds, userVote, crossCategoryRelated, creatorProfile] = await Promise.all([
     user ? isPromptSavedByUser(prompt.id, user.id) : Promise.resolve(false),
     getPromptsByCategory(prompt.category_slug).then((prompts) =>
       prompts.filter((p) => p.slug !== prompt.slug).slice(0, 3)
@@ -99,6 +102,7 @@ export default async function PromptPage({
     user ? getUserSavedPromptIds(user.id) : Promise.resolve([]),
     user ? getUserVote(prompt.id, user.id) : Promise.resolve(null),
     getRelatedPromptsByTags(prompt.id, prompt.tags, prompt.category_slug),
+    prompt.created_by ? getUserProfile(prompt.created_by) : Promise.resolve(null),
   ]);
 
   const variables = (prompt.variables || []) as {
@@ -168,15 +172,40 @@ export default async function PromptPage({
 
           <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-4xl">
-                {prompt.title}
-              </h1>
+              <div className="flex items-center gap-2">
+                <h1 className="text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-4xl">
+                  {prompt.title}
+                </h1>
+                {prompt.is_premium && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
+                    &#10022; Premium
+                  </span>
+                )}
+              </div>
+              {creatorProfile && (
+                <p className="mt-2 text-sm text-stone-500 dark:text-stone-400">
+                  By{" "}
+                  {creatorProfile.username ? (
+                    <Link
+                      href={`/creators/${creatorProfile.username}`}
+                      className="font-medium text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100"
+                    >
+                      {creatorProfile.display_name || creatorProfile.username}
+                    </Link>
+                  ) : (
+                    <span className="font-medium text-stone-700 dark:text-stone-300">
+                      {creatorProfile.display_name || "Creator"}
+                    </span>
+                  )}
+                </p>
+              )}
               <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600 dark:text-stone-300">
                 {prompt.description}
               </p>
               <p className="mt-2 text-xs text-stone-400 dark:text-stone-500">
                 Updated {new Date(prompt.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
               </p>
+              <CreatorEditLink promptId={prompt.id} createdBy={prompt.created_by} />
             </div>
             <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
               <SaveButton
@@ -213,6 +242,7 @@ export default async function PromptPage({
             <ShareButtons
               url={`https://aiopenlibrary.com/prompts/${prompt.slug}`}
               title={prompt.title}
+              promptId={prompt.id}
             />
           </div>
         </div>
@@ -231,6 +261,8 @@ export default async function PromptPage({
               | "unspecified"
               | undefined
           }
+          isPremium={prompt.is_premium}
+          premiumPreviewLength={prompt.premium_preview_length ?? undefined}
         />
 
         {/* Tips */}
@@ -293,6 +325,11 @@ export default async function PromptPage({
             </div>
           </div>
         )}
+
+        {/* Comments */}
+        <div className="mt-12 border-t border-stone-200 dark:border-stone-700 pt-8">
+          <CommentSection promptId={prompt.id} />
+        </div>
 
         {/* Related Prompts */}
         {related.length > 0 && (

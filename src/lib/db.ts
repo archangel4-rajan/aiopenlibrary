@@ -7,7 +7,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
-import type { DbPrompt, DbCategory, DbProfile, DbPromptVote } from "@/lib/types";
+import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor } from "@/lib/types";
 import { sanitizeSearchQuery } from "@/lib/db-utils";
 
 // ============================================
@@ -245,6 +245,30 @@ export async function getAllPromptsAdmin(): Promise<DbPrompt[]> {
 
     if (error) {
       console.error("Error fetching admin prompts:", error);
+      return [];
+    }
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+// ============================================
+// CREATOR: Own prompts (including unpublished)
+// ============================================
+
+/** Returns all prompts created by a specific user, including unpublished. */
+export async function getPromptsByCreator(userId: string): Promise<DbPrompt[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("created_by", userId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching creator prompts:", error);
       return [];
     }
     return data ?? [];
@@ -588,5 +612,225 @@ export async function getUserProfile(
     return data;
   } catch {
     return null;
+  }
+}
+
+// ============================================
+// CREATOR PROFILES
+// ============================================
+
+/** Returns a creator profile by username, or null if not found. */
+export async function getCreatorByUsername(
+  username: string
+): Promise<DbProfile | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("username", username)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns published prompts by a creator, ordered by saves desc. */
+export async function getPublishedPromptsByCreator(
+  userId: string
+): Promise<DbPrompt[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("created_by", userId)
+      .eq("is_published", true)
+      .order("saves_count", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching creator prompts:", error);
+      return [];
+    }
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns aggregate stats for a creator's published prompts. */
+export async function getCreatorStats(
+  userId: string
+): Promise<{ totalPrompts: number; totalSaves: number; totalLikes: number }> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("saves_count, likes_count")
+      .eq("created_by", userId)
+      .eq("is_published", true);
+
+    if (error || !data) return { totalPrompts: 0, totalSaves: 0, totalLikes: 0 };
+
+    return {
+      totalPrompts: data.length,
+      totalSaves: data.reduce((sum, p) => sum + (p.saves_count ?? 0), 0),
+      totalLikes: data.reduce((sum, p) => sum + (p.likes_count ?? 0), 0),
+    };
+  } catch {
+    return { totalPrompts: 0, totalSaves: 0, totalLikes: 0 };
+  }
+}
+
+/** Returns top creators with at least 1 published prompt, ordered by total saves. */
+export async function getTopCreators(
+  limit: number = 20
+): Promise<(DbProfile & { promptCount: number; totalSaves: number })[]> {
+  try {
+    const supabase = await createClient();
+
+    // Get all creators/admins with usernames
+    const { data: profiles, error: profileError } = await supabase
+      .from("profiles")
+      .select("*")
+      .in("role", ["creator", "admin"]);
+
+    if (profileError || !profiles) return [];
+
+    // Get published prompt stats per creator
+    const { data: prompts, error: promptError } = await supabase
+      .from("prompts")
+      .select("created_by, saves_count")
+      .eq("is_published", true)
+      .not("created_by", "is", null);
+
+    if (promptError || !prompts) return [];
+
+    // Aggregate per creator
+    const statsMap = new Map<string, { count: number; saves: number }>();
+    for (const p of prompts) {
+      if (!p.created_by) continue;
+      const existing = statsMap.get(p.created_by) || { count: 0, saves: 0 };
+      existing.count++;
+      existing.saves += p.saves_count ?? 0;
+      statsMap.set(p.created_by, existing);
+    }
+
+    // Merge and filter
+    const result = profiles
+      .filter((profile) => statsMap.has(profile.id))
+      .map((profile) => ({
+        ...profile,
+        promptCount: statsMap.get(profile.id)!.count,
+        totalSaves: statsMap.get(profile.id)!.saves,
+      }))
+      .sort((a, b) => b.totalSaves - a.totalSaves)
+      .slice(0, limit);
+
+    return result;
+  } catch {
+    return [];
+  }
+}
+
+// ============================================
+// CREATOR DETAILED STATS
+// ============================================
+
+/** Returns detailed stats for a creator's dashboard. */
+export async function getCreatorDetailedStats(
+  userId: string
+): Promise<{
+  totalPrompts: number;
+  publishedCount: number;
+  draftCount: number;
+  totalSaves: number;
+  totalLikes: number;
+  topPrompt: DbPrompt | null;
+}> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompts")
+      .select("*")
+      .eq("created_by", userId)
+      .order("saves_count", { ascending: false });
+
+    if (error || !data) {
+      return { totalPrompts: 0, publishedCount: 0, draftCount: 0, totalSaves: 0, totalLikes: 0, topPrompt: null };
+    }
+
+    const published = data.filter((p) => p.is_published);
+    const drafts = data.filter((p) => !p.is_published);
+
+    return {
+      totalPrompts: data.length,
+      publishedCount: published.length,
+      draftCount: drafts.length,
+      totalSaves: published.reduce((sum, p) => sum + (p.saves_count ?? 0), 0),
+      totalLikes: published.reduce((sum, p) => sum + (p.likes_count ?? 0), 0),
+      topPrompt: published.length > 0 ? published[0] : null,
+    };
+  } catch {
+    return { totalPrompts: 0, publishedCount: 0, draftCount: 0, totalSaves: 0, totalLikes: 0, topPrompt: null };
+  }
+}
+
+// ============================================
+// COMMENTS
+// ============================================
+
+/** Returns comments for a prompt with author info, nested by parent. */
+export async function getCommentsByPromptId(
+  promptId: string
+): Promise<CommentWithAuthor[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_comments")
+      .select("*, profiles!prompt_comments_user_id_fkey(display_name, avatar_url, username)")
+      .eq("prompt_id", promptId)
+      .order("created_at", { ascending: true });
+
+    if (error || !data) return [];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const comments: CommentWithAuthor[] = (data as any[]).map((c) => ({
+      id: c.id,
+      prompt_id: c.prompt_id,
+      user_id: c.user_id,
+      content: c.is_deleted ? "[deleted]" : c.content,
+      parent_id: c.parent_id,
+      is_deleted: c.is_deleted,
+      created_at: c.created_at,
+      updated_at: c.updated_at,
+      author: {
+        display_name: c.profiles?.display_name ?? null,
+        avatar_url: c.profiles?.avatar_url ?? null,
+        username: c.profiles?.username ?? null,
+      },
+      replies: [],
+    }));
+
+    // Nest replies under parents
+    const topLevel: CommentWithAuthor[] = [];
+    const byId = new Map<string, CommentWithAuthor>();
+    for (const c of comments) {
+      byId.set(c.id, c);
+    }
+    for (const c of comments) {
+      if (c.parent_id && byId.has(c.parent_id)) {
+        byId.get(c.parent_id)!.replies!.push(c);
+      } else {
+        topLevel.push(c);
+      }
+    }
+
+    return topLevel;
+  } catch {
+    return [];
   }
 }

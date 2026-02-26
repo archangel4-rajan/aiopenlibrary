@@ -40,6 +40,11 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
               NEW
             </span>
           )}
+          {prompt.is_premium && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
+              &#10022; Premium
+            </span>
+          )}
         </div>
         <div className="relative z-10">
           <SaveButton

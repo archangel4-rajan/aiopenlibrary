@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, Menu, X, Trophy, Library } from "lucide-react";
+import { Search, Menu, X, Trophy, Library, PenTool, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import AuthButton from "./AuthButton";
@@ -15,7 +15,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isCreator } = useAuth();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -55,6 +55,12 @@ export default function Navbar() {
     }
     if (href === "/profile") {
       return pathname.startsWith("/profile");
+    }
+    if (href === "/creators") {
+      return pathname.startsWith("/creators");
+    }
+    if (href === "/creator") {
+      return pathname.startsWith("/creator") && !pathname.startsWith("/creators");
     }
     if (href === "/admin") {
       return pathname.startsWith("/admin");
@@ -108,6 +114,13 @@ export default function Navbar() {
                 <Trophy className="h-4 w-4" />
                 Leaderboard
               </Link>
+              <Link
+                href="/creators"
+                className={`${getLinkClassName("/creators")} flex items-center gap-1.5`}
+              >
+                <Users className="h-4 w-4" />
+                Creators
+              </Link>
               {user && (
                 <Link
                   href="/profile"
@@ -115,6 +128,15 @@ export default function Navbar() {
                 >
                   <Library className="h-4 w-4" />
                   Your Library
+                </Link>
+              )}
+              {isCreator && (
+                <Link
+                  href="/creator"
+                  className={`${getLinkClassName("/creator")} flex items-center gap-1.5`}
+                >
+                  <PenTool className="h-4 w-4" />
+                  My Prompts
                 </Link>
               )}
               {isAdmin && (
@@ -202,6 +224,14 @@ export default function Navbar() {
                 <Trophy className="h-3.5 w-3.5" />
                 Leaderboard
               </Link>
+              <Link
+                href="/creators"
+                className={`${getMobileMenuItemClassName("/creators")} flex items-center gap-1.5`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Users className="h-3.5 w-3.5" />
+                Creators
+              </Link>
               {user && (
                 <Link
                   href="/profile"
@@ -219,6 +249,16 @@ export default function Navbar() {
               >
                 About
               </Link>
+              {isCreator && (
+                <Link
+                  href="/creator"
+                  className={`${getMobileMenuItemClassName("/creator")} flex items-center gap-1.5`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <PenTool className="h-3.5 w-3.5" />
+                  My Prompts
+                </Link>
+              )}
               {isAdmin && (
                 <Link
                   href="/admin"

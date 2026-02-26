@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-async function checkAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
+async function checkCreatorOwnership(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  promptId: string
+) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -13,7 +16,16 @@ async function checkAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
     .eq("id", user.id)
     .single();
 
-  if (profile?.role !== "admin") return null;
+  if (profile?.role !== "creator" && profile?.role !== "admin") return null;
+
+  const { data: prompt } = await supabase
+    .from("prompts")
+    .select("created_by")
+    .eq("id", promptId)
+    .single();
+
+  if (!prompt || prompt.created_by !== user.id) return null;
+
   return user;
 }
 
@@ -24,7 +36,7 @@ export async function PUT(
   const { id } = await params;
   const supabase = await createClient();
 
-  const user = await checkAdmin(supabase);
+  const user = await checkCreatorOwnership(supabase, id);
   if (!user) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
@@ -71,7 +83,7 @@ export async function DELETE(
   const { id } = await params;
   const supabase = await createClient();
 
-  const user = await checkAdmin(supabase);
+  const user = await checkCreatorOwnership(supabase, id);
   if (!user) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
