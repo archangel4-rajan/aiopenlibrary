@@ -621,18 +621,29 @@ export async function getUserProfile(
 
 /** Returns a creator profile by username, or null if not found. */
 export async function getCreatorByUsername(
-  username: string
+  identifier: string
 ): Promise<DbProfile | null> {
   try {
     const supabase = await createClient();
+
+    // Try username first
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
-      .eq("username", username)
+      .eq("username", identifier)
       .single();
 
-    if (error) return null;
-    return data;
+    if (!error && data) return data;
+
+    // Fall back to ID lookup (for creators without usernames)
+    const { data: byId, error: idError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", identifier)
+      .single();
+
+    if (idError) return null;
+    return byId;
   } catch {
     return null;
   }
