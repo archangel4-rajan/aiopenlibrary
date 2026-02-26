@@ -24,6 +24,7 @@ export interface DbPrompt {
   is_premium: boolean;
   premium_preview_length: number | null;
   created_by: string | null;
+  zap_price: number | null;
   created_at: string;
   updated_at: string;
 }
@@ -76,4 +77,63 @@ export interface CommentWithAuthor extends DbComment {
     username: string | null;
   };
   replies?: CommentWithAuthor[];
+}
+
+export interface ZapBalance {
+  user_id: string;
+  balance: number;
+  total_earned: number;
+  total_spent: number;
+  updated_at: string;
+}
+
+export interface ZapTransaction {
+  id: string;
+  user_id: string;
+  type: "purchase" | "spend" | "earn" | "refund";
+  amount: number;
+  description: string;
+  reference_type: string | null;
+  reference_id: string | null;
+  created_at: string;
+}
+
+export interface ZapPackage {
+  id: string;
+  name: string;
+  zap_amount: number;
+  price_cents: number;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+}
+
+export interface PromptPack {
+  id: string;
+  creator_id: string;
+  name: string;
+  description: string;
+  slug: string;
+  cover_image_url: string | null;
+  zap_price: number;
+  is_published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PromptPackItem {
+  id: string;
+  pack_id: string;
+  prompt_id: string;
+  sort_order: number;
+}
+
+export interface UserPurchase {
+  id: string;
+  user_id: string;
+  prompt_id: string | null;
+  pack_id: string | null;
+  zap_amount: number;
+  transaction_id: string | null;
+  created_at: string;
 }

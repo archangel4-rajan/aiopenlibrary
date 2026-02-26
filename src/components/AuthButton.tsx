@@ -4,12 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut, Library, Shield, ChevronDown } from "lucide-react";
+import { LogOut, Library, Shield, ChevronDown, Zap } from "lucide-react";
 import { useAuth } from "./AuthProvider";
 import { createClient } from "@/lib/supabase/client";
 
 export default function AuthButton() {
-  const { user, profile, isAdmin, isLoading } = useAuth();
+  const { user, profile, isAdmin, isLoading, zapBalance } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -89,6 +89,9 @@ export default function AuthButton() {
           <div className="border-b border-stone-100 px-4 pb-2 dark:border-stone-700">
             <p className="text-sm font-medium text-stone-900 dark:text-stone-100">{displayName}</p>
             <p className="text-xs text-stone-400 dark:text-stone-500">{user.email}</p>
+            <p className="mt-1 inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-700 dark:bg-amber-900/30 dark:text-amber-400">
+              ⚡ {zapBalance.toLocaleString()} Zaps
+            </p>
           </div>
 
           <div className="py-1">
@@ -111,6 +114,15 @@ export default function AuthButton() {
                 Admin Dashboard
               </Link>
             )}
+
+            <Link
+              href="/zaps"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2.5 px-4 py-2 text-sm text-amber-600 hover:bg-stone-50 hover:text-amber-700 dark:text-amber-400 dark:hover:bg-stone-700 dark:hover:text-amber-300"
+            >
+              <Zap className="h-4 w-4" />
+              Buy Zaps ⚡
+            </Link>
           </div>
 
           <div className="border-t border-stone-100 pt-1 dark:border-stone-700">

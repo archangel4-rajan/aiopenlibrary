@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus, Edit, Eye, EyeOff, PenTool, Bookmark, Heart, TrendingUp } from "lucide-react";
+import { Plus, Edit, Eye, EyeOff, PenTool, Bookmark, Heart, TrendingUp, Zap, Package, Trash2 } from "lucide-react";
 import { isCreator, getUser } from "@/lib/auth";
-import { getPromptsByCreator, getCreatorDetailedStats } from "@/lib/db";
+import { getPromptsByCreator, getCreatorDetailedStats, getPacksByCreator, getZapBalance } from "@/lib/db";
 import CreatorDeleteButton from "@/components/CreatorDeleteButton";
+import CreatorPackDeleteButton from "@/components/CreatorPackDeleteButton";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -21,9 +22,11 @@ export default async function CreatorPage() {
     redirect("/");
   }
 
-  const [prompts, stats] = await Promise.all([
+  const [prompts, stats, packs, zapBalanceData] = await Promise.all([
     getPromptsByCreator(user.id),
     getCreatorDetailedStats(user.id),
+    getPacksByCreator(user.id),
+    getZapBalance(user.id),
   ]);
 
   return (
@@ -73,7 +76,7 @@ export default async function CreatorPage() {
         </div>
 
         {/* Stats Row 2 */}
-        <div className="mb-8 grid gap-4 sm:grid-cols-3">
+        <div className="mb-8 grid gap-4 sm:grid-cols-4">
           <div className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800">
             <div className="flex items-center gap-2">
               <Bookmark className="h-4 w-4 text-stone-400 dark:text-stone-500" />
@@ -90,6 +93,15 @@ export default async function CreatorPage() {
             </div>
             <p className="mt-1 text-2xl font-bold text-stone-900 dark:text-stone-100">
               {stats.totalLikes}
+            </p>
+          </div>
+          <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-900/20">
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 text-amber-500 dark:text-amber-400" />
+              <p className="text-sm text-amber-600 dark:text-amber-400">Zaps Earned</p>
+            </div>
+            <p className="mt-1 text-2xl font-bold text-amber-700 dark:text-amber-400">
+              {zapBalanceData?.total_earned ?? 0}
             </p>
           </div>
           <div className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800">
@@ -152,6 +164,58 @@ export default async function CreatorPage() {
             </div>
           </div>
         )}
+
+        {/* Packs Section */}
+        <div className="mb-8">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-stone-900 dark:text-stone-100">
+              <Package className="h-5 w-5 text-stone-500 dark:text-stone-400" />
+              Your Packs
+            </h2>
+            <Link
+              href="/creator/packs/new"
+              className="inline-flex items-center gap-2 rounded-lg border border-stone-200 px-3 py-1.5 text-sm font-medium text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              Create Pack
+            </Link>
+          </div>
+
+          {packs.length > 0 ? (
+            <div className="space-y-3">
+              {packs.map((pack) => (
+                <div
+                  key={pack.id}
+                  className="flex items-center justify-between rounded-lg border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-stone-900 dark:text-stone-100">
+                      {pack.name}
+                    </p>
+                    <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">
+                      ⚡ {pack.zap_price} Zaps · {pack.is_published ? "Published" : "Draft"}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/creator/packs/${pack.id}/edit`}
+                      className="rounded-lg p-1.5 text-stone-400 hover:bg-stone-100 hover:text-stone-600 dark:text-stone-500 dark:hover:bg-stone-700 dark:hover:text-stone-300"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Link>
+                    <CreatorPackDeleteButton packId={pack.id} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-lg border-2 border-dashed border-stone-200 p-6 text-center dark:border-stone-700">
+              <p className="text-sm text-stone-400 dark:text-stone-500">
+                No packs yet. Bundle your prompts into packs for buyers.
+              </p>
+            </div>
+          )}
+        </div>
 
         {/* Prompts Table */}
         <div className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-800">

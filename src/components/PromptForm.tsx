@@ -45,6 +45,7 @@ export default function PromptForm({
   const [premiumPreviewLength, setPremiumPreviewLength] = useState<number>(
     prompt?.premium_preview_length ?? 200
   );
+  const [zapPrice, setZapPrice] = useState<number>(prompt?.zap_price ?? 0);
 
   // Dynamic lists
   const [useCases, setUseCases] = useState<string[]>(
@@ -95,6 +96,7 @@ export default function PromptForm({
       is_published: isPublished,
       is_premium: isPremium,
       premium_preview_length: isPremium ? premiumPreviewLength : null,
+      zap_price: isPremium && zapPrice > 0 ? zapPrice : null,
       use_cases: useCases.filter(Boolean),
       variables: variables.filter((v) => v.name),
       tips: tips.filter(Boolean),
@@ -436,21 +438,40 @@ export default function PromptForm({
           </span>
         </div>
         {isPremium && (
-          <div>
-            <label className={labelClass}>Preview Length (characters)</label>
-            <input
-              type="number"
-              value={premiumPreviewLength}
-              onChange={(e) => setPremiumPreviewLength(Number(e.target.value))}
-              min={50}
-              max={5000}
-              className={inputClass}
-              placeholder="200"
-            />
-            <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
-              Number of characters visible before the premium gate
-            </p>
-          </div>
+          <>
+            <div>
+              <label className={labelClass}>Price in Zaps</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-500">⚡</span>
+                <input
+                  type="number"
+                  value={zapPrice}
+                  onChange={(e) => setZapPrice(Math.max(1, parseInt(e.target.value) || 1))}
+                  min={1}
+                  className="mt-1 w-full rounded-lg border border-stone-200 bg-stone-50 py-2.5 pl-8 pr-4 text-sm text-stone-900 outline-none focus:border-stone-400 focus:ring-2 focus:ring-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-100 dark:focus:border-stone-500 dark:focus:ring-stone-700"
+                  placeholder="10"
+                />
+              </div>
+              <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
+                Number of Zaps required to unlock this prompt
+              </p>
+            </div>
+            <div>
+              <label className={labelClass}>Preview Length (characters)</label>
+              <input
+                type="number"
+                value={premiumPreviewLength}
+                onChange={(e) => setPremiumPreviewLength(Number(e.target.value))}
+                min={50}
+                max={5000}
+                className={inputClass}
+                placeholder="200"
+              />
+              <p className="mt-1 text-xs text-stone-400 dark:text-stone-500">
+                Number of characters visible before the premium gate
+              </p>
+            </div>
+          </>
         )}
       </div>
 

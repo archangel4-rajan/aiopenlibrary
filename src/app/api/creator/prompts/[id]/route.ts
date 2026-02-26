@@ -64,6 +64,7 @@ export async function PUT(
       is_published: body.is_published ?? true,
       is_premium: body.is_premium ?? false,
       premium_preview_length: body.premium_preview_length ?? null,
+      zap_price: body.zap_price ?? null,
     })
     .eq("id", id)
     .select()

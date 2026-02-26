@@ -13,6 +13,7 @@ import {
   getUserVote,
   getRelatedPromptsByTags,
   getUserProfile,
+  hasUserPurchasedPrompt,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ModelBadge from "@/components/ModelBadge";
@@ -94,7 +95,7 @@ export default async function PromptPage({
     notFound();
   }
 
-  const [isSaved, related, savedIds, userVote, crossCategoryRelated, creatorProfile] = await Promise.all([
+  const [isSaved, related, savedIds, userVote, crossCategoryRelated, creatorProfile, isPurchased] = await Promise.all([
     user ? isPromptSavedByUser(prompt.id, user.id) : Promise.resolve(false),
     getPromptsByCategory(prompt.category_slug).then((prompts) =>
       prompts.filter((p) => p.slug !== prompt.slug).slice(0, 3)
@@ -103,6 +104,7 @@ export default async function PromptPage({
     user ? getUserVote(prompt.id, user.id) : Promise.resolve(null),
     getRelatedPromptsByTags(prompt.id, prompt.tags, prompt.category_slug),
     prompt.created_by ? getUserProfile(prompt.created_by) : Promise.resolve(null),
+    user && prompt.is_premium ? hasUserPurchasedPrompt(user.id, prompt.id) : Promise.resolve(false),
   ]);
 
   const variables = (prompt.variables || []) as {
@@ -249,7 +251,7 @@ export default async function PromptPage({
 
         {/* Variables, Use Cases, and Prompt Content (interactive) */}
         <PromptCustomizer
-          promptText={prompt.prompt}
+          promptText={isPurchased ? prompt.prompt : prompt.prompt}
           variables={variables}
           useCases={prompt.use_cases || []}
           promptId={prompt.id}
@@ -263,6 +265,9 @@ export default async function PromptPage({
           }
           isPremium={prompt.is_premium}
           premiumPreviewLength={prompt.premium_preview_length ?? undefined}
+          zapPrice={prompt.zap_price ?? undefined}
+          creatorId={prompt.created_by ?? undefined}
+          isPurchased={isPurchased}
         />
 
         {/* Tips */}

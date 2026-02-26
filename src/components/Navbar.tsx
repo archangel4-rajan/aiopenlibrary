@@ -9,6 +9,7 @@ import AuthButton from "./AuthButton";
 import { useAuth } from "./AuthProvider";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
+import ZapBalance from "./ZapBalance";
 
 export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -170,6 +171,8 @@ export default function Navbar() {
             )}
 
             <ThemeToggle />
+
+            {user && <ZapBalance />}
 
             <AuthButton />
 

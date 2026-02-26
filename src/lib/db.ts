@@ -7,7 +7,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
-import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor } from "@/lib/types";
+import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor, ZapBalance, ZapTransaction, ZapPackage, PromptPack, UserPurchase } from "@/lib/types";
 import { sanitizeSearchQuery } from "@/lib/db-utils";
 
 // ============================================
@@ -843,5 +843,322 @@ export async function getCommentsByPromptId(
     return topLevel;
   } catch {
     return [];
+  }
+}
+
+// ============================================
+// ZAP BALANCES & TRANSACTIONS
+// ============================================
+
+/** Returns a user's Zap balance, or null if no row exists. */
+export async function getZapBalance(userId: string): Promise<ZapBalance | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("zap_balances")
+      .select("*")
+      .eq("user_id", userId)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns Zap transactions for a user, ordered by most recent. */
+export async function getZapTransactions(
+  userId: string,
+  limit: number = 50
+): Promise<ZapTransaction[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("zap_transactions")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns active Zap packages ordered by sort_order. */
+export async function getZapPackages(): Promise<ZapPackage[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("zap_packages")
+      .select("*")
+      .eq("is_active", true)
+      .order("sort_order");
+
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns all purchases for a user. */
+export async function getUserPurchases(userId: string): Promise<UserPurchase[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns prompt IDs that a user has purchased. */
+export async function getUserPurchasedPromptIds(userId: string): Promise<string[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("prompt_id")
+      .eq("user_id", userId)
+      .not("prompt_id", "is", null);
+
+    if (error) return [];
+    return (data ?? []).map((p) => p.prompt_id).filter(Boolean) as string[];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns pack IDs that a user has purchased. */
+export async function getUserPurchasedPackIds(userId: string): Promise<string[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("pack_id")
+      .eq("user_id", userId)
+      .not("pack_id", "is", null);
+
+    if (error) return [];
+    return (data ?? []).map((p) => p.pack_id).filter(Boolean) as string[];
+  } catch {
+    return [];
+  }
+}
+
+/** Checks if a user has purchased a specific prompt. */
+export async function hasUserPurchasedPrompt(
+  userId: string,
+  promptId: string
+): Promise<boolean> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("prompt_id", promptId)
+      .maybeSingle();
+
+    if (error) return false;
+    return !!data;
+  } catch {
+    return false;
+  }
+}
+
+/** Checks if a user has purchased a specific pack. */
+export async function hasUserPurchasedPack(
+  userId: string,
+  packId: string
+): Promise<boolean> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("pack_id", packId)
+      .maybeSingle();
+
+    if (error) return false;
+    return !!data;
+  } catch {
+    return false;
+  }
+}
+
+// ============================================
+// PROMPT PACKS
+// ============================================
+
+/** Returns all published packs. */
+export async function getPublishedPacks(limit?: number): Promise<PromptPack[]> {
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from("prompt_packs")
+      .select("*")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false });
+
+    if (limit) {
+      query = query.limit(limit);
+    }
+
+    const { data, error } = await query;
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns a pack by slug, or null if not found. */
+export async function getPackBySlug(slug: string): Promise<PromptPack | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_packs")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns a pack by ID, or null if not found. */
+export async function getPackById(id: string): Promise<PromptPack | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_packs")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns the prompts in a pack (the actual DbPrompt objects). */
+export async function getPackItems(packId: string): Promise<DbPrompt[]> {
+  try {
+    const supabase = await createClient();
+    const { data: items, error: itemsError } = await supabase
+      .from("prompt_pack_items")
+      .select("prompt_id")
+      .eq("pack_id", packId)
+      .order("sort_order");
+
+    if (itemsError || !items || items.length === 0) return [];
+
+    const promptIds = items.map((item) => item.prompt_id);
+    const { data: prompts, error: promptsError } = await supabase
+      .from("prompts")
+      .select("*")
+      .in("id", promptIds);
+
+    if (promptsError) return [];
+
+    // Maintain sort order from pack items
+    const promptMap = new Map((prompts ?? []).map((p) => [p.id, p]));
+    return promptIds.map((id) => promptMap.get(id)).filter(Boolean) as DbPrompt[];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns packs created by a specific creator. */
+export async function getPacksByCreator(creatorId: string): Promise<PromptPack[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_packs")
+      .select("*")
+      .eq("creator_id", creatorId)
+      .order("created_at", { ascending: false });
+
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Creates a Zap balance row if one does not exist. */
+export async function ensureZapBalance(userId: string): Promise<void> {
+  try {
+    const supabase = await createClient();
+    await supabase
+      .from("zap_balances")
+      .insert({ user_id: userId, balance: 0, total_earned: 0, total_spent: 0 })
+      .select()
+      .maybeSingle();
+  } catch {
+    // Row already exists or insert failed — either way, no-op
+  }
+}
+
+/** Credits Zaps to a user's balance and logs a transaction. */
+export async function creditZaps(
+  userId: string,
+  amount: number,
+  description: string,
+  refType: string,
+  refId: string
+): Promise<void> {
+  try {
+    const supabase = await createClient();
+
+    // Ensure balance row exists
+    await ensureZapBalance(userId);
+
+    // Credit balance
+    const { data: current } = await supabase
+      .from("zap_balances")
+      .select("balance, total_earned")
+      .eq("user_id", userId)
+      .single();
+
+    if (current) {
+      await supabase
+        .from("zap_balances")
+        .update({
+          balance: current.balance + amount,
+          total_earned: current.total_earned + amount,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("user_id", userId);
+    }
+
+    // Log transaction
+    await supabase.from("zap_transactions").insert({
+      user_id: userId,
+      type: "purchase",
+      amount,
+      description,
+      reference_type: refType,
+      reference_id: refId,
+    });
+  } catch {
+    console.error("Error crediting Zaps");
   }
 }

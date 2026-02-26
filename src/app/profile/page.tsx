@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink } from "lucide-react";
+import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap } from "lucide-react";
 import LibraryFilter from "@/components/LibraryFilter";
 import SkeletonCard from "@/components/SkeletonCard";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -50,10 +50,12 @@ export default function ProfilePage() {
   const [savedPrompts, setSavedPrompts] = useState<DbPrompt[]>([]);
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
-  const [activeTab, setActiveTab] = useState<"all" | "collections">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "collections" | "purchases">("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
+  const [purchasedPrompts, setPurchasedPrompts] = useState<DbPrompt[]>([]);
+  const [purchasedPromptIds, setPurchasedPromptIds] = useState<string[]>([]);
   const { isCreator } = useAuth();
   const [creatorUsername, setCreatorUsername] = useState("");
   const [creatorBio, setCreatorBio] = useState("");
@@ -82,14 +84,15 @@ export default function ProfilePage() {
         setEmail(userData.email || "");
 
         // Fetch remaining data in parallel — all auth-gated but we know we're logged in
-        const [profileResult, savedIdsResult, collectionsResult] = await Promise.all([
+        const [profileResult, savedIdsResult, collectionsResult, purchasesResult] = await Promise.all([
           fetchWithAuth<UserProfile>("/api/user/profile", { display_name: null, avatar_url: null }),
           fetchWithAuth<string[]>("/api/user/saved-ids", []),
           fetchWithAuth<Collection[]>("/api/collections", []),
+          fetchWithAuth<{ promptIds: string[]; packIds: string[] }>("/api/user/purchases", { promptIds: [], packIds: [] }),
         ]);
 
         // Handle any individual 401s (session expired mid-request)
-        if (!profileResult.authed || !savedIdsResult.authed || !collectionsResult.authed) {
+        if (!profileResult.authed || !savedIdsResult.authed || !collectionsResult.authed || !purchasesResult.authed) {
           window.location.href = "/auth/login";
           return;
         }
@@ -103,6 +106,18 @@ export default function ProfilePage() {
 
         const colls = Array.isArray(collectionsResult.data) ? collectionsResult.data : [];
         setCollections(colls);
+
+        const pIds = Array.isArray(purchasesResult.data?.promptIds) ? purchasesResult.data.promptIds : [];
+        setPurchasedPromptIds(pIds);
+
+        // Fetch purchased prompt details
+        if (pIds.length > 0) {
+          const purchasedResult = await fetchWithAuth<{ prompts: DbPrompt[] }>(
+            `/api/prompts?ids=${pIds.join(",")}`,
+            { prompts: [] }
+          );
+          setPurchasedPrompts(purchasedResult.data.prompts || []);
+        }
 
         // Fetch saved prompt details
         if (ids.length > 0) {
@@ -254,6 +269,16 @@ export default function ProfilePage() {
           >
             Collections
           </button>
+          <button
+            onClick={() => setActiveTab("purchases")}
+            className={`pb-3 px-2 font-medium transition-colors ${
+              activeTab === "purchases"
+                ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
+                : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+            }`}
+          >
+            Purchases
+          </button>
         </div>
 
         {/* All Saved Tab */}
@@ -360,6 +385,71 @@ export default function ProfilePage() {
                   <FolderPlus className="h-4 w-4" />
                   Create Collection
                 </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Purchases Tab */}
+        {activeTab === "purchases" && (
+          <div>
+            <div className="mb-6 flex items-center gap-2">
+              <Zap className="h-5 w-5 text-amber-500" />
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+                Purchased Prompts
+              </h2>
+              <span className="rounded-full bg-stone-200 px-2.5 py-0.5 text-xs font-medium text-stone-600 dark:bg-stone-800 dark:text-stone-300">
+                {purchasedPrompts.length}
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {[...Array(6)].map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : purchasedPrompts.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {purchasedPrompts.map((prompt) => (
+                  <Link
+                    key={prompt.id}
+                    href={`/prompts/${prompt.slug}`}
+                    className="group rounded-lg border border-stone-200 bg-stone-50 p-4 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
+                  >
+                    <h3 className="mb-1 text-sm font-semibold text-stone-900 transition-colors group-hover:text-stone-600 dark:text-stone-100 dark:group-hover:text-stone-300">
+                      {prompt.title}
+                    </h3>
+                    <p className="mb-2 line-clamp-2 text-xs text-stone-500 dark:text-stone-400">
+                      {prompt.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="rounded-full bg-stone-100 px-2 py-0.5 text-xs text-stone-500 dark:bg-stone-800 dark:text-stone-400">
+                        {prompt.category_name}
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+                        Unlocked ✓
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center dark:border-stone-700">
+                <Zap className="mx-auto h-10 w-10 text-stone-300 dark:text-stone-700" />
+                <p className="mt-3 text-base text-stone-400 dark:text-stone-500">
+                  No purchases yet.
+                </p>
+                <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">
+                  Browse premium prompts and packs to unlock exclusive content.
+                </p>
+                <Link
+                  href="/categories"
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
+                >
+                  Browse Prompts
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
             )}
           </div>

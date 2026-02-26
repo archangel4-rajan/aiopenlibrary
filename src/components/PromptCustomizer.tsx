@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { Variable, Lightbulb, X, ChevronDown, ChevronUp } from "lucide-react";
 import CopyButton from "./CopyButton";
 import RunPrompt from "./RunPrompt";
+import UnlockButton from "./UnlockButton";
 
 const COLLAPSE_LINE_THRESHOLD = 150;
 
@@ -20,6 +21,9 @@ interface PromptCustomizerProps {
   promptType?: "text" | "image" | "video" | "unspecified";
   isPremium?: boolean;
   premiumPreviewLength?: number;
+  zapPrice?: number;
+  creatorId?: string;
+  isPurchased?: boolean;
   onPromptChange?: (augmented: string) => void;
 }
 
@@ -31,6 +35,9 @@ export default function PromptCustomizer({
   promptType,
   isPremium,
   premiumPreviewLength,
+  zapPrice,
+  creatorId,
+  isPurchased,
   onPromptChange,
 }: PromptCustomizerProps) {
   const [values, setValues] = useState<Record<string, string>>({});
@@ -74,13 +81,14 @@ export default function PromptCustomizer({
     onPromptChange?.(augmentedPrompt);
   }, [augmentedPrompt, onPromptChange]);
 
-  // For premium prompts, truncate the source text
+  // For premium prompts, truncate the source text (unless purchased)
+  const showFullContent = !isPremium || isPurchased;
   const displayPromptText = useMemo(() => {
-    if (!isPremium) return promptText;
+    if (showFullContent) return promptText;
     const maxLen = premiumPreviewLength ?? 200;
     if (promptText.length <= maxLen) return promptText;
     return promptText.slice(0, maxLen);
-  }, [promptText, isPremium, premiumPreviewLength]);
+  }, [promptText, showFullContent, premiumPreviewLength]);
 
   // Render the prompt with visual highlighting for variables
   const renderPromptSegments = useMemo(() => {
@@ -231,7 +239,7 @@ export default function PromptCustomizer({
               </span>
             )}
           </h2>
-          {!isPremium && (
+          {showFullContent && (
             <CopyButton
               text={augmentedPrompt}
               className="px-4 py-2 text-sm font-medium"
@@ -310,22 +318,38 @@ export default function PromptCustomizer({
         </div>
 
         {/* Premium overlay */}
-        {isPremium && promptText.length > (premiumPreviewLength ?? 200) && (
+        {isPremium && !isPurchased && promptText.length > (premiumPreviewLength ?? 200) && (
           <>
             <div className="relative -mt-12 h-24 bg-gradient-to-t from-stone-50 via-stone-50/90 to-transparent dark:from-stone-800 dark:via-stone-800/90" />
             <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-5 text-center dark:border-amber-800 dark:bg-amber-900/20">
-              <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
-                &#10022; Full prompt coming soon
-              </p>
-              <p className="mt-1 text-xs text-amber-600 dark:text-amber-500">
-                This is a premium prompt. The full version will be available soon.
-              </p>
+              {promptId && zapPrice && zapPrice > 0 && creatorId ? (
+                <div className="flex flex-col items-center gap-3">
+                  <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                    &#10022; Premium Prompt
+                  </p>
+                  <UnlockButton
+                    promptId={promptId}
+                    zapPrice={zapPrice}
+                    creatorId={creatorId}
+                    isPurchased={false}
+                  />
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm font-medium text-amber-700 dark:text-amber-400">
+                    &#10022; Premium Prompt
+                  </p>
+                  <p className="mt-1 text-xs text-amber-600 dark:text-amber-500">
+                    This is a premium prompt. Unlock it with Zaps to see the full content.
+                  </p>
+                </>
+              )}
             </div>
           </>
         )}
 
         {/* Run Prompt */}
-        {promptId && !isPremium && (
+        {promptId && showFullContent && (
           <RunPrompt promptId={promptId} customizedPrompt={augmentedPrompt} promptType={promptType} />
         )}
       </div>

@@ -57,6 +57,7 @@ export async function POST(request: Request) {
       is_published: typeof body.is_published === "boolean" ? body.is_published : true,
       is_premium: body.is_premium ?? false,
       premium_preview_length: body.premium_preview_length ?? null,
+      zap_price: body.zap_price ?? null,
       created_by: user.id,
     })
     .select()
