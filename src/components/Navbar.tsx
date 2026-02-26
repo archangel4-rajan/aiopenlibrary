@@ -96,12 +96,6 @@ export default function Navbar() {
 
             <div className="hidden items-center gap-7 md:flex">
               <Link
-                href="/"
-                className={getLinkClassName("/")}
-              >
-                Home
-              </Link>
-              <Link
                 href="/categories"
                 className={getLinkClassName("/categories")}
               >
@@ -113,13 +107,6 @@ export default function Navbar() {
               >
                 <Trophy className="h-4 w-4" />
                 Leaderboard
-              </Link>
-              <Link
-                href="/creators"
-                className={`${getLinkClassName("/creators")} flex items-center gap-1.5`}
-              >
-                <Users className="h-4 w-4" />
-                Creators
               </Link>
               {user && (
                 <Link
