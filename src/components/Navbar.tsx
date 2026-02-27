@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, Menu, X, Trophy, Library, PenTool, Users } from "lucide-react";
+import { Search, Menu, X, Trophy, Library, PenTool, Users, Link2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import AuthButton from "./AuthButton";
@@ -50,6 +50,9 @@ export default function Navbar() {
     }
     if (href === "/categories") {
       return pathname.startsWith("/categories") || pathname.startsWith("/category/");
+    }
+    if (href === "/chains") {
+      return pathname.startsWith("/chains");
     }
     if (href === "/leaderboard") {
       return pathname.startsWith("/leaderboard");
@@ -101,6 +104,13 @@ export default function Navbar() {
                 className={getLinkClassName("/categories")}
               >
                 Categories
+              </Link>
+              <Link
+                href="/chains"
+                className={`${getLinkClassName("/chains")} flex items-center gap-1.5`}
+              >
+                <Link2 className="h-4 w-4" />
+                Chains
               </Link>
               <Link
                 href="/leaderboard"
@@ -205,6 +215,14 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Categories
+              </Link>
+              <Link
+                href="/chains"
+                className={`${getMobileMenuItemClassName("/chains")} flex items-center gap-1.5`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Link2 className="h-3.5 w-3.5" />
+                Chains
               </Link>
               <Link
                 href="/leaderboard"

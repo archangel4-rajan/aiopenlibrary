@@ -7,7 +7,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
-import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor, ZapBalance, ZapTransaction, ZapPackage, PromptPack, UserPurchase } from "@/lib/types";
+import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor, ZapBalance, ZapTransaction, ZapPackage, PromptPack, UserPurchase, DbChain, ChainStepWithPrompt, ChainCommentWithAuthor } from "@/lib/types";
 import { sanitizeSearchQuery } from "@/lib/db-utils";
 
 // ============================================
@@ -1114,6 +1114,263 @@ export async function ensureZapBalance(userId: string): Promise<void> {
       .maybeSingle();
   } catch {
     // Row already exists or insert failed — either way, no-op
+  }
+}
+
+// ============================================
+// PROMPT CHAINS
+// ============================================
+
+/** Returns all published chains ordered by saves descending. */
+export async function getPublishedChains(limit?: number): Promise<DbChain[]> {
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from("prompt_chains")
+      .select("*")
+      .eq("is_published", true)
+      .order("saves_count", { ascending: false });
+
+    if (limit) {
+      query = query.limit(limit);
+    }
+
+    const { data, error } = await query;
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns a single published chain by slug, or null if not found. */
+export async function getChainBySlug(slug: string): Promise<DbChain | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_chains")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns a single chain by ID, or null if not found. */
+export async function getChainById(id: string): Promise<DbChain | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_chains")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns chain steps with full prompt data, ordered by step_number. */
+export async function getChainSteps(chainId: string): Promise<ChainStepWithPrompt[]> {
+  try {
+    const supabase = await createClient();
+    const { data: steps, error: stepsError } = await supabase
+      .from("prompt_chain_steps")
+      .select("*")
+      .eq("chain_id", chainId)
+      .order("step_number");
+
+    if (stepsError || !steps || steps.length === 0) return [];
+
+    const promptIds = steps.map((s) => s.prompt_id);
+    const { data: prompts, error: promptsError } = await supabase
+      .from("prompts")
+      .select("*")
+      .in("id", promptIds);
+
+    if (promptsError) return [];
+
+    const promptMap = new Map((prompts ?? []).map((p) => [p.id, p]));
+    return steps
+      .map((step) => {
+        const prompt = promptMap.get(step.prompt_id);
+        if (!prompt) return null;
+        return { ...step, prompt } as ChainStepWithPrompt;
+      })
+      .filter(Boolean) as ChainStepWithPrompt[];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns all chains created by a specific user. */
+export async function getChainsByCreator(creatorId: string): Promise<DbChain[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_chains")
+      .select("*")
+      .eq("created_by", creatorId)
+      .order("created_at", { ascending: false });
+
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns published chains for a category. */
+export async function getChainsByCategory(categorySlug: string, limit?: number): Promise<DbChain[]> {
+  try {
+    const supabase = await createClient();
+    let query = supabase
+      .from("prompt_chains")
+      .select("*")
+      .eq("category_slug", categorySlug)
+      .eq("is_published", true)
+      .order("saves_count", { ascending: false });
+
+    if (limit) {
+      query = query.limit(limit);
+    }
+
+    const { data, error } = await query;
+    if (error) return [];
+    return data ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/** Returns an array of chain IDs saved by a user. */
+export async function getUserSavedChainIds(userId: string): Promise<string[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("saved_chains")
+      .select("chain_id")
+      .eq("user_id", userId);
+
+    if (error) return [];
+    return (data ?? []).map((s) => s.chain_id);
+  } catch {
+    return [];
+  }
+}
+
+/** Returns all chain IDs that a user has voted on, with their vote types. */
+export async function getUserChainVotes(userId: string): Promise<Record<string, "like" | "dislike">> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("chain_votes")
+      .select("chain_id, vote_type")
+      .eq("user_id", userId);
+
+    if (error) return {};
+
+    const votes: Record<string, "like" | "dislike"> = {};
+    for (const row of data ?? []) {
+      votes[row.chain_id] = row.vote_type;
+    }
+    return votes;
+  } catch {
+    return {};
+  }
+}
+
+/** Checks if a user has purchased a specific chain. */
+export async function hasUserPurchasedChain(
+  userId: string,
+  chainId: string
+): Promise<boolean> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("chain_id", chainId)
+      .maybeSingle();
+
+    if (error) return false;
+    return !!data;
+  } catch {
+    return false;
+  }
+}
+
+/** Returns comments for a chain with author info, nested by parent. */
+export async function getChainComments(chainId: string): Promise<ChainCommentWithAuthor[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("chain_comments")
+      .select("*, profiles!chain_comments_user_id_fkey(display_name, avatar_url, username)")
+      .eq("chain_id", chainId)
+      .order("created_at", { ascending: true });
+
+    if (error || !data) return [];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const comments: ChainCommentWithAuthor[] = (data as any[]).map((c) => ({
+      id: c.id,
+      chain_id: c.chain_id,
+      user_id: c.user_id,
+      content: c.is_deleted ? "[deleted]" : c.content,
+      parent_id: c.parent_id,
+      is_deleted: c.is_deleted,
+      created_at: c.created_at,
+      updated_at: c.updated_at,
+      author: {
+        display_name: c.profiles?.display_name ?? null,
+        avatar_url: c.profiles?.avatar_url ?? null,
+        username: c.profiles?.username ?? null,
+      },
+      replies: [],
+    }));
+
+    // Nest replies under parents
+    const topLevel: ChainCommentWithAuthor[] = [];
+    const byId = new Map<string, ChainCommentWithAuthor>();
+    for (const c of comments) {
+      byId.set(c.id, c);
+    }
+    for (const c of comments) {
+      if (c.parent_id && byId.has(c.parent_id)) {
+        byId.get(c.parent_id)!.replies!.push(c);
+      } else {
+        topLevel.push(c);
+      }
+    }
+
+    return topLevel;
+  } catch {
+    return [];
+  }
+}
+
+/** Returns the count of steps in a chain. */
+export async function getChainStepCount(chainId: string): Promise<number> {
+  try {
+    const supabase = await createClient();
+    const { count, error } = await supabase
+      .from("prompt_chain_steps")
+      .select("*", { count: "exact", head: true })
+      .eq("chain_id", chainId);
+
+    if (error) return 0;
+    return count ?? 0;
+  } catch {
+    return 0;
   }
 }
 

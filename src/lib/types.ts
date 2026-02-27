@@ -133,7 +133,74 @@ export interface UserPurchase {
   user_id: string;
   prompt_id: string | null;
   pack_id: string | null;
+  chain_id: string | null;
   zap_amount: number;
   transaction_id: string | null;
   created_at: string;
+}
+
+// ============================================
+// PROMPT CHAINS
+// ============================================
+
+export interface DbChain {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  category_id: string | null;
+  category_name: string | null;
+  category_slug: string | null;
+  tags: string[];
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  estimated_minutes: number | null;
+  use_cases: string[];
+  is_premium: boolean;
+  zap_price: number | null;
+  saves_count: number;
+  likes_count: number;
+  dislikes_count: number;
+  is_published: boolean;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DbChainStep {
+  id: string;
+  chain_id: string;
+  prompt_id: string;
+  step_number: number;
+  title_override: string | null;
+  input_instructions: string | null;
+  context_note: string | null;
+  estimated_minutes: number | null;
+}
+
+export interface ChainStepWithPrompt extends DbChainStep {
+  prompt: DbPrompt;
+}
+
+export interface ChainWithSteps extends DbChain {
+  steps: ChainStepWithPrompt[];
+}
+
+export interface ChainComment {
+  id: string;
+  chain_id: string;
+  user_id: string;
+  content: string;
+  parent_id: string | null;
+  is_deleted: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChainCommentWithAuthor extends ChainComment {
+  author: {
+    display_name: string | null;
+    avatar_url: string | null;
+    username: string | null;
+  };
+  replies?: ChainCommentWithAuthor[];
 }
