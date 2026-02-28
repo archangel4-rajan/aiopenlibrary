@@ -23,6 +23,11 @@ export async function POST(
     return NextResponse.json({ error: "Pack not found" }, { status: 404 });
   }
 
+  // Prevent self-purchase
+  if (pack.creator_id === user.id) {
+    return NextResponse.json({ error: "You cannot purchase your own pack" }, { status: 400 });
+  }
+
   // Check if already purchased
   const { data: existing } = await supabase
     .from("user_purchases")
@@ -100,7 +105,7 @@ export async function POST(
       type: "spend",
       amount: -pack.zap_price,
       description: `Purchased pack: ${pack.name}`,
-      reference_type: "pack_purchase",
+      reference_type: "pack",
       reference_id: packId,
     })
     .select("id")
@@ -112,7 +117,7 @@ export async function POST(
     type: "earn",
     amount: creatorEarning,
     description: `Pack sale: ${pack.name}`,
-    reference_type: "pack_sale",
+    reference_type: "pack",
     reference_id: packId,
   });
 

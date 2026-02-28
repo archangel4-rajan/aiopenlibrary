@@ -104,7 +104,9 @@ export default async function PromptPage({
     user ? getUserVote(prompt.id, user.id) : Promise.resolve(null),
     getRelatedPromptsByTags(prompt.id, prompt.tags, prompt.category_slug),
     prompt.created_by ? getUserProfile(prompt.created_by) : Promise.resolve(null),
-    user && prompt.is_premium ? hasUserPurchasedPrompt(user.id, prompt.id) : Promise.resolve(false),
+    user && prompt.is_premium
+      ? (user.id === prompt.created_by ? Promise.resolve(true) : hasUserPurchasedPrompt(user.id, prompt.id))
+      : Promise.resolve(false),
   ]);
 
   const variables = (prompt.variables || []) as {

@@ -35,6 +35,11 @@ export async function POST(
     return NextResponse.json({ error: "Prompt has no creator" }, { status: 400 });
   }
 
+  // Prevent self-purchase (creator buying own prompt)
+  if (prompt.created_by === user.id) {
+    return NextResponse.json({ error: "You cannot purchase your own prompt" }, { status: 400 });
+  }
+
   // Check if already purchased
   const { data: existing } = await supabase
     .from("user_purchases")
@@ -67,13 +72,13 @@ export async function POST(
   }
 
   // Call the purchase_prompt RPC function (atomic transaction)
-  const platformCut = Math.floor(prompt.zap_price * 0.2); // 20% platform cut
+  // p_platform_cut is a percentage (20 = 20%)
   const { data: result, error: rpcError } = await supabase.rpc("purchase_prompt", {
     p_buyer_id: user.id,
     p_prompt_id: promptId,
     p_creator_id: prompt.created_by,
     p_zap_price: prompt.zap_price,
-    p_platform_cut: platformCut,
+    p_platform_cut: 20,
   });
 
   if (rpcError) {

@@ -34,6 +34,11 @@ export async function POST(
     return NextResponse.json({ error: "Chain has no creator" }, { status: 400 });
   }
 
+  // Prevent self-purchase
+  if (chain.created_by === user.id) {
+    return NextResponse.json({ error: "You cannot purchase your own chain" }, { status: 400 });
+  }
+
   // Check if already purchased
   const { data: existing } = await supabase
     .from("user_purchases")
@@ -66,13 +71,13 @@ export async function POST(
   }
 
   // Call the purchase_chain RPC function (atomic transaction)
-  const platformCut = Math.floor(chain.zap_price * 0.2); // 20% platform cut
+  // p_platform_cut is a percentage (20 = 20%)
   const { data: result, error: rpcError } = await supabase.rpc("purchase_chain", {
     p_buyer_id: user.id,
     p_chain_id: chain.id,
     p_creator_id: chain.created_by,
     p_zap_price: chain.zap_price,
-    p_platform_cut: platformCut,
+    p_platform_cut: 20,
   });
 
   if (rpcError) {
