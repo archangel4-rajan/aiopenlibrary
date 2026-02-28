@@ -42,6 +42,38 @@ export async function GET(request: Request) {
         );
       }
 
+      // Grant 100 free Zaps to new users (first login only)
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: existingBalance } = await supabase
+            .from("zap_balances")
+            .select("user_id")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+          if (!existingBalance) {
+            await supabase
+              .from("zap_balances")
+              .insert({ user_id: user.id, balance: 100, total_earned: 0, total_spent: 0 });
+
+            await supabase
+              .from("zap_transactions")
+              .insert({
+                user_id: user.id,
+                type: "purchase",
+                amount: 100,
+                description: "Welcome bonus — 100 free Zaps",
+                reference_type: "manual",
+                reference_id: "welcome-bonus",
+              });
+          }
+        }
+      } catch (zapErr) {
+        // Non-blocking — don't fail auth if Zap grant fails
+        console.error("[auth/callback] Zap welcome bonus error:", zapErr);
+      }
+
       // If this was a password reset, redirect to the reset page
       const type = searchParams.get("type");
       if (type === "recovery") {

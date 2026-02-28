@@ -1107,11 +1107,30 @@ export async function getPacksByCreator(creatorId: string): Promise<PromptPack[]
 export async function ensureZapBalance(userId: string): Promise<void> {
   try {
     const supabase = await createClient();
-    await supabase
+    // Check if balance exists first
+    const { data: existing } = await supabase
       .from("zap_balances")
-      .insert({ user_id: userId, balance: 0, total_earned: 0, total_spent: 0 })
-      .select()
+      .select("user_id")
+      .eq("user_id", userId)
       .maybeSingle();
+
+    if (!existing) {
+      // New user — grant 100 welcome Zaps
+      await supabase
+        .from("zap_balances")
+        .insert({ user_id: userId, balance: 100, total_earned: 0, total_spent: 0 });
+
+      await supabase
+        .from("zap_transactions")
+        .insert({
+          user_id: userId,
+          type: "purchase",
+          amount: 100,
+          description: "Welcome bonus — 100 free Zaps",
+          reference_type: "manual",
+          reference_id: "welcome-bonus",
+        });
+    }
   } catch {
     // Row already exists or insert failed — either way, no-op
   }
