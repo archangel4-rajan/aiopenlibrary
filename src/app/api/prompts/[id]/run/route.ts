@@ -82,12 +82,29 @@ export async function POST(
   const { id } = await params;
   const { data: prompt, error: dbError } = await supabase
     .from("prompts")
-    .select("id, title, prompt, tags, category_slug, recommended_model")
+    .select("id, title, prompt, tags, category_slug, recommended_model, is_premium, zap_price")
     .eq("id", id)
     .single();
 
   if (dbError || !prompt) {
     return NextResponse.json({ error: "Prompt not found" }, { status: 404 });
+  }
+
+  // Premium prompts require purchase before running
+  if (prompt.is_premium && prompt.zap_price && prompt.zap_price > 0) {
+    const { data: purchase } = await supabase
+      .from("user_purchases")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("prompt_id", id)
+      .maybeSingle();
+
+    if (!purchase) {
+      return NextResponse.json(
+        { error: "Unlock this premium prompt with Zaps before running it." },
+        { status: 403 }
+      );
+    }
   }
 
   const rawPrompt = body.customizedPrompt || prompt.prompt;
