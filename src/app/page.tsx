@@ -7,6 +7,8 @@ import {
   Zap,
   TrendingUp,
   Clock,
+  Link2,
+  Sparkles,
 } from "lucide-react";
 import {
   getCategories,
@@ -15,17 +17,20 @@ import {
   getPromptsCount,
   getCategoryPromptCounts,
   getUserSavedPromptIds,
+  getPublishedChains,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import PromptCard from "@/components/PromptCard";
+import ChainCard from "@/components/ChainCard";
 import CategoryCard from "@/components/CategoryCard";
 
 export default async function Home() {
-  const [categoriesData, featured, recentPrompts, promptsCount, user] = await Promise.all([
+  const [categoriesData, featured, recentPrompts, promptsCount, chains, user] = await Promise.all([
     getCategories(),
     getFeaturedPrompts(),
     getRecentPrompts(6),
     getPromptsCount(),
+    getPublishedChains(3),
     getUser(),
   ]);
 
@@ -50,13 +55,12 @@ export default async function Home() {
               Free and open source
             </div>
             <h1 className="mx-auto max-w-4xl text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100 sm:text-6xl lg:text-7xl">
-              Get better results from{" "}
-              <span className="gradient-text">every AI prompt</span>
+              Not just the model.{" "}
+              <span className="gradient-text">Everything you need for AI.</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-500 dark:text-stone-300 sm:mt-6 sm:text-xl">
-              Stop writing prompts from scratch. Browse {promptsCount}+ expert-crafted,
-              ready-to-use prompts across {categories.length} categories — customize the
-              variables and copy.
+              Prompts, chains, and skills — {promptsCount}+ expert-crafted resources
+              across {categories.length} categories. Find it, customize it, use it.
             </p>
 
             <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
@@ -164,6 +168,112 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* What's Inside */}
+      <section className="border-b border-stone-200 dark:border-stone-700 py-12 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500">
+              What&apos;s Inside
+            </h2>
+            <p className="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
+              Three ways to level up your AI
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-6 sm:mt-12 sm:grid-cols-3">
+            <Link
+              href="/categories"
+              className="group rounded-xl border border-stone-200 bg-white p-6 transition-all hover:border-stone-300 hover:shadow-md dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-stone-100 text-stone-600 transition-colors group-hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-300 dark:group-hover:bg-stone-700">
+                <BookOpen className="h-6 w-6" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
+                Prompts
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+                {promptsCount}+ ready-to-use prompts with variables you can customize. Copy, paste, get better output.
+              </p>
+              <div className="mt-4 flex items-center gap-1 text-sm font-medium text-stone-500 group-hover:text-stone-900 dark:text-stone-400 dark:group-hover:text-stone-200">
+                Browse prompts <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
+
+            <Link
+              href="/chains"
+              className="group rounded-xl border border-stone-200 bg-white p-6 transition-all hover:border-stone-300 hover:shadow-md dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors group-hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:group-hover:bg-amber-900/50">
+                <Link2 className="h-6 w-6" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
+                Prompt Chains
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
+                Multi-step workflows where each prompt builds on the last. Guided execution for complex tasks.
+              </p>
+              <div className="mt-4 flex items-center gap-1 text-sm font-medium text-stone-500 group-hover:text-stone-900 dark:text-stone-400 dark:group-hover:text-stone-200">
+                Explore chains <ArrowRight className="h-4 w-4" />
+              </div>
+            </Link>
+
+            <div
+              className="group rounded-xl border border-dashed border-stone-300 bg-stone-50 p-6 dark:border-stone-600 dark:bg-stone-900/50"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-stone-100 text-stone-400 dark:bg-stone-800 dark:text-stone-500">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-stone-400 dark:text-stone-500">
+                Skills
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-stone-400 dark:text-stone-500">
+                Reusable AI skills that combine prompts, chains, and tools into plug-and-play capabilities.
+              </p>
+              <div className="mt-4 text-sm font-medium text-stone-400 dark:text-stone-600">
+                Coming soon
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Prompt Chains */}
+      {chains.length > 0 && (
+        <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500">
+                    Prompt Chains
+                  </h2>
+                  <Link2 className="h-3.5 w-3.5 text-amber-500" />
+                </div>
+                <p className="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
+                  Step-by-step workflows
+                </p>
+              </div>
+              <Link
+                href="/chains"
+                className="hidden items-center gap-1 text-sm text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200 sm:flex"
+              >
+                View all <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {chains.map((chain) => (
+                <ChainCard
+                  key={chain.slug}
+                  chain={{ ...chain, step_count: 0 }}
+                  isSaved={false}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Categories */}
       <section className="border-b border-stone-200 dark:border-stone-700 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -173,7 +283,7 @@ export default async function Home() {
                 Categories
               </h2>
               <p className="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-                Prompts for every skill
+                Explore by topic
               </p>
             </div>
             <Link
@@ -279,11 +389,11 @@ export default async function Home() {
           <div className="relative overflow-hidden rounded-2xl bg-stone-900 px-6 py-12 text-center sm:px-16 sm:py-16">
             <div className="relative">
               <h2 className="text-2xl font-bold text-white sm:text-4xl">
-                Built a prompt that works?
+                The model is only half the equation.
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base text-stone-400">
-                Share it with thousands of people looking for exactly that.
-                Every contribution makes the library better for everyone.
+                Great AI output starts with great inputs. Share your prompts and chains
+                with thousands of people who need exactly what you&apos;ve built.
               </p>
               <Link
                 href="/submit"

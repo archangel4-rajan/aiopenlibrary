@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap } from "lucide-react";
+import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap, Link2 } from "lucide-react";
 import LibraryFilter from "@/components/LibraryFilter";
 import SkeletonCard from "@/components/SkeletonCard";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -50,7 +50,7 @@ export default function ProfilePage() {
   const [savedPrompts, setSavedPrompts] = useState<DbPrompt[]>([]);
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
-  const [activeTab, setActiveTab] = useState<"all" | "collections" | "purchases">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "chains" | "collections" | "purchases">("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
@@ -260,6 +260,16 @@ export default function ProfilePage() {
             All Saved
           </button>
           <button
+            onClick={() => setActiveTab("chains")}
+            className={`pb-3 px-2 font-medium transition-colors ${
+              activeTab === "chains"
+                ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
+                : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+            }`}
+          >
+            Chains
+          </button>
+          <button
             onClick={() => setActiveTab("collections")}
             className={`pb-3 px-2 font-medium transition-colors ${
               activeTab === "collections"
@@ -321,6 +331,34 @@ export default function ProfilePage() {
                 </Link>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Chains Tab */}
+        {activeTab === "chains" && (
+          <div>
+            <div className="mb-6 flex items-center gap-2">
+              <Link2 className="h-5 w-5 text-amber-500" />
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+                Saved Chains
+              </h2>
+            </div>
+            <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center dark:border-stone-700">
+              <Link2 className="mx-auto h-10 w-10 text-stone-300 dark:text-stone-700" />
+              <p className="mt-3 text-base text-stone-400 dark:text-stone-500">
+                No saved chains yet.
+              </p>
+              <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">
+                Browse prompt chains and save them to your library.
+              </p>
+              <Link
+                href="/chains"
+                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
+              >
+                Browse Chains
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         )}
 
