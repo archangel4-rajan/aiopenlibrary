@@ -17,6 +17,8 @@ import {
   getPromptsCount,
   getCategoryPromptCounts,
   getUserSavedPromptIds,
+  getUserPurchasedPromptIds,
+  getUserPurchasedChainIds,
   getPublishedChains,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
@@ -34,9 +36,11 @@ export default async function Home() {
     getUser(),
   ]);
 
-  const [promptCounts, savedIds] = await Promise.all([
+  const [promptCounts, savedIds, purchasedPromptIds, purchasedChainIds] = await Promise.all([
     getCategoryPromptCounts(),
     user ? getUserSavedPromptIds(user.id) : Promise.resolve([]),
+    user ? getUserPurchasedPromptIds(user.id) : Promise.resolve([]),
+    user ? getUserPurchasedChainIds(user.id) : Promise.resolve([]),
   ]);
 
   const categories = categoriesData.map((c) => ({
@@ -267,6 +271,7 @@ export default async function Home() {
                   key={chain.slug}
                   chain={{ ...chain, step_count: 0 }}
                   isSaved={false}
+                  isPurchased={purchasedChainIds.includes(chain.id)}
                 />
               ))}
             </div>
@@ -340,6 +345,7 @@ export default async function Home() {
                 key={prompt.slug}
                 prompt={prompt}
                 isSaved={savedIds.includes(prompt.id)}
+                isPurchased={purchasedPromptIds.includes(prompt.id)}
               />
             ))}
           </div>
@@ -376,6 +382,7 @@ export default async function Home() {
                   key={prompt.slug}
                   prompt={prompt}
                   isSaved={savedIds.includes(prompt.id)}
+                  isPurchased={purchasedPromptIds.includes(prompt.id)}
                 />
               ))}
             </div>

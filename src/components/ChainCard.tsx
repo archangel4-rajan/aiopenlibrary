@@ -10,9 +10,10 @@ interface ChainCardProps {
     creator?: { display_name: string | null; username: string | null; avatar_url: string | null } | null;
   };
   isSaved?: boolean;
+  isPurchased?: boolean;
 }
 
-export default function ChainCard({ chain, isSaved = false }: ChainCardProps) {
+export default function ChainCard({ chain, isSaved = false, isPurchased }: ChainCardProps) {
   return (
     <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
       <Link
@@ -34,6 +35,11 @@ export default function ChainCard({ chain, isSaved = false }: ChainCardProps) {
           {chain.is_premium && (
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
               &#10022; Premium
+            </span>
+          )}
+          {isPurchased && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+              &#10003; Owned
             </span>
           )}
         </div>

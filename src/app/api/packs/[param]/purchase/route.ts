@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { getPackById, getPackItems, ensureZapBalance } from "@/lib/db";
+import { getPackById, ensureZapBalance } from "@/lib/db";
 
 export async function POST(
   request: Request,
@@ -17,7 +17,6 @@ export async function POST(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // Get pack
   const pack = await getPackById(packId);
   if (!pack || !pack.is_published) {
     return NextResponse.json({ error: "Pack not found" }, { status: 404 });
@@ -62,87 +61,19 @@ export async function POST(
     );
   }
 
-  // Get all prompts in the pack
-  const prompts = await getPackItems(packId);
-
-  const platformCut = Math.floor(pack.zap_price * 0.2);
-  const creatorEarning = pack.zap_price - platformCut;
-
-  // Deduct from buyer
-  await supabase
-    .from("zap_balances")
-    .update({
-      balance: currentBalance - pack.zap_price,
-      total_spent: ((balance as Record<string, number> | null)?.total_spent ?? 0) + pack.zap_price,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("user_id", user.id);
-
-  // Credit to creator
-  await ensureZapBalance(pack.creator_id);
-  const { data: creatorBalance } = await supabase
-    .from("zap_balances")
-    .select("balance, total_earned")
-    .eq("user_id", pack.creator_id)
-    .single();
-
-  if (creatorBalance) {
-    await supabase
-      .from("zap_balances")
-      .update({
-        balance: creatorBalance.balance + creatorEarning,
-        total_earned: creatorBalance.total_earned + creatorEarning,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("user_id", pack.creator_id);
-  }
-
-  // Log transaction for buyer
-  const { data: txn } = await supabase
-    .from("zap_transactions")
-    .insert({
-      user_id: user.id,
-      type: "spend",
-      amount: -pack.zap_price,
-      description: `Purchased pack: ${pack.name}`,
-      reference_type: "pack",
-      reference_id: packId,
-    })
-    .select("id")
-    .single();
-
-  // Log transaction for creator
-  await supabase.from("zap_transactions").insert({
-    user_id: pack.creator_id,
-    type: "earn",
-    amount: creatorEarning,
-    description: `Pack sale: ${pack.name}`,
-    reference_type: "pack",
-    reference_id: packId,
+  // Call atomic RPC (p_platform_cut is a percentage: 20 = 20%)
+  const { data: result, error: rpcError } = await supabase.rpc("purchase_pack", {
+    p_buyer_id: user.id,
+    p_pack_id: packId,
+    p_creator_id: pack.creator_id,
+    p_zap_price: pack.zap_price,
+    p_platform_cut: 20,
   });
 
-  // Create purchase record for the pack
-  await supabase.from("user_purchases").insert({
-    user_id: user.id,
-    pack_id: packId,
-    zap_amount: pack.zap_price,
-    transaction_id: txn?.id ?? null,
-  });
-
-  // Create purchase records for each prompt in the pack (skip if already individually purchased)
-  for (const prompt of prompts) {
-    await supabase
-      .from("user_purchases")
-      .insert({
-        user_id: user.id,
-        prompt_id: prompt.id,
-        pack_id: packId,
-        zap_amount: 0, // Purchased as part of pack
-        transaction_id: txn?.id ?? null,
-      })
-      .select()
-      .maybeSingle(); // Using maybeSingle to gracefully handle unique constraint violations
+  if (rpcError) {
+    console.error("Purchase pack RPC error:", rpcError);
+    return NextResponse.json({ error: rpcError.message }, { status: 500 });
   }
 
-  return NextResponse.json({ success: true, transaction_id: txn?.id ?? null });
+  return NextResponse.json({ success: true, transaction_id: result });
 }

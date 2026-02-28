@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "./AuthProvider";
+import { useToast } from "./Toast";
 import { useRouter } from "next/navigation";
 
 interface ChainUnlockButtonProps {
@@ -19,6 +20,7 @@ export default function ChainUnlockButton({
   isPurchased,
 }: ChainUnlockButtonProps) {
   const { user, zapBalance, refreshZapBalance } = useAuth();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -71,9 +73,12 @@ export default function ChainUnlockButton({
       }
 
       await refreshZapBalance();
+      toast({ message: "Chain unlocked!", type: "success" });
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      const msg = err instanceof Error ? err.message : "Something went wrong";
+      setError(msg);
+      toast({ message: msg, type: "error" });
     } finally {
       setLoading(false);
     }

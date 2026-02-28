@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
+import { ToastProvider } from "@/components/Toast";
 import { getUser, getProfile } from "@/lib/auth";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -178,9 +179,11 @@ export default async function RootLayout({
           initialUser={user}
           initialProfile={profile}
         >
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
+          <ToastProvider>
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </ToastProvider>
         </AuthProvider>
         <Analytics />
         <SpeedInsights />

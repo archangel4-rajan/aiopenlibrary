@@ -9,6 +9,7 @@ import TagLink from "./TagLink";
 interface PromptCardProps {
   prompt: DbPrompt;
   isSaved?: boolean;
+  isPurchased?: boolean;
 }
 
 function isNew(dateStr: string): boolean {
@@ -18,7 +19,7 @@ function isNew(dateStr: string): boolean {
   return diffDays <= 14;
 }
 
-export default function PromptCard({ prompt, isSaved = false }: PromptCardProps) {
+export default function PromptCard({ prompt, isSaved = false, isPurchased }: PromptCardProps) {
   const promptPreview = prompt.prompt.replace(/\{\{[^}]+\}\}/g, "[...]").slice(0, 80);
 
   return (
@@ -43,6 +44,11 @@ export default function PromptCard({ prompt, isSaved = false }: PromptCardProps)
           {prompt.is_premium && (
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-900/40 dark:text-amber-400">
               &#10022; Premium
+            </span>
+          )}
+          {isPurchased && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+              &#10003; Owned
             </span>
           )}
         </div>

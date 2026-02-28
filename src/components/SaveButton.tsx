@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Bookmark } from "lucide-react";
 import { useAuth } from "./AuthProvider";
+import { useToast } from "./Toast";
 
 interface SaveButtonProps {
   promptId: string;
@@ -19,6 +20,7 @@ export default function SaveButton({
   size = "sm",
 }: SaveButtonProps) {
   const { user } = useAuth();
+  const { toast } = useToast();
   const router = useRouter();
   const [saved, setSaved] = useState(initialSaved);
   const [count, setCount] = useState(savesCount);
@@ -55,6 +57,8 @@ export default function SaveButton({
       if (!response.ok) {
         setSaved(wasSaved);
         setCount(savesCount);
+      } else {
+        toast({ message: wasSaved ? "Removed from library" : "Saved!", type: "success" });
       }
     } catch {
       setSaved(wasSaved);

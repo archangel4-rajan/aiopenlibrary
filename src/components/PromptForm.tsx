@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, X, Save } from "lucide-react";
+import { useToast } from "./Toast";
 import type { DbPrompt, DbCategory } from "@/lib/types";
 import { MODELS, getModelIcon } from "@/lib/models";
 
@@ -22,6 +23,7 @@ export default function PromptForm({
   backUrl = "/admin",
 }: PromptFormProps) {
   const router = useRouter();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -121,6 +123,7 @@ export default function PromptForm({
         throw new Error(data.error || "Failed to save");
       }
 
+      toast({ message: "Prompt saved!", type: "success" });
       router.push(backUrl);
       router.refresh();
     } catch (err: unknown) {

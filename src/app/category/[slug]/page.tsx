@@ -4,6 +4,7 @@ import {
   getCategoryBySlug,
   getPromptsByCategory,
   getUserSavedPromptIds,
+  getUserPurchasedPromptIds,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import PromptCard from "@/components/PromptCard";
@@ -52,7 +53,10 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const savedIds = user ? await getUserSavedPromptIds(user.id) : [];
+  const [savedIds, purchasedPromptIds] = await Promise.all([
+    user ? getUserSavedPromptIds(user.id) : Promise.resolve([]),
+    user ? getUserPurchasedPromptIds(user.id) : Promise.resolve([]),
+  ]);
 
   const categoryJsonLd = {
     "@context": "https://schema.org",
@@ -114,6 +118,7 @@ export default async function CategoryPage({
                 key={prompt.slug}
                 prompt={prompt}
                 isSaved={savedIds.includes(prompt.id)}
+                isPurchased={purchasedPromptIds.includes(prompt.id)}
               />
             ))}
           </div>

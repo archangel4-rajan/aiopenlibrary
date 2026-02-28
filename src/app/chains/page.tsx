@@ -1,5 +1,5 @@
 import { Link2 } from "lucide-react";
-import { getPublishedChains, getUserSavedChainIds, getCategories } from "@/lib/db";
+import { getPublishedChains, getUserSavedChainIds, getUserPurchasedChainIds, getCategories } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ChainCard from "@/components/ChainCard";
 import type { Metadata } from "next";
@@ -20,7 +20,10 @@ export default async function ChainsPage() {
     getCategories(),
   ]);
 
-  const savedChainIds = user ? await getUserSavedChainIds(user.id) : [];
+  const [savedChainIds, purchasedChainIds] = await Promise.all([
+    user ? getUserSavedChainIds(user.id) : Promise.resolve([]),
+    user ? getUserPurchasedChainIds(user.id) : Promise.resolve([]),
+  ]);
 
   // Get step counts via API-like inline approach
   const { createClient } = await import("@/lib/supabase/server");
@@ -89,6 +92,7 @@ export default async function ChainsPage() {
                   creator: chain.created_by ? creatorMap[chain.created_by] || null : null,
                 }}
                 isSaved={savedChainIds.includes(chain.id)}
+                isPurchased={purchasedChainIds.includes(chain.id)}
               />
             ))}
           </div>

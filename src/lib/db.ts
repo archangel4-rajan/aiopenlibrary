@@ -956,6 +956,23 @@ export async function getUserPurchasedPackIds(userId: string): Promise<string[]>
   }
 }
 
+/** Returns chain IDs that a user has purchased. */
+export async function getUserPurchasedChainIds(userId: string): Promise<string[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("user_purchases")
+      .select("chain_id")
+      .eq("user_id", userId)
+      .not("chain_id", "is", null);
+
+    if (error) return [];
+    return (data ?? []).map((p) => p.chain_id).filter(Boolean) as string[];
+  } catch {
+    return [];
+  }
+}
+
 /** Checks if a user has purchased a specific prompt. */
 export async function hasUserPurchasedPrompt(
   userId: string,

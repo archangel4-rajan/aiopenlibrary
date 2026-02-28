@@ -237,7 +237,7 @@ export default async function CreatorPage() {
         </div>
 
         {/* Prompts Table */}
-        <div className="overflow-hidden rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-800">
+        <div className="overflow-x-auto rounded-xl border border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-800">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-stone-50 dark:bg-stone-800">

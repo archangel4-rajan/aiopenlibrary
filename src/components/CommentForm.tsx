@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useToast } from "./Toast";
 
 const MAX_CHARS = 2000;
 
@@ -17,6 +18,7 @@ export default function CommentForm({
   onSubmit,
   onCancel,
 }: CommentFormProps) {
+  const { toast } = useToast();
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,6 +48,7 @@ export default function CommentForm({
       }
 
       setContent("");
+      toast({ message: "Comment posted!", type: "success" });
       onSubmit();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");

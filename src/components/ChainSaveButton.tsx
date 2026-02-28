@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Bookmark } from "lucide-react";
 import { useAuth } from "./AuthProvider";
+import { useToast } from "./Toast";
 
 interface ChainSaveButtonProps {
   chainSlug: string;
@@ -19,6 +20,7 @@ export default function ChainSaveButton({
   size = "sm",
 }: ChainSaveButtonProps) {
   const { user } = useAuth();
+  const { toast } = useToast();
   const router = useRouter();
   const [saved, setSaved] = useState(isSaved);
   const [count, setCount] = useState(savesCount);
@@ -54,6 +56,8 @@ export default function ChainSaveButton({
       if (!response.ok) {
         setSaved(wasSaved);
         setCount(savesCount);
+      } else {
+        toast({ message: wasSaved ? "Removed from library" : "Saved!", type: "success" });
       }
     } catch {
       setSaved(wasSaved);

@@ -366,7 +366,7 @@ export default function ChainRunner({ chain }: ChainRunnerProps) {
                 )}
               </button>
             </div>
-            <div className="max-h-96 overflow-y-auto p-4">
+            <div className="max-h-96 overflow-x-auto overflow-y-auto p-4">
               <pre className="whitespace-pre-wrap break-words font-mono text-sm text-stone-800 dark:text-stone-200">
                 {step.prompt.prompt}
               </pre>
@@ -397,7 +397,7 @@ export default function ChainRunner({ chain }: ChainRunnerProps) {
           )}
 
           {/* Navigation buttons */}
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <button
               onClick={handlePrevious}
               disabled={currentStep === 0}

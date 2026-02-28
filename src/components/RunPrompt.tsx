@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { Play, Loader2, AlertCircle, Sparkles, Download, RotateCcw } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
+import { useToast } from "@/components/Toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -27,6 +28,7 @@ export default function RunPrompt({
   promptType = "text",
 }: RunPromptProps) {
   const { user } = useAuth();
+  const { toast } = useToast();
   const router = useRouter();
   const [isRunning, setIsRunning] = useState(false);
   const [result, setResult] = useState<RunResult | null>(null);
@@ -80,6 +82,7 @@ export default function RunPrompt({
 
       setResult(data);
       setRetryCount(0);
+      toast({ message: "Output generated!", type: "success" });
     } catch {
       setError("Network error. Please check your connection and try again.");
     } finally {

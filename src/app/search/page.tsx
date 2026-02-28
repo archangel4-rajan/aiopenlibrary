@@ -37,6 +37,7 @@ function SearchContent() {
   const [results, setResults] = useState<DbPrompt[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [savedIds, setSavedIds] = useState<string[]>([]);
+  const [purchasedIds, setPurchasedIds] = useState<string[]>([]);
   const [categories, setCategories] = useState<{ slug: string; name: string }[]>([]);
   const [showFilters, setShowFilters] = useState(
     !!(initialCategory || initialDifficulty || initialModel)
@@ -54,12 +55,16 @@ function SearchContent() {
       .catch(() => {});
   }, []);
 
-  // Fetch saved IDs when user is available
+  // Fetch saved IDs and purchased IDs when user is available
   useEffect(() => {
     if (user) {
       fetch("/api/user/saved-ids")
         .then((res) => res.json())
         .then((ids) => setSavedIds(ids))
+        .catch(() => {});
+      fetch("/api/user/purchased-ids")
+        .then((res) => res.json())
+        .then((ids) => setPurchasedIds(ids))
         .catch(() => {});
     }
   }, [user]);
@@ -268,6 +273,7 @@ function SearchContent() {
                 key={prompt.slug}
                 prompt={prompt}
                 isSaved={savedIds.includes(prompt.id)}
+                isPurchased={purchasedIds.includes(prompt.id)}
               />
             ))}
           </div>
