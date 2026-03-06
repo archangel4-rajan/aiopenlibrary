@@ -72,6 +72,16 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Listen for auth sign-in events from AuthProvider (which wraps ToastProvider)
+  useEffect(() => {
+    function handleSignIn(e: Event) {
+      const detail = (e as CustomEvent<{ name: string }>).detail;
+      toast({ message: `Welcome back, ${detail.name}!`, type: "success" });
+    }
+    window.addEventListener("auth:signed-in", handleSignIn);
+    return () => window.removeEventListener("auth:signed-in", handleSignIn);
+  }, [toast]);
+
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}

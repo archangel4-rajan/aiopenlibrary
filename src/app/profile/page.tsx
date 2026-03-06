@@ -3,12 +3,20 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap, Link2 } from "lucide-react";
+import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap, Link2, Send, Pencil } from "lucide-react";
 import LibraryFilter from "@/components/LibraryFilter";
 import SkeletonCard from "@/components/SkeletonCard";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useAuth } from "@/components/AuthProvider";
 import type { DbPrompt } from "@/lib/types";
+
+interface Submission {
+  id: string;
+  title: string;
+  category_name: string;
+  status: string;
+  created_at: string;
+}
 
 interface Collection {
   id: string;
@@ -50,7 +58,8 @@ export default function ProfilePage() {
   const [savedPrompts, setSavedPrompts] = useState<DbPrompt[]>([]);
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
-  const [activeTab, setActiveTab] = useState<"all" | "chains" | "collections" | "purchases">("all");
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [activeTab, setActiveTab] = useState<"all" | "chains" | "collections" | "purchases" | "submissions">("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
@@ -64,6 +73,13 @@ export default function ProfilePage() {
   const [creatorError, setCreatorError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Handle ?tab= URL parameter
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get("tab");
+    if (tabParam === "submissions") {
+      setActiveTab("submissions");
+    }
+
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -84,15 +100,16 @@ export default function ProfilePage() {
         setEmail(userData.email || "");
 
         // Fetch remaining data in parallel — all auth-gated but we know we're logged in
-        const [profileResult, savedIdsResult, collectionsResult, purchasesResult] = await Promise.all([
+        const [profileResult, savedIdsResult, collectionsResult, purchasesResult, submissionsResult] = await Promise.all([
           fetchWithAuth<UserProfile>("/api/user/profile", { display_name: null, avatar_url: null }),
           fetchWithAuth<string[]>("/api/user/saved-ids", []),
           fetchWithAuth<Collection[]>("/api/collections", []),
           fetchWithAuth<{ promptIds: string[]; packIds: string[] }>("/api/user/purchases", { promptIds: [], packIds: [] }),
+          fetchWithAuth<Submission[]>("/api/user/submissions", []),
         ]);
 
         // Handle any individual 401s (session expired mid-request)
-        if (!profileResult.authed || !savedIdsResult.authed || !collectionsResult.authed || !purchasesResult.authed) {
+        if (!profileResult.authed || !savedIdsResult.authed || !collectionsResult.authed || !purchasesResult.authed || !submissionsResult.authed) {
           window.location.href = "/auth/login";
           return;
         }
@@ -109,6 +126,9 @@ export default function ProfilePage() {
 
         const pIds = Array.isArray(purchasesResult.data?.promptIds) ? purchasesResult.data.promptIds : [];
         setPurchasedPromptIds(pIds);
+
+        const subs = Array.isArray(submissionsResult.data) ? submissionsResult.data : [];
+        setSubmissions(subs);
 
         // Fetch purchased prompt details
         if (pIds.length > 0) {
@@ -288,6 +308,16 @@ export default function ProfilePage() {
             }`}
           >
             Purchases
+          </button>
+          <button
+            onClick={() => setActiveTab("submissions")}
+            className={`pb-3 px-2 font-medium transition-colors ${
+              activeTab === "submissions"
+                ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
+                : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
+            }`}
+          >
+            Submissions
           </button>
         </div>
 
@@ -486,6 +516,103 @@ export default function ProfilePage() {
                   className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
                 >
                   Browse Prompts
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Submissions Tab */}
+        {activeTab === "submissions" && (
+          <div>
+            <div className="mb-6 flex items-center gap-2">
+              <Send className="h-5 w-5 text-stone-600 dark:text-stone-400" />
+              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
+                My Submissions
+              </h2>
+              <span className="rounded-full bg-stone-200 px-2.5 py-0.5 text-xs font-medium text-stone-600 dark:bg-stone-800 dark:text-stone-300">
+                {submissions.length}
+              </span>
+            </div>
+
+            {loading ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {[...Array(6)].map((_, i) => (
+                  <SkeletonCard key={i} />
+                ))}
+              </div>
+            ) : submissions.length > 0 ? (
+              <div className="space-y-3">
+                {submissions.map((sub) => {
+                  const statusConfig: Record<string, { label: string; className: string }> = {
+                    draft: {
+                      label: "Draft",
+                      className: "bg-stone-100 text-stone-600 dark:bg-stone-700 dark:text-stone-300",
+                    },
+                    pending: {
+                      label: "Pending",
+                      className: "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+                    },
+                    approved: {
+                      label: "Approved",
+                      className: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+                    },
+                    rejected: {
+                      label: "Rejected",
+                      className: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+                    },
+                  };
+                  const status = statusConfig[sub.status] || statusConfig.pending;
+
+                  return (
+                    <div
+                      key={sub.id}
+                      className="flex items-center justify-between rounded-lg border border-stone-200 bg-white p-4 dark:border-stone-700 dark:bg-stone-900"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <h3 className="truncate text-sm font-semibold text-stone-900 dark:text-stone-100">
+                          {sub.title}
+                        </h3>
+                        <div className="mt-1 flex items-center gap-3 text-xs text-stone-500 dark:text-stone-400">
+                          <span>{sub.category_name}</span>
+                          <span>{formatDate(sub.created_at)}</span>
+                        </div>
+                      </div>
+                      <div className="ml-4 flex shrink-0 items-center gap-2">
+                        <span
+                          className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${status.className}`}
+                        >
+                          {status.label}
+                        </span>
+                        {sub.status === "draft" && (
+                          <Link
+                            href={`/submit/${sub.id}`}
+                            className="inline-flex items-center gap-1 rounded-lg border border-stone-200 px-2.5 py-1 text-xs font-medium text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
+                          >
+                            <Pencil className="h-3 w-3" />
+                            Continue Editing
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center dark:border-stone-700">
+                <Send className="mx-auto h-10 w-10 text-stone-300 dark:text-stone-700" />
+                <p className="mt-3 text-base text-stone-400 dark:text-stone-500">
+                  No submissions yet.
+                </p>
+                <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">
+                  Share your best prompts with the community.
+                </p>
+                <Link
+                  href="/submit"
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
+                >
+                  Share a Prompt
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>

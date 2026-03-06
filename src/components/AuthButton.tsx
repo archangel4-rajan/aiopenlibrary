@@ -34,7 +34,7 @@ export default function AuthButton() {
 
   if (isLoading) {
     return (
-      <div className="h-8 w-8 animate-pulse rounded-full bg-stone-200" />
+      <div className="h-8 w-8 rounded-full bg-stone-200 dark:bg-stone-700" />
     );
   }
 

@@ -94,6 +94,16 @@ export function AuthProvider({
           await fetchProfile(session.user.id);
           setIsLoading(false);
         }
+        // Show welcome toast only on explicit sign-in (not refresh/initial)
+        if (event === "SIGNED_IN") {
+          const name =
+            session.user.user_metadata?.full_name ||
+            session.user.email?.split("@")[0] ||
+            "there";
+          window.dispatchEvent(
+            new CustomEvent("auth:signed-in", { detail: { name } })
+          );
+        }
         // Fetch Zap balance when user signs in
         refreshZapBalance();
       } else if (event === "SIGNED_OUT") {

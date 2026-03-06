@@ -10,13 +10,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!submissionLimiter.check(user.id)) {
-      return NextResponse.json(
-        { error: "Too many submissions. Please try again later." },
-        { status: 429 }
-      );
-    }
-
     const body = await request.json();
     const {
       title,
@@ -29,12 +22,31 @@ export async function POST(request: Request) {
       recommended_model,
       model_icon,
       submitter_email,
+      status: reqStatus,
     } = body;
 
-    if (!title || !description || !category_id || !prompt) {
+    const isDraft = reqStatus === "draft";
+
+    // Drafts only require a title; full submissions require all fields
+    if (!title) {
+      return NextResponse.json(
+        { error: "Title is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!isDraft && (!description || !category_id || !prompt)) {
       return NextResponse.json(
         { error: "Title, description, category, and prompt are required" },
         { status: 400 }
+      );
+    }
+
+    // Only rate-limit actual submissions, not drafts
+    if (!isDraft && !submissionLimiter.check(user.id)) {
+      return NextResponse.json(
+        { error: "Too many submissions. Please try again later." },
+        { status: 429 }
       );
     }
 
@@ -43,16 +55,17 @@ export async function POST(request: Request) {
       .from("prompt_submissions")
       .insert({
         title,
-        description,
-        category_id,
-        category_name,
-        category_slug,
-        prompt,
+        description: description || "",
+        category_id: category_id || null,
+        category_name: category_name || "",
+        category_slug: category_slug || "",
+        prompt: prompt || "",
         tags: tags || [],
         recommended_model: recommended_model || "",
         model_icon: model_icon || "",
         submitter_email: submitter_email || user.email || "",
         submitted_by: user.id,
+        status: isDraft ? "draft" : "pending",
       })
       .select()
       .single();

@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Send, CheckCircle, LogIn, ChevronRight } from "lucide-react";
+import { Send, CheckCircle, LogIn, ChevronRight, Save } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthProvider";
 import type { DbCategory } from "@/lib/types";
 
-type SubmitState = "idle" | "submitting" | "success" | "error";
+type SubmitState = "idle" | "submitting" | "saving-draft" | "success" | "error";
 type WizardStep = 1 | 2 | 3;
 
 const MODEL_OPTIONS = [
@@ -134,6 +134,55 @@ export default function SubmitPage() {
       }
 
       setState("success");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+      setState("error");
+    }
+  };
+
+  const handleSaveDraft = async () => {
+    if (!title.trim()) {
+      setStepError("Title is required to save a draft");
+      return;
+    }
+    setState("saving-draft");
+    setError("");
+    setStepError("");
+
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          description,
+          category_id: categoryId || null,
+          category_name: selectedCategory?.name || "",
+          category_slug: selectedCategory?.slug || "",
+          prompt,
+          tags: tagsStr
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean),
+          recommended_model: recommendedModel,
+          model_icon: modelIcon,
+          submitter_email: email,
+          status: "draft",
+        }),
+      });
+
+      if (res.status === 401) {
+        window.location.href = "/auth/login";
+        return;
+      }
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to save draft");
+      }
+
+      // Redirect to profile submissions tab
+      window.location.href = "/profile?tab=submissions";
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong");
       setState("error");
@@ -574,20 +623,29 @@ export default function SubmitPage() {
             </div>
 
             {/* Navigation & Submit */}
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-3 pt-4">
               <button
                 type="button"
                 onClick={handleBack}
-                className="flex-1 rounded-lg border border-stone-300 bg-stone-50 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
+                className="rounded-lg border border-stone-300 bg-stone-50 px-4 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
               >
                 Back
               </button>
               <button
+                type="button"
+                onClick={handleSaveDraft}
+                disabled={state === "saving-draft" || state === "submitting"}
+                className="inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 bg-white px-4 py-3 text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 disabled:opacity-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700 dark:disabled:opacity-50"
+              >
+                <Save className="h-4 w-4" />
+                {state === "saving-draft" ? "Saving..." : "Save Draft"}
+              </button>
+              <button
                 type="submit"
-                disabled={state === "submitting"}
+                disabled={state === "submitting" || state === "saving-draft"}
                 className="flex-1 rounded-lg bg-stone-900 py-3 text-sm font-medium text-white transition-colors hover:bg-stone-800 disabled:opacity-50 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-50 dark:disabled:opacity-50"
               >
-                {state === "submitting" ? "Submitting..." : "Submit Prompt for Review"}
+                {state === "submitting" ? "Submitting..." : "Submit for Review"}
               </button>
             </div>
 
