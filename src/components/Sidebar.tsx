@@ -88,8 +88,8 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 py-5">
         <Link href="/" className="flex items-center gap-2.5">
-          <Logo size={40} className="h-10 w-10" />
-          <span className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100">
+          <Logo size={48} className="h-12 w-12" />
+          <span className="text-xl font-semibold tracking-tight text-stone-900 dark:text-stone-100">
             AIOpenLibrary
           </span>
         </Link>
@@ -208,8 +208,8 @@ export default function Sidebar() {
       {/* Mobile header bar */}
       <div className="sticky top-0 z-50 flex items-center justify-between border-b border-stone-200 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl px-4 py-3 md:hidden">
         <Link href="/" className="flex items-center gap-2">
-          <Logo size={32} className="h-8 w-8" />
-          <span className="text-base font-semibold tracking-tight text-stone-900 dark:text-stone-100">
+          <Logo size={36} className="h-9 w-9" />
+          <span className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100">
             AIOpenLibrary
           </span>
         </Link>
