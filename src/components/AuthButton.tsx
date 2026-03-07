@@ -8,7 +8,7 @@ import { LogOut, Library, Shield, ChevronDown, Zap } from "lucide-react";
 import { useAuth } from "./AuthProvider";
 import { createClient } from "@/lib/supabase/client";
 
-export default function AuthButton() {
+export default function AuthButton({ dropdownPosition }: { dropdownPosition?: "top-left" | "top-right" } = {}) {
   const { user, profile, isAdmin, isLoading, zapBalance } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -85,7 +85,11 @@ export default function AuthButton() {
       </button>
 
       {menuOpen && (
-        <div className="absolute right-0 z-50 mt-2 w-56 rounded-lg border border-stone-200 bg-stone-50 py-2 shadow-lg shadow-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:shadow-none">
+        <div className={`absolute z-50 w-56 rounded-lg border border-stone-200 bg-stone-50 py-2 shadow-lg shadow-stone-100 dark:border-stone-700 dark:bg-stone-800 dark:shadow-none ${
+            dropdownPosition === "top-left"
+              ? "bottom-full left-0 mb-2"
+              : "right-0 mt-2"
+          }`}>
           <div className="border-b border-stone-100 px-4 pb-2 dark:border-stone-700">
             <p className="text-sm font-medium text-stone-900 dark:text-stone-100">{displayName}</p>
             <p className="text-xs text-stone-400 dark:text-stone-500">{user.email}</p>

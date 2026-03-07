@@ -260,10 +260,10 @@ export default function Sidebar() {
       <div className="mt-auto border-t border-stone-200 dark:border-stone-700 px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <AuthButton />
+            <AuthButton dropdownPosition="top-left" />
             {user && <ZapBalance />}
           </div>
-          <ThemeToggle />
+          <ThemeToggle dropdownPosition="top-right" />
         </div>
       </div>
     </div>

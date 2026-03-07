@@ -30,7 +30,7 @@ function applyTheme(theme: Theme): void {
   }
 }
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ dropdownPosition }: { dropdownPosition?: "top-left" | "top-right" } = {}) {
   const [theme, setTheme] = useState<Theme>(() => getStoredTheme());
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -103,7 +103,13 @@ export default function ThemeToggle() {
       </button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-36 rounded-lg border border-stone-200 bg-stone-50 py-1 shadow-lg dark:border-stone-700 dark:bg-stone-800">
+        <div className={`absolute z-50 w-36 rounded-lg border border-stone-200 bg-stone-50 py-1 shadow-lg dark:border-stone-700 dark:bg-stone-800 ${
+            dropdownPosition === "top-right"
+              ? "bottom-full right-0 mb-2"
+              : dropdownPosition === "top-left"
+                ? "bottom-full left-0 mb-2"
+                : "right-0 mt-2"
+          }`}>
           {options.map((opt) => (
             <button
               key={opt.value}
