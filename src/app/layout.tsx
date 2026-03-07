@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ToastProvider } from "@/components/Toast";
@@ -180,9 +180,13 @@ export default async function RootLayout({
           initialProfile={profile}
         >
           <ToastProvider>
-            <Navbar />
-            <main className="min-h-screen">{children}</main>
-            <Footer />
+            <div className="flex min-h-screen">
+              <Sidebar />
+              <div className="flex flex-1 flex-col min-w-0">
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
+            </div>
           </ToastProvider>
         </AuthProvider>
         <Analytics />
