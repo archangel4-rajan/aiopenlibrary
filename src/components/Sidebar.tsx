@@ -3,13 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+
 import {
   Home,
   Link2,
   Trophy,
   Send,
-  Search,
   X,
   Menu,
   Library,
@@ -39,10 +38,7 @@ const NAV_LINKS = [
 export default function Sidebar() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
   const { user, isAdmin, isCreator } = useAuth();
 
   useEffect(() => {
@@ -59,27 +55,6 @@ export default function Sidebar() {
     setMobileOpen(false);
   }, [pathname]);
 
-  // Global "/" shortcut for search
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement;
-      const tagName = target.tagName.toLowerCase();
-      if (
-        tagName === "input" ||
-        tagName === "textarea" ||
-        tagName === "select" ||
-        target.isContentEditable
-      )
-        return;
-      if (e.key === "/") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
   // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
@@ -91,15 +66,6 @@ export default function Sidebar() {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchOpen(false);
-      setSearchQuery("");
-    }
-  };
 
   const isActive = (href: string): boolean => {
     if (href === "/") return pathname === "/";
@@ -127,43 +93,6 @@ export default function Sidebar() {
             AIOpenLibrary
           </span>
         </Link>
-      </div>
-
-      {/* Search */}
-      <div className="px-3 pb-2">
-        {searchOpen ? (
-          <form onSubmit={handleSearch} className="flex items-center gap-2">
-            <input
-              type="text"
-              placeholder="Search prompts..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-lg border border-stone-300 dark:border-stone-600 bg-white dark:bg-stone-800 px-3 py-2 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 outline-none focus:border-stone-500 dark:focus:border-stone-500"
-              autoFocus
-            />
-            <button
-              type="button"
-              onClick={() => {
-                setSearchOpen(false);
-                setSearchQuery("");
-              }}
-              className="text-stone-400 hover:text-stone-600 dark:hover:text-stone-300"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </form>
-        ) : (
-          <button
-            onClick={() => setSearchOpen(true)}
-            className="flex w-full items-center gap-2 rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 px-3 py-2 text-sm text-stone-400 dark:text-stone-500 transition-colors hover:border-stone-300 dark:hover:border-stone-600"
-          >
-            <Search className="h-4 w-4" />
-            <span>Search...</span>
-            <kbd className="ml-auto rounded border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 px-1.5 py-0.5 font-mono text-[10px] text-stone-400 dark:text-stone-500">
-              /
-            </kbd>
-          </button>
-        )}
       </div>
 
       {/* Nav Links */}

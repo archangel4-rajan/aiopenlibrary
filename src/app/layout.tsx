@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
+import TopSearchBar from "@/components/TopSearchBar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ToastProvider } from "@/components/Toast";
@@ -183,6 +184,7 @@ export default async function RootLayout({
             <div className="flex min-h-screen">
               <Sidebar />
               <div className="flex flex-1 flex-col min-w-0">
+                <TopSearchBar />
                 <main className="flex-1">{children}</main>
                 <Footer />
               </div>
