@@ -135,6 +135,7 @@ function getCategoryIcon(slug: string): string {
     "personal-development": "🌱",
     "hr-people-ops": "👥",
     "fun-games": "🎮",
+    "software-architecture": "🏗️",
   };
   return icons[slug] || "📝";
 }
