@@ -57,7 +57,12 @@ describe("POST /api/submissions", () => {
     mockCheck.mockReturnValue(false);
     const request = new Request("http://localhost/api/submissions", {
       method: "POST",
-      body: JSON.stringify({ title: "Test" }),
+      body: JSON.stringify({
+        title: "Test",
+        description: "Test description",
+        category_id: "cat-1",
+        prompt: "Test prompt text",
+      }),
     });
     const response = await POST(request);
     expect(response.status).toBe(429);

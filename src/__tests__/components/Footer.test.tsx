@@ -41,7 +41,7 @@ describe("Footer", () => {
 
     const hrefs = externalLinks.map((l) => l.getAttribute("href"));
     expect(hrefs).toContain("https://twitter.com/aiopenlibrary");
-    expect(hrefs).toContain("https://github.com/aiopenlibrary");
+    expect(hrefs).toContain("https://github.com/archangel4-rajan/aiopenlibrary");
   });
 
   it("renders the current year in copyright", () => {

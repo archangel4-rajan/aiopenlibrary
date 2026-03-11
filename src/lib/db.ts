@@ -563,8 +563,10 @@ export async function searchPromptsWithFilters(
     const q = query.trim();
     if (q) {
       const sanitized = sanitizeSearchQuery(q);
+      // Search title, description, category name via ilike
+      // Also search tags via JSONB contains for exact tag matches
       builder = builder.or(
-        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,tags::text.ilike.%${sanitized}%`
+        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,tags.cs.{"${sanitized.toLowerCase()}"}`
       );
     }
 
