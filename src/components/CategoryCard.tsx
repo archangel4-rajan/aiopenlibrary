@@ -24,9 +24,9 @@ export default function CategoryCard({ category }: CategoryCardProps) {
         <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
           {category.name}
         </h3>
-        <p className="text-xs text-stone-400 dark:text-stone-500">
+        <span className="inline-flex items-center rounded-full bg-stone-100 px-2 py-0.5 text-xs font-semibold text-stone-600 dark:bg-stone-700 dark:text-stone-300">
           {category.promptCount} prompts
-        </p>
+        </span>
       </div>
       <ArrowRight className="h-4 w-4 shrink-0 text-stone-300 transition-colors group-hover:text-stone-500 dark:text-stone-600 dark:group-hover:text-stone-400" />
     </Link>

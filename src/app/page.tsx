@@ -99,9 +99,9 @@ export default async function Home() {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-                  Weekly
+                  100%
                 </div>
-                <div className="mt-1 text-sm text-stone-400 dark:text-stone-500">Updated</div>
+                <div className="mt-1 text-sm text-stone-400 dark:text-stone-500">Free & Open Source</div>
               </div>
             </div>
           </div>
