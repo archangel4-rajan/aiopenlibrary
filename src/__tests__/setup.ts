@@ -17,7 +17,8 @@ vi.mock('next/navigation', () => ({
 
 // Mock Next.js Link
 vi.mock('next/link', () => ({
-  default: ({ children, href, ...props }: any) => {
+  default: ({ children, href, ...props }: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { createElement } = require('react')
     return createElement('a', { href, ...props }, children)
   },

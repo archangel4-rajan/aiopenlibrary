@@ -36,7 +36,7 @@ export async function GET(request: Request) {
 
     // Get step counts for each chain
     const chainIds = (chains ?? []).map((c) => c.id);
-    let stepCounts: Record<string, number> = {};
+    const stepCounts: Record<string, number> = {};
 
     if (chainIds.length > 0) {
       const { data: steps } = await supabase

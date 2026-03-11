@@ -35,7 +35,7 @@ export default async function CreatorPage() {
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
   const chainIds = chains.map((c) => c.id);
-  let chainStepCounts: Record<string, number> = {};
+  const chainStepCounts: Record<string, number> = {};
   if (chainIds.length > 0) {
     const { data: steps } = await supabase
       .from("prompt_chain_steps")

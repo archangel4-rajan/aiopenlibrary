@@ -29,7 +29,7 @@ export default async function ChainsPage() {
   const { createClient } = await import("@/lib/supabase/server");
   const supabase = await createClient();
   const chainIds = chains.map((c) => c.id);
-  let stepCounts: Record<string, number> = {};
+  const stepCounts: Record<string, number> = {};
 
   if (chainIds.length > 0) {
     const { data: steps } = await supabase
@@ -46,7 +46,7 @@ export default async function ChainsPage() {
 
   // Get creator profiles
   const creatorIds = [...new Set(chains.map((c) => c.created_by).filter(Boolean))] as string[];
-  let creatorMap: Record<string, { display_name: string | null; username: string | null; avatar_url: string | null }> = {};
+  const creatorMap: Record<string, { display_name: string | null; username: string | null; avatar_url: string | null }> = {};
 
   if (creatorIds.length > 0) {
     const { data: profiles } = await supabase

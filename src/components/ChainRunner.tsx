@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, startTransition } from "react";
 import {
   Check,
   ChevronLeft,
@@ -57,14 +57,16 @@ export default function ChainRunner({ chain }: ChainRunnerProps) {
   const [copied, setCopied] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
 
-  // Load progress from localStorage
+  // Load progress from localStorage on mount
   useEffect(() => {
     const progress = loadProgress(chain.id);
-    setCurrentStep(progress.currentStep);
-    setCompletedSteps(new Set(progress.completedSteps));
-    if (progress.completedSteps.length === chain.steps.length) {
-      setIsComplete(true);
-    }
+    startTransition(() => {
+      setCurrentStep(progress.currentStep);
+      setCompletedSteps(new Set(progress.completedSteps));
+      if (progress.completedSteps.length === chain.steps.length) {
+        setIsComplete(true);
+      }
+    });
   }, [chain.id, chain.steps.length]);
 
   // Save progress whenever it changes
