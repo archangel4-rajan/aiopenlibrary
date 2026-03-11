@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import Logo from "./Logo";
 
 const linkClass =
@@ -19,7 +18,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-stone-400 dark:text-stone-500">
-              The free, open-source prompt library. Find expert-crafted prompts,
+              The free AI prompt library. Find expert-crafted prompts,
               customize the variables, and get better results from any AI.
             </p>
           </div>
@@ -110,20 +109,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col items-center gap-2 border-t border-stone-200 pt-6 text-xs text-stone-400 dark:border-stone-700 dark:text-stone-500">
-          <a
-            href="https://github.com/archangel4-rajan/aiopenlibrary"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-stone-500 transition-colors hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-200"
-          >
-            <Heart className="h-3.5 w-3.5 text-red-500" />
-            Open Source
-          </a>
-          <p>
-            &copy; {new Date().getFullYear()} AIOpenLibrary. Free and open
-            source — built for the AI era.
-          </p>
+        <div className="mt-8 border-t border-stone-200 pt-6 text-center text-xs text-stone-400 dark:border-stone-700 dark:text-stone-500">
+          &copy; {new Date().getFullYear()} AIOpenLibrary. Built for the AI era.
         </div>
       </div>
     </footer>

@@ -19,7 +19,7 @@ describe("Footer", () => {
 
   it("renders the tagline", () => {
     const { container } = render(<Footer />);
-    expect(container.textContent).toContain("free, open-source prompt library");
+    expect(container.textContent).toContain("free AI prompt library");
   });
 
   it("contains navigation links", () => {

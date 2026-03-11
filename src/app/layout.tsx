@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     siteName: "AIOpenLibrary",
     title: "AIOpenLibrary - The Wikipedia for AI Prompts",
     description:
-      "Browse 113+ expert-crafted AI prompts across 20 categories. Free, open-source prompt library for ChatGPT, Claude, Gemini, and more.",
+      "Browse 270+ expert-crafted AI prompts across 33 categories. Free prompt library for ChatGPT, Claude, Gemini, and more.",
     url: "https://aiopenlibrary.com",
     images: [
       {
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AIOpenLibrary - The Wikipedia for AI Prompts",
     description:
-      "Browse 113+ expert-crafted AI prompts across 20 categories. Free and open-source.",
+      "Browse 270+ expert-crafted AI prompts across 33 categories. Free prompt library for any AI.",
     images: ["/logo.png"],
   },
   alternates: {
@@ -105,7 +105,7 @@ function SiteJsonLd() {
     url: "https://aiopenlibrary.com",
     logo: "https://aiopenlibrary.com/logo.png",
     description:
-      "The Wikipedia for AI prompts. A free, open-source library of expert-crafted prompts.",
+      "The Wikipedia for AI prompts. A free library of expert-crafted prompts.",
     sameAs: [],
   };
 

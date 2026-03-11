@@ -56,7 +56,7 @@ export default async function Home() {
           <div className="text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-3 py-1 text-xs text-stone-600 dark:text-stone-400 sm:mb-6 sm:px-4 sm:py-1.5 sm:text-sm">
               <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              Free and open source
+              Free to use
             </div>
             <h1 className="mx-auto max-w-4xl text-3xl font-bold tracking-tight text-stone-900 dark:text-stone-100 sm:text-6xl lg:text-7xl">
               Not just the model.{" "}
@@ -101,7 +101,7 @@ export default async function Home() {
                 <div className="text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
                   100%
                 </div>
-                <div className="mt-1 text-sm text-stone-400 dark:text-stone-500">Free & Open Source</div>
+                <div className="mt-1 text-sm text-stone-400 dark:text-stone-500">Free to Use</div>
               </div>
             </div>
           </div>

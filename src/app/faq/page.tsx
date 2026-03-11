@@ -7,7 +7,7 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 const faqs = [
   {
     q: "What is AIOpenLibrary?",
-    a: "AIOpenLibrary is a free, open-source library of expert-crafted AI prompts. Think of it as the Wikipedia for prompts — a community-curated collection of ready-to-use templates for ChatGPT, Claude, Gemini, and other AI models. Browse by category, customize variables, and get better results from any AI.",
+    a: "AIOpenLibrary is a free library of expert-crafted AI prompts. Think of it as the Wikipedia for prompts — a community-curated collection of ready-to-use templates for ChatGPT, Claude, Gemini, and other AI models. Browse by category, customize variables, and get better results from any AI.",
   },
   {
     q: "Is AIOpenLibrary free to use?",
