@@ -26,6 +26,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import PromptCard from "@/components/PromptCard";
 import PromptCustomizer from "@/components/PromptCustomizer";
 import CommentSection from "@/components/CommentSection";
+import type { PromptVariable } from "@/lib/types";
 import CreatorEditLink from "@/components/CreatorEditLink";
 
 export async function generateMetadata({
@@ -109,10 +110,7 @@ export default async function PromptPage({
       : Promise.resolve(false),
   ]);
 
-  const variables = (prompt.variables || []) as {
-    name: string;
-    description: string;
-  }[];
+  const variables = (prompt.variables || []) as PromptVariable[];
   const references = (prompt.references || []) as {
     title: string;
     url: string;

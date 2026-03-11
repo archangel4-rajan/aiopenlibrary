@@ -1,3 +1,12 @@
+export interface PromptVariable {
+  name: string;
+  label?: string;
+  description?: string;
+  placeholder?: string;
+  type?: "text" | "select" | "textarea";
+  options?: string[];
+}
+
 export interface DbPrompt {
   id: string;
   slug: string;
@@ -14,7 +23,7 @@ export interface DbPrompt {
   example_output: string | null;
   output_screenshots: string[] | null;
   references: { title: string; url: string }[];
-  variables: { name: string; description: string }[];
+  variables: PromptVariable[];
   tips: string[] | null;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   saves_count: number;
