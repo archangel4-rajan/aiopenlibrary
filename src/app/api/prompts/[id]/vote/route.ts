@@ -15,75 +15,93 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  let body: { vote_type?: string };
   try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
-  }
+    const { id } = await params;
+    const supabase = await createClient();
 
-  const voteType = body.vote_type;
-  if (voteType !== "like" && voteType !== "dislike") {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    let body: { vote_type?: string };
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+    }
+
+    const voteType = body.vote_type;
+    if (voteType !== "like" && voteType !== "dislike") {
+      return NextResponse.json(
+        { error: "vote_type must be 'like' or 'dislike'" },
+        { status: 400 }
+      );
+    }
+
+    // Upsert: if a vote exists, update; otherwise insert.
+    const { error } = await supabase
+      .from("prompt_votes")
+      .upsert(
+        {
+          user_id: user.id,
+          prompt_id: id,
+          vote_type: voteType,
+        },
+        { onConflict: "user_id,prompt_id" }
+      );
+
+    if (error) {
+      console.error("POST /api/prompts/[id]/vote error:", { userId: user.id, promptId: id, error });
+      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
+
+    return NextResponse.json({ vote_type: voteType });
+  } catch (err) {
+    console.error("POST /api/prompts/[id]/vote error:", err);
     return NextResponse.json(
-      { error: "vote_type must be 'like' or 'dislike'" },
-      { status: 400 }
+      { error: "Internal server error" },
+      { status: 500 }
     );
   }
-
-  // Upsert: if a vote exists, update; otherwise insert.
-  const { error } = await supabase
-    .from("prompt_votes")
-    .upsert(
-      {
-        user_id: user.id,
-        prompt_id: id,
-        vote_type: voteType,
-      },
-      { onConflict: "user_id,prompt_id" }
-    );
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ vote_type: voteType });
 }
 
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
-  const supabase = await createClient();
+  try {
+    const { id } = await params;
+    const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { error } = await supabase
+      .from("prompt_votes")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("prompt_id", id);
+
+    if (error) {
+      console.error("DELETE /api/prompts/[id]/vote error:", { userId: user.id, promptId: id, error });
+      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
+
+    return NextResponse.json({ vote_type: null });
+  } catch (err) {
+    console.error("DELETE /api/prompts/[id]/vote error:", err);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
-
-  const { error } = await supabase
-    .from("prompt_votes")
-    .delete()
-    .eq("user_id", user.id)
-    .eq("prompt_id", id);
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ vote_type: null });
 }

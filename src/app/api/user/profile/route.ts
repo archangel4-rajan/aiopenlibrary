@@ -2,34 +2,42 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET() {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
 
-  if (error) {
+    if (error) {
+      return NextResponse.json(
+        {
+          id: user.id,
+          email: user.email,
+          display_name: null,
+          avatar_url: null,
+        }
+      );
+    }
+
+    return NextResponse.json(data);
+  } catch (err) {
+    console.error("GET /api/user/profile error:", err);
     return NextResponse.json(
-      {
-        id: user.id,
-        email: user.email,
-        display_name: null,
-        avatar_url: null,
-      }
+      { error: "Internal server error" },
+      { status: 500 }
     );
   }
-
-  return NextResponse.json(data);
 }
 
 export async function PUT(request: Request) {
@@ -44,8 +52,18 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { display_name, username, bio } = body;
+    let body: Record<string, unknown>;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    const { display_name, username, bio } = body as {
+      display_name?: string;
+      username?: string;
+      bio?: string;
+    };
 
     // Validate bio if provided
     if (bio !== undefined && typeof bio === "string" && bio.length > 200) {
@@ -95,11 +113,13 @@ export async function PUT(request: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("PUT /api/user/profile error:", { userId: user.id, error });
+      return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
     return NextResponse.json(data);
-  } catch {
+  } catch (err) {
+    console.error("PUT /api/user/profile error:", err);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

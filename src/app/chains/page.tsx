@@ -1,5 +1,5 @@
 import { Link2 } from "lucide-react";
-import { getPublishedChains, getUserSavedChainIds, getUserPurchasedChainIds, getCategories } from "@/lib/db";
+import { getPublishedChains, getUserSavedChainIds, getUserPurchasedChainIds } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import ChainCard from "@/components/ChainCard";
 import type { Metadata } from "next";
@@ -14,10 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default async function ChainsPage() {
-  const [chains, user, categories] = await Promise.all([
+  const [chains, user] = await Promise.all([
     getPublishedChains(),
     getUser(),
-    getCategories(),
   ]);
 
   const [savedChainIds, purchasedChainIds] = await Promise.all([

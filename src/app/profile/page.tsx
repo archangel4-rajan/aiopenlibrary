@@ -64,7 +64,6 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
   const [purchasedPrompts, setPurchasedPrompts] = useState<DbPrompt[]>([]);
-  const [purchasedPromptIds, setPurchasedPromptIds] = useState<string[]>([]);
   const { isCreator } = useAuth();
   const [creatorUsername, setCreatorUsername] = useState("");
   const [creatorBio, setCreatorBio] = useState("");
@@ -125,7 +124,6 @@ export default function ProfilePage() {
         setCollections(colls);
 
         const pIds = Array.isArray(purchasesResult.data?.promptIds) ? purchasesResult.data.promptIds : [];
-        setPurchasedPromptIds(pIds);
 
         const subs = Array.isArray(submissionsResult.data) ? submissionsResult.data : [];
         setSubmissions(subs);

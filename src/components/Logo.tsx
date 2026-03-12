@@ -10,7 +10,7 @@ export default function Logo({
   size?: number;
   className?: string;
 }) {
-  const [fallback, setFallback] = useState<"gif" | "png" | "text">("gif");
+  const [fallback, setFallback] = useState<"video" | "png" | "text">("video");
 
   if (fallback === "text") {
     return (
@@ -27,14 +27,13 @@ export default function Logo({
     );
   }
 
-  if (fallback === "gif") {
-    // Use a plain <img> tag for the animated GIF to bypass Next.js
-    // image optimization, which can strip animation frames.
+  if (fallback === "video") {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src="/logo.gif"
-        alt="AIOpenLibrary"
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
         width={size}
         height={size}
         className={
@@ -42,7 +41,9 @@ export default function Logo({
         }
         style={className ? undefined : { width: size, height: size }}
         onError={() => setFallback("png")}
-      />
+      >
+        <source src="/logo.webm" type="video/webm" />
+      </video>
     );
   }
 
