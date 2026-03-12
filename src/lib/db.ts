@@ -176,7 +176,7 @@ export async function searchPrompts(query: string): Promise<DbPrompt[]> {
       .select("*")
       .eq("is_published", true)
       .or(
-        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%`
+        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,prompt.ilike.%${sanitized}%,tags.cs.{${sanitized}}`
       )
       .order("saves_count", { ascending: false })
       .limit(50);
@@ -563,9 +563,9 @@ export async function searchPromptsWithFilters(
     const q = query.trim();
     if (q) {
       const sanitized = sanitizeSearchQuery(q);
-      // Search title, description, category name, and category_slug via ilike
+      // Search title, description, category name, category_slug, tags, and prompt text
       builder = builder.or(
-        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,category_slug.ilike.%${sanitized}%`
+        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,category_slug.ilike.%${sanitized}%,prompt.ilike.%${sanitized}%,tags.cs.{${sanitized}}`
       );
     }
 
