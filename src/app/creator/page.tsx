@@ -1,11 +1,10 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus, Edit, Eye, EyeOff, PenTool, Bookmark, Heart, TrendingUp, Zap, Package, Trash2, Link2 } from "lucide-react";
+import { Plus, Edit, Eye, EyeOff, PenTool, Bookmark, Heart, TrendingUp, Zap, Package } from "lucide-react";
 import { isCreator, getUser } from "@/lib/auth";
 import { getPromptsByCreator, getCreatorDetailedStats, getPacksByCreator, getZapBalance, getChainsByCreator } from "@/lib/db";
 import CreatorDeleteButton from "@/components/CreatorDeleteButton";
 import CreatorPackDeleteButton from "@/components/CreatorPackDeleteButton";
-import ChainDeleteButton from "@/components/ChainDeleteButton";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

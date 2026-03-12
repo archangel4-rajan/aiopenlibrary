@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { LogOut, Library, Shield, ChevronDown, Zap } from "lucide-react";
 import { useAuth } from "./AuthProvider";
 import { createClient } from "@/lib/supabase/client";
@@ -12,7 +11,6 @@ export default function AuthButton({ dropdownPosition }: { dropdownPosition?: "t
   const { user, profile, isAdmin, isLoading, zapBalance } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

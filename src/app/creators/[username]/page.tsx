@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
 import { Bookmark, Heart, FileText } from "lucide-react";
 import {

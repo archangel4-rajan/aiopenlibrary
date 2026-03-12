@@ -13,7 +13,7 @@ interface CommentSectionProps {
 }
 
 export default function CommentSection({ promptId }: CommentSectionProps) {
-  const { user, profile, isAdmin } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [comments, setComments] = useState<CommentWithAuthor[]>([]);
   const [loading, setLoading] = useState(true);
 
