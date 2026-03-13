@@ -59,10 +59,13 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    const { display_name, username, bio } = body as {
+    const { display_name, username, bio, banner_url, website_url, location } = body as {
       display_name?: string;
       username?: string;
       bio?: string;
+      banner_url?: string;
+      website_url?: string;
+      location?: string;
     };
 
     // Validate bio if provided
@@ -105,9 +108,27 @@ export async function PUT(request: Request) {
       }
     }
 
+    // Validate website_url if provided
+    if (website_url !== undefined && website_url !== null && website_url !== "") {
+      if (typeof website_url !== "string" || !website_url.startsWith("https://")) {
+        return NextResponse.json(
+          { error: "Website URL must start with https://" },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate location if provided
+    if (location !== undefined && typeof location === "string" && location.length > 100) {
+      return NextResponse.json(
+        { error: "Location must be 100 characters or less" },
+        { status: 400 }
+      );
+    }
+
     const { data, error } = await supabase
       .from("profiles")
-      .update({ display_name, username, bio })
+      .update({ display_name, username, bio, banner_url, website_url, location })
       .eq("id", user.id)
       .select()
       .single();

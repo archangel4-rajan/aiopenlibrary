@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap, Link2, Send, Pencil } from "lucide-react";
+import { Library, ArrowRight, FolderPlus, AlertCircle, Settings, ExternalLink, Zap, Send, Pencil, UserCircle } from "lucide-react";
 import LibraryFilter from "@/components/LibraryFilter";
 import SkeletonCard from "@/components/SkeletonCard";
 import Breadcrumb from "@/components/Breadcrumb";
-import { useAuth } from "@/components/AuthProvider";
 import type { DbPrompt } from "@/lib/types";
 
 interface Submission {
@@ -59,12 +58,11 @@ export default function ProfilePage() {
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [activeTab, setActiveTab] = useState<"all" | "chains" | "collections" | "purchases" | "submissions">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "collections" | "purchases" | "submissions">("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [collectionLoading, setCollectionLoading] = useState(false);
   const [purchasedPrompts, setPurchasedPrompts] = useState<DbPrompt[]>([]);
-  const { isCreator } = useAuth();
   const [creatorUsername, setCreatorUsername] = useState("");
   const [creatorBio, setCreatorBio] = useState("");
   const [creatorSaving, setCreatorSaving] = useState(false);
@@ -278,16 +276,6 @@ export default function ProfilePage() {
             All Saved
           </button>
           <button
-            onClick={() => setActiveTab("chains")}
-            className={`pb-3 px-2 font-medium transition-colors ${
-              activeTab === "chains"
-                ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
-                : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
-            }`}
-          >
-            Chains
-          </button>
-          <button
             onClick={() => setActiveTab("collections")}
             className={`pb-3 px-2 font-medium transition-colors ${
               activeTab === "collections"
@@ -359,34 +347,6 @@ export default function ProfilePage() {
                 </Link>
               </div>
             )}
-          </div>
-        )}
-
-        {/* Chains Tab */}
-        {activeTab === "chains" && (
-          <div>
-            <div className="mb-6 flex items-center gap-2">
-              <Link2 className="h-5 w-5 text-amber-500" />
-              <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
-                Saved Chains
-              </h2>
-            </div>
-            <div className="rounded-xl border-2 border-dashed border-stone-200 p-12 text-center dark:border-stone-700">
-              <Link2 className="mx-auto h-10 w-10 text-stone-300 dark:text-stone-700" />
-              <p className="mt-3 text-base text-stone-400 dark:text-stone-500">
-                No saved chains yet.
-              </p>
-              <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">
-                Browse prompt chains and save them to your library.
-              </p>
-              <Link
-                href="/chains"
-                className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
-              >
-                Browse Chains
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
           </div>
         )}
 
@@ -618,13 +578,34 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* Creator Settings */}
-        {isCreator && !loading && (
+        {/* Profile Completion Nudge */}
+        {!loading && profile && !profile.username && (
+          <div className="mt-8 flex items-center gap-3 rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800/50 dark:bg-amber-900/20">
+            <UserCircle className="h-5 w-5 flex-shrink-0 text-amber-600 dark:text-amber-400" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
+                Complete your profile
+              </p>
+              <p className="text-sm text-amber-700 dark:text-amber-300">
+                Set a username to get your public profile page.
+              </p>
+            </div>
+            <Link
+              href="/welcome"
+              className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-amber-700"
+            >
+              Set Username
+            </Link>
+          </div>
+        )}
+
+        {/* Profile Settings */}
+        {!loading && (
           <div className="mt-12 border-t border-stone-200 pt-8 dark:border-stone-700">
             <div className="mb-6 flex items-center gap-2">
               <Settings className="h-5 w-5 text-stone-600 dark:text-stone-400" />
               <h2 className="text-xl font-bold text-stone-900 dark:text-stone-100">
-                Creator Settings
+                Profile Settings
               </h2>
             </div>
 
@@ -705,7 +686,7 @@ export default function ProfilePage() {
                 </button>
                 {creatorUsername && (
                   <Link
-                    href={`/creators/${creatorUsername}`}
+                    href={`/u/${creatorUsername}`}
                     className="flex items-center gap-1.5 text-sm text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
                   >
                     <ExternalLink className="h-3.5 w-3.5" />

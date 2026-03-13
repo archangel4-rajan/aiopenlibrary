@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 import {
   Home,
-  Link2,
   Trophy,
   Send,
   X,
@@ -30,7 +29,6 @@ interface Category {
 
 const NAV_LINKS = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/chains", label: "Chains", icon: Link2 },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/submit", label: "Submit", icon: Send },
 ];
@@ -69,7 +67,6 @@ export default function Sidebar() {
 
   const isActive = (href: string): boolean => {
     if (href === "/") return pathname === "/";
-    if (href === "/chains") return pathname.startsWith("/chains");
     if (href === "/leaderboard") return pathname.startsWith("/leaderboard");
     if (href === "/submit") return pathname.startsWith("/submit");
     if (href === "/profile") return pathname.startsWith("/profile");

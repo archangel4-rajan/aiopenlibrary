@@ -60,6 +60,10 @@ export function AuthProvider({
         .eq("id", userId)
         .single();
       setProfile(data);
+      // Sync has_username cookie for middleware redirect logic
+      if (data?.username) {
+        document.cookie = "has_username=1; path=/; max-age=31536000; samesite=lax";
+      }
     } catch {
       // Profile fetch failed — user is still authenticated, just no profile data
       profileFetchedForId.current = null;
