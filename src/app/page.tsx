@@ -7,7 +7,6 @@ import {
   Zap,
   TrendingUp,
   Clock,
-  Link2,
   Sparkles,
 } from "lucide-react";
 import {
@@ -18,29 +17,24 @@ import {
   getCategoryPromptCounts,
   getUserSavedPromptIds,
   getUserPurchasedPromptIds,
-  getUserPurchasedChainIds,
-  getPublishedChains,
 } from "@/lib/db";
 import { getUser } from "@/lib/auth";
 import PromptCard from "@/components/PromptCard";
-import ChainCard from "@/components/ChainCard";
 import CategoryCard from "@/components/CategoryCard";
 
 export default async function Home() {
-  const [categoriesData, featured, recentPrompts, promptsCount, chains, user] = await Promise.all([
+  const [categoriesData, featured, recentPrompts, promptsCount, user] = await Promise.all([
     getCategories(),
     getFeaturedPrompts(),
     getRecentPrompts(6),
     getPromptsCount(),
-    getPublishedChains(3),
     getUser(),
   ]);
 
-  const [promptCounts, savedIds, purchasedPromptIds, purchasedChainIds] = await Promise.all([
+  const [promptCounts, savedIds, purchasedPromptIds] = await Promise.all([
     getCategoryPromptCounts(),
     user ? getUserSavedPromptIds(user.id) : Promise.resolve([]),
     user ? getUserPurchasedPromptIds(user.id) : Promise.resolve([]),
-    user ? getUserPurchasedChainIds(user.id) : Promise.resolve([]),
   ]);
 
   const categories = categoriesData.map((c) => ({
@@ -63,24 +57,44 @@ export default async function Home() {
               <span className="gradient-text">Everything you need for AI.</span>
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-stone-500 dark:text-stone-300 sm:mt-6 sm:text-xl">
-              Prompts, chains, and skills — {promptsCount}+ expert-crafted resources
+              {promptsCount}+ expert-crafted prompts
               across {categories.length} categories. Find it, customize it, use it.
             </p>
 
             <div className="mt-8 flex flex-col items-center gap-3 sm:mt-10 sm:flex-row sm:justify-center sm:gap-4">
-              <Link
-                href="/categories"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 dark:bg-stone-50 px-6 py-3 text-sm font-medium text-white dark:text-stone-900 transition-all hover:bg-stone-800 dark:hover:bg-stone-100"
-              >
-                Start Exploring
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-6 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 transition-all hover:border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-700"
-              >
-                Share a Prompt
-              </Link>
+              {user ? (
+                <>
+                  <Link
+                    href="/categories"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 dark:bg-stone-50 px-6 py-3 text-sm font-medium text-white dark:text-stone-900 transition-all hover:bg-stone-800 dark:hover:bg-stone-100"
+                  >
+                    Start Exploring
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/submit"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-6 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 transition-all hover:border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-700"
+                  >
+                    Share a Prompt
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/signup"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-stone-900 dark:bg-stone-50 px-6 py-3 text-sm font-medium text-white dark:text-stone-900 transition-all hover:bg-stone-800 dark:hover:bg-stone-100"
+                  >
+                    Get Started Free
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/auth/login"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-6 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 transition-all hover:border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-700"
+                  >
+                    Sign In
+                  </Link>
+                </>
+              )}
             </div>
 
             {/* Stats */}
@@ -180,11 +194,11 @@ export default async function Home() {
               What&apos;s Inside
             </h2>
             <p className="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-              Three ways to level up your AI
+              Two ways to level up your AI
             </p>
           </div>
 
-          <div className="mt-8 grid gap-6 sm:mt-12 sm:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:mt-12 sm:grid-cols-2 max-w-3xl mx-auto">
             <Link
               href="/categories"
               className="group rounded-xl border border-stone-200 bg-white p-6 transition-all hover:border-stone-300 hover:shadow-md dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
@@ -203,24 +217,6 @@ export default async function Home() {
               </div>
             </Link>
 
-            <Link
-              href="/chains"
-              className="group rounded-xl border border-stone-200 bg-white p-6 transition-all hover:border-stone-300 hover:shadow-md dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-amber-50 text-amber-600 transition-colors group-hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:group-hover:bg-amber-900/50">
-                <Link2 className="h-6 w-6" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-stone-900 dark:text-stone-100">
-                Prompt Chains
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-stone-500 dark:text-stone-400">
-                Multi-step workflows where each prompt builds on the last. Guided execution for complex tasks.
-              </p>
-              <div className="mt-4 flex items-center gap-1 text-sm font-medium text-stone-500 group-hover:text-stone-900 dark:text-stone-400 dark:group-hover:text-stone-200">
-                Explore chains <ArrowRight className="h-4 w-4" />
-              </div>
-            </Link>
-
             <div
               className="group rounded-xl border border-dashed border-stone-300 bg-stone-50 p-6 dark:border-stone-600 dark:bg-stone-900/50"
             >
@@ -231,7 +227,7 @@ export default async function Home() {
                 Skills
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-stone-400 dark:text-stone-500">
-                Reusable AI skills that combine prompts, chains, and tools into plug-and-play capabilities.
+                Reusable AI skills that combine prompts and tools into plug-and-play capabilities.
               </p>
               <div className="mt-4 text-sm font-medium text-stone-400 dark:text-stone-600">
                 Coming soon
@@ -241,46 +237,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Prompt Chains */}
-      {chains.length > 0 && (
-        <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500">
-                    Prompt Chains
-                  </h2>
-                  <Link2 className="h-3.5 w-3.5 text-amber-500" />
-                </div>
-                <p className="mt-2 text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
-                  Step-by-step workflows
-                </p>
-              </div>
-              <Link
-                href="/chains"
-                className="hidden items-center gap-1 text-sm text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200 sm:flex"
-              >
-                View all <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {chains.map((chain) => (
-                <ChainCard
-                  key={chain.slug}
-                  chain={{ ...chain, step_count: 0 }}
-                  isSaved={false}
-                  isPurchased={purchasedChainIds.includes(chain.id)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Categories */}
-      <section className="border-b border-stone-200 dark:border-stone-700 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <div>
@@ -317,7 +275,7 @@ export default async function Home() {
       </section>
 
       {/* Featured Prompts */}
-      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 py-12 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <div>
@@ -354,7 +312,7 @@ export default async function Home() {
 
       {/* Recently Added */}
       {recentPrompts.length > 0 && (
-        <section className="border-b border-stone-200 dark:border-stone-700 py-12 sm:py-20">
+        <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between">
               <div>
@@ -399,14 +357,14 @@ export default async function Home() {
                 The model is only half the equation.
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-base text-stone-400">
-                Great AI output starts with great inputs. Share your prompts and chains
+                Great AI output starts with great inputs. Share your prompts
                 with thousands of people who need exactly what you&apos;ve built.
               </p>
               <Link
-                href="/submit"
+                href={user ? "/submit" : "/auth/signup"}
                 className="mt-8 inline-flex items-center gap-2 rounded-lg bg-stone-50 px-6 py-3 text-sm font-medium text-stone-900 transition-all hover:bg-stone-100"
               >
-                Share Your Prompt
+                {user ? "Share Your Prompt" : "Get Started Free"}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
