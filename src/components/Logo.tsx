@@ -10,9 +10,9 @@ export default function Logo({
   size?: number;
   className?: string;
 }) {
-  const [fallback, setFallback] = useState<"video" | "png" | "text">("video");
+  const [fallback, setFallback] = useState(false);
 
-  if (fallback === "text") {
+  if (fallback) {
     return (
       <div
         className={
@@ -27,35 +27,16 @@ export default function Logo({
     );
   }
 
-  if (fallback === "video") {
-    return (
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        width={size}
-        height={size}
-        className={
-          className ? `object-contain ${className}` : "object-contain"
-        }
-        style={className ? undefined : { width: size, height: size }}
-        onError={() => setFallback("png")}
-      >
-        <source src="/logo.webm" type="video/webm" />
-      </video>
-    );
-  }
-
   return (
     <Image
-      src="/logo.png"
+      src="/logo.gif"
       alt="AIOpenLibrary"
       width={size}
       height={size}
       className={className ? `object-contain ${className}` : "object-contain"}
       style={className ? undefined : { width: size, height: size }}
-      onError={() => setFallback("text")}
+      onError={() => setFallback(true)}
+      unoptimized
     />
   );
 }
