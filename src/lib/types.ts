@@ -63,6 +63,9 @@ export interface DbProfile {
   avatar_url: string | null;
   username: string | null;
   bio: string | null;
+  banner_url: string | null;
+  website_url: string | null;
+  location: string | null;
   role: "user" | "admin" | "creator";
   created_at: string;
   updated_at: string;

@@ -697,6 +697,51 @@ export async function getCreatorStats(
   }
 }
 
+/** Returns a profile by username only (no ID fallback). */
+export async function getProfileByUsername(
+  username: string
+): Promise<DbProfile | null> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("username", username)
+      .single();
+
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Returns prompts liked by a user, newest first, limited to 50. */
+export async function getUserLikedPrompts(
+  userId: string
+): Promise<DbPrompt[]> {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("prompt_votes")
+      .select("prompt_id, prompts!prompt_votes_prompt_id_fkey(*)")
+      .eq("user_id", userId)
+      .eq("vote_type", "like")
+      .order("created_at", { ascending: false })
+      .limit(50);
+
+    if (error || !data) return [];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (data as any[])
+      .map((row) => row.prompts)
+      .filter(Boolean)
+      .filter((p: DbPrompt) => p.is_published);
+  } catch {
+    return [];
+  }
+}
+
 /** Returns top creators with at least 1 published prompt, ordered by total saves. */
 export async function getTopCreators(
   limit: number = 20
