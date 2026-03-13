@@ -20,7 +20,7 @@ const steps = [
       "Search by keyword, category, or tag",
       "Filter by difficulty level and recommended model",
       "Save favorites to your personal library",
-      "Discover curated prompt chains for complex tasks",
+      "Discover prompts tailored to your workflow",
     ],
   },
   {

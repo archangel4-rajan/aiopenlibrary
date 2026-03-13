@@ -59,7 +59,7 @@ export default function TopSearchBar() {
           <input
             ref={inputRef}
             type="text"
-            placeholder="Search prompts, chains, categories..."
+            placeholder="Search prompts, categories..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setFocused(true)}

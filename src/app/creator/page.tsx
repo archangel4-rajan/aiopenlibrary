@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Plus, Edit, Eye, EyeOff, PenTool, Bookmark, Heart, TrendingUp, Zap, Package } from "lucide-react";
 import { isCreator, getUser } from "@/lib/auth";
-import { getPromptsByCreator, getCreatorDetailedStats, getPacksByCreator, getZapBalance, getChainsByCreator } from "@/lib/db";
+import { getPromptsByCreator, getCreatorDetailedStats, getPacksByCreator, getZapBalance } from "@/lib/db";
 import CreatorDeleteButton from "@/components/CreatorDeleteButton";
 import CreatorPackDeleteButton from "@/components/CreatorPackDeleteButton";
 import type { Metadata } from "next";
@@ -22,30 +22,12 @@ export default async function CreatorPage() {
     redirect("/");
   }
 
-  const [prompts, stats, packs, chains, zapBalanceData] = await Promise.all([
+  const [prompts, stats, packs, zapBalanceData] = await Promise.all([
     getPromptsByCreator(user.id),
     getCreatorDetailedStats(user.id),
     getPacksByCreator(user.id),
-    getChainsByCreator(user.id),
     getZapBalance(user.id),
   ]);
-
-  // Get step counts for chains
-  const { createClient } = await import("@/lib/supabase/server");
-  const supabase = await createClient();
-  const chainIds = chains.map((c) => c.id);
-  const chainStepCounts: Record<string, number> = {};
-  if (chainIds.length > 0) {
-    const { data: steps } = await supabase
-      .from("prompt_chain_steps")
-      .select("chain_id")
-      .in("chain_id", chainIds);
-    if (steps) {
-      for (const s of steps) {
-        chainStepCounts[s.chain_id] = (chainStepCounts[s.chain_id] || 0) + 1;
-      }
-    }
-  }
 
   return (
     <div className="bg-stone-50 dark:bg-stone-950">

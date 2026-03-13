@@ -134,7 +134,7 @@ begin
     new.raw_user_meta_data->>'avatar_url',
     case
       when exists (select 1 from public.admin_emails where email = new.email) then 'admin'
-      else 'user'
+      else 'creator'
     end
   );
   return new;
