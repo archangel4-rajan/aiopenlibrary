@@ -22,12 +22,8 @@ const faqs = [
     a: "Zaps are AIOpenLibrary's in-app currency used to unlock premium prompts and prompt packs. Every new account gets 100 free Zaps as a welcome bonus. You can purchase more Zaps or earn them by becoming a creator and having your prompts used by others.",
   },
   {
-    q: "What are Prompt Chains?",
-    a: "Prompt chains are sequences of connected prompts designed to tackle complex tasks step-by-step. Instead of one massive prompt, a chain breaks the work into focused stages — each step's output feeds into the next. This produces higher-quality results for tasks like research, content creation, and analysis.",
-  },
-  {
     q: "How do I become a Creator?",
-    a: "Creators are community members who regularly contribute high-quality prompts. Once you've had several submissions approved, you can apply for creator status from your profile page. Creators get a public profile, analytics on their prompts, and earn Zaps when others use their premium content.",
+    a: "All new accounts are creator accounts! You can submit prompts, get a public profile, view analytics on your prompts, and earn Zaps when others use your premium content.",
   },
   {
     q: "What makes a good prompt submission?",

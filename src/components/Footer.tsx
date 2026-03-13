@@ -35,9 +35,6 @@ export default function Footer() {
               <Link href="/search?q=" className={linkClass}>
                 Search Prompts
               </Link>
-              <Link href="/chains" className={linkClass}>
-                Chains
-              </Link>
               <Link href="/submit" className={linkClass}>
                 Share a Prompt
               </Link>
