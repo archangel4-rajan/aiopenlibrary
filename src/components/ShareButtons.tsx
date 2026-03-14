@@ -62,10 +62,10 @@ export default function ShareButtons({
   )}`;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-2">
       <button
         onClick={handleCopyLink}
-        className="flex items-center gap-1.5 rounded-lg border border-stone-200 px-2.5 py-1.5 text-xs text-stone-500 transition-colors hover:border-stone-300 hover:bg-stone-50 hover:text-stone-700 dark:border-stone-700 dark:text-stone-400 dark:hover:border-stone-600 dark:hover:bg-stone-800"
+        className="flex items-center gap-1.5 rounded-lg border border-stone-200 px-2 py-1.5 text-xs text-stone-500 transition-colors hover:border-stone-300 hover:bg-stone-50 hover:text-stone-700 dark:border-stone-700 dark:text-stone-400 dark:hover:border-stone-600 dark:hover:bg-stone-800 sm:px-2.5"
       >
         {copied ? (
           <>

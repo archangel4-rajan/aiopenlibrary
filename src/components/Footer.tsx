@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-950">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-5">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-8 md:grid-cols-5">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">

@@ -180,12 +180,12 @@ function SearchContent() {
 
           {/* Filter bar */}
           {showFilters && (
-            <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-4">
+            <div className="mt-4 flex flex-col gap-3 rounded-xl border border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 p-4 sm:flex-row sm:flex-wrap sm:items-center">
               {/* Category dropdown */}
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="rounded-lg border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 px-3 py-2 text-sm text-stone-700 dark:text-stone-300 outline-none"
+                className="w-full rounded-lg border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 px-3 py-2 text-sm text-stone-700 dark:text-stone-300 outline-none sm:w-auto"
               >
                 <option value="">All Categories</option>
                 {categories.map((cat) => (
@@ -196,7 +196,7 @@ function SearchContent() {
               </select>
 
               {/* Difficulty chips */}
-              <div className="flex gap-1.5">
+              <div className="flex flex-wrap gap-1.5">
                 {DIFFICULTY_OPTIONS.map((diff) => (
                   <button
                     key={diff}
@@ -222,7 +222,7 @@ function SearchContent() {
               <select
                 value={modelFilter}
                 onChange={(e) => setModelFilter(e.target.value)}
-                className="rounded-lg border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 px-3 py-2 text-sm text-stone-700 dark:text-stone-300 outline-none"
+                className="w-full rounded-lg border border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700 px-3 py-2 text-sm text-stone-700 dark:text-stone-300 outline-none sm:w-auto"
               >
                 <option value="">All Models</option>
                 <option value="Claude Opus 4">Claude Opus 4</option>

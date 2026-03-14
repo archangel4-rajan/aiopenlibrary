@@ -264,10 +264,10 @@ export default function ProfilePage() {
         )}
 
         {/* Tab Navigation */}
-        <div className="mb-8 flex gap-4 border-b border-stone-200 dark:border-stone-700">
+        <div className="mb-8 flex gap-4 overflow-x-auto border-b border-stone-200 dark:border-stone-700">
           <button
             onClick={() => setActiveTab("all")}
-            className={`pb-3 px-2 font-medium transition-colors ${
+            className={`whitespace-nowrap pb-3 px-2 font-medium transition-colors ${
               activeTab === "all"
                 ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
                 : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
@@ -277,7 +277,7 @@ export default function ProfilePage() {
           </button>
           <button
             onClick={() => setActiveTab("collections")}
-            className={`pb-3 px-2 font-medium transition-colors ${
+            className={`whitespace-nowrap pb-3 px-2 font-medium transition-colors ${
               activeTab === "collections"
                 ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
                 : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
@@ -287,7 +287,7 @@ export default function ProfilePage() {
           </button>
           <button
             onClick={() => setActiveTab("purchases")}
-            className={`pb-3 px-2 font-medium transition-colors ${
+            className={`whitespace-nowrap pb-3 px-2 font-medium transition-colors ${
               activeTab === "purchases"
                 ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
                 : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
@@ -297,7 +297,7 @@ export default function ProfilePage() {
           </button>
           <button
             onClick={() => setActiveTab("submissions")}
-            className={`pb-3 px-2 font-medium transition-colors ${
+            className={`whitespace-nowrap pb-3 px-2 font-medium transition-colors ${
               activeTab === "submissions"
                 ? "border-b-2 border-stone-900 text-stone-900 dark:border-stone-100 dark:text-stone-100"
                 : "text-stone-500 hover:text-stone-700 dark:text-stone-400 dark:hover:text-stone-300"
@@ -545,7 +545,7 @@ export default function ProfilePage() {
                         </span>
                         {sub.status === "draft" && (
                           <Link
-                            href={`/submit/${sub.id}`}
+                            href="/creator/prompts/new"
                             className="inline-flex items-center gap-1 rounded-lg border border-stone-200 px-2.5 py-1 text-xs font-medium text-stone-600 hover:bg-stone-50 dark:border-stone-700 dark:text-stone-400 dark:hover:bg-stone-800"
                           >
                             <Pencil className="h-3 w-3" />
@@ -567,7 +567,7 @@ export default function ProfilePage() {
                   Share your best prompts with the community.
                 </p>
                 <Link
-                  href="/submit"
+                  href="/creator/prompts/new"
                   className="mt-6 inline-flex items-center gap-2 rounded-lg bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 dark:bg-stone-800 dark:hover:bg-stone-700"
                 >
                   Share a Prompt

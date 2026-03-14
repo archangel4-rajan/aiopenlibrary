@@ -209,7 +209,7 @@ export default async function PromptPage({
               </p>
               <CreatorEditLink promptId={prompt.id} createdBy={prompt.created_by} />
             </div>
-            <div className="flex shrink-0 flex-col gap-1.5 sm:flex-row sm:gap-2">
+            <div className="flex shrink-0 flex-row gap-1.5 sm:gap-2">
               <SaveButton
                 promptId={prompt.id}
                 initialSaved={isSaved}

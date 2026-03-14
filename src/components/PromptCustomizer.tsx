@@ -440,7 +440,7 @@ export default function PromptCustomizer({
       {/* Prompt Content with live preview */}
       <div className="rounded-lg border border-stone-200 bg-stone-50 p-4 dark:border-stone-700 dark:bg-stone-800 sm:p-8">
         <div className="mb-4 flex items-center justify-between gap-2">
-          <h2 className="text-[10px] font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500 sm:text-xs">
+          <h2 className="text-[11px] font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500 sm:text-xs">
             Prompt
             {filledCount > 0 && (
               <span className="ml-2 normal-case tracking-normal text-stone-500 dark:text-stone-400">
