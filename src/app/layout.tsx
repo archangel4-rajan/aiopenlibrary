@@ -181,7 +181,7 @@ export default async function RootLayout({
           initialProfile={profile}
         >
           <ToastProvider>
-            <div className="flex min-h-screen">
+            <div className="flex flex-col md:flex-row min-h-screen">
               <Sidebar />
               <div className="flex flex-1 flex-col min-w-0 overflow-x-hidden">
                 <TopSearchBar />
