@@ -13,6 +13,7 @@ import {
   Library,
   PenTool,
   Shield,
+  Search,
 } from "lucide-react";
 import { useAuth } from "./AuthProvider";
 import Logo from "./Logo";
@@ -30,7 +31,7 @@ interface Category {
 const NAV_LINKS = [
   { href: "/", label: "Home", icon: Home },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
-  { href: "/submit", label: "Submit", icon: Send },
+  { href: "/creator/prompts/new", label: "Submit", icon: Send },
 ];
 
 export default function Sidebar() {
@@ -68,7 +69,7 @@ export default function Sidebar() {
   const isActive = (href: string): boolean => {
     if (href === "/") return pathname === "/";
     if (href === "/leaderboard") return pathname.startsWith("/leaderboard");
-    if (href === "/submit") return pathname.startsWith("/submit");
+    if (href === "/creator/prompts/new") return pathname === "/creator/prompts/new";
     if (href === "/profile") return pathname.startsWith("/profile");
     if (href === "/creator")
       return pathname.startsWith("/creator") && !pathname.startsWith("/creators");
@@ -205,16 +206,23 @@ export default function Sidebar() {
       {/* Mobile header bar */}
       <div className="sticky top-0 z-50 flex items-center justify-between border-b border-stone-200 dark:border-stone-700 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl px-4 py-3 md:hidden">
         <Link href="/" className="flex items-center gap-2">
-          <Logo size={47} className="h-[47px] w-[47px]" />
+          <Logo size={36} className="h-[36px] w-[36px]" />
           <span className="text-lg font-semibold tracking-tight text-stone-900 dark:text-stone-100">
-            AIOpenLibrary
+            <span className="hidden min-[375px]:inline">AIOpenLibrary</span>
+            <span className="inline min-[375px]:hidden">AIOL</span>
           </span>
         </Link>
         <div className="flex items-center gap-2">
           {user && <ZapBalance />}
+          <Link
+            href="/search?q="
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+          >
+            <Search className="h-5 w-5" />
+          </Link>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-lg p-2 text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800"
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>

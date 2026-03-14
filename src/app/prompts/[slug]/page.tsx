@@ -150,7 +150,7 @@ export default async function PromptPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <div className="mx-auto max-w-4xl px-4 py-5 sm:px-6 sm:py-12 lg:px-8">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Breadcrumb
@@ -189,7 +189,7 @@ export default async function PromptPage({
                   By{" "}
                   {creatorProfile.username ? (
                     <Link
-                      href={`/creators/${creatorProfile.username}`}
+                      href={`/u/${creatorProfile.username}`}
                       className="font-medium text-stone-700 hover:text-stone-900 dark:text-stone-300 dark:hover:text-stone-100"
                     >
                       {creatorProfile.display_name || creatorProfile.username}
@@ -209,7 +209,7 @@ export default async function PromptPage({
               </p>
               <CreatorEditLink promptId={prompt.id} createdBy={prompt.created_by} />
             </div>
-            <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+            <div className="flex shrink-0 flex-col gap-1.5 sm:flex-row sm:gap-2">
               <SaveButton
                 promptId={prompt.id}
                 initialSaved={isSaved}
@@ -348,6 +348,7 @@ export default async function PromptPage({
                   key={p.slug}
                   prompt={p}
                   isSaved={savedIds.includes(p.id)}
+                  creator={p.creator}
                 />
               ))}
             </div>

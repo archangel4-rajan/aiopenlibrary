@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <footer className="border-t border-stone-200 bg-stone-50 dark:border-stone-700 dark:bg-stone-950">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-5">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 md:grid-cols-5">
           {/* Brand */}
-          <div className="sm:col-span-2 md:col-span-1">
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5">
               <Logo size={28} />
               <span className="text-base font-semibold tracking-tight text-stone-900 dark:text-stone-100">
@@ -35,7 +35,7 @@ export default function Footer() {
               <Link href="/search?q=" className={linkClass}>
                 Search Prompts
               </Link>
-              <Link href="/submit" className={linkClass}>
+              <Link href="/creator/prompts/new" className={linkClass}>
                 Share a Prompt
               </Link>
             </div>
@@ -65,8 +65,8 @@ export default function Footer() {
               Account
             </h4>
             <div className="flex flex-col gap-2">
-              <Link href="/profile?tab=submissions" className={linkClass}>
-                My Submissions
+              <Link href="/creator" className={linkClass}>
+                My Prompts
               </Link>
               <Link href="/profile" className={linkClass}>
                 Your Library

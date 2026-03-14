@@ -46,7 +46,7 @@ export default async function Home() {
     <div className="bg-stone-50 dark:bg-stone-950">
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-stone-200 dark:border-stone-700">
-        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-12 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8">
+        <div className="relative mx-auto max-w-7xl px-4 pb-12 pt-8 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8">
           <div className="text-center">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-3 py-1 text-xs text-stone-600 dark:text-stone-400 sm:mb-6 sm:px-4 sm:py-1.5 sm:text-sm">
               <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -72,7 +72,7 @@ export default async function Home() {
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                   <Link
-                    href="/submit"
+                    href="/creator/prompts/new"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg border border-stone-300 dark:border-stone-600 bg-stone-50 dark:bg-stone-800 px-6 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 transition-all hover:border-stone-400 hover:bg-stone-50 dark:hover:bg-stone-700"
                   >
                     Share a Prompt
@@ -98,7 +98,7 @@ export default async function Home() {
             </div>
 
             {/* Stats */}
-            <div className="mx-auto mt-10 flex max-w-lg justify-center gap-6 sm:mt-16 sm:gap-16">
+            <div className="mx-auto mt-10 flex max-w-lg justify-center gap-4 sm:mt-16 sm:gap-16">
               <div className="text-center">
                 <div className="text-2xl font-bold text-stone-900 dark:text-stone-100 sm:text-3xl">
                   {promptsCount}+
@@ -123,7 +123,7 @@ export default async function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-12 sm:py-20">
+      <section className="border-b border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-900 py-8 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-xs font-medium uppercase tracking-widest text-stone-400 dark:text-stone-500">
@@ -258,19 +258,31 @@ export default async function Home() {
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((category) => (
-              <CategoryCard
-                key={category.slug}
-                category={{
-                  name: category.name,
-                  slug: category.slug,
-                  icon: category.icon,
-                  description: category.description,
-                  promptCount: category.promptCount,
-                }}
-              />
+            {categories.map((category, i) => (
+              <div key={category.slug} className={i >= 8 ? "hidden sm:block" : undefined}>
+                <CategoryCard
+                  category={{
+                    name: category.name,
+                    slug: category.slug,
+                    icon: category.icon,
+                    description: category.description,
+                    promptCount: category.promptCount,
+                  }}
+                />
+              </div>
             ))}
           </div>
+          {categories.length > 8 && (
+            <div className="mt-4 text-center sm:hidden">
+              <Link
+                href="/categories"
+                className="inline-flex items-center gap-1 text-sm font-medium text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-200"
+              >
+                View all {categories.length} categories
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -304,6 +316,7 @@ export default async function Home() {
                 prompt={prompt}
                 isSaved={savedIds.includes(prompt.id)}
                 isPurchased={purchasedPromptIds.includes(prompt.id)}
+                creator={prompt.creator}
               />
             ))}
           </div>
@@ -341,6 +354,7 @@ export default async function Home() {
                   prompt={prompt}
                   isSaved={savedIds.includes(prompt.id)}
                   isPurchased={purchasedPromptIds.includes(prompt.id)}
+                  creator={prompt.creator}
                 />
               ))}
             </div>
@@ -361,7 +375,7 @@ export default async function Home() {
                 with thousands of people who need exactly what you&apos;ve built.
               </p>
               <Link
-                href={user ? "/submit" : "/auth/signup"}
+                href={user ? "/creator/prompts/new" : "/auth/signup"}
                 className="mt-8 inline-flex items-center gap-2 rounded-lg bg-stone-50 px-6 py-3 text-sm font-medium text-stone-900 transition-all hover:bg-stone-100"
               >
                 {user ? "Share Your Prompt" : "Get Started Free"}

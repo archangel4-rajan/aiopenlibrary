@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import type { DbPrompt } from "@/lib/types";
 import ModelBadge from "./ModelBadge";
 import SaveButton from "./SaveButton";
@@ -10,6 +10,11 @@ interface PromptCardProps {
   prompt: DbPrompt;
   isSaved?: boolean;
   isPurchased?: boolean;
+  showCategory?: boolean;
+  creator?: {
+    display_name: string | null;
+    username: string | null;
+  } | null;
 }
 
 function isNew(dateStr: string): boolean {
@@ -19,22 +24,45 @@ function isNew(dateStr: string): boolean {
   return diffDays <= 14;
 }
 
-export default function PromptCard({ prompt, isSaved = false, isPurchased }: PromptCardProps) {
-  const promptPreview = prompt.prompt.replace(/\{\{[^}]+\}\}/g, "[...]").slice(0, 80);
+/** Extract variable names from {{variable_name}} syntax in prompt text. */
+function extractVariables(promptText: string): string[] {
+  const matches = promptText.match(/\{\{([^}]+)\}\}/g);
+  if (!matches) return [];
+  const seen = new Set<string>();
+  return matches
+    .map((m) => m.replace(/\{\{|\}\}/g, "").trim().replace(/_/g, " "))
+    .filter((v) => {
+      if (seen.has(v)) return false;
+      seen.add(v);
+      return true;
+    })
+    .slice(0, 4);
+}
+
+export default function PromptCard({
+  prompt,
+  isSaved = false,
+  isPurchased,
+  showCategory = true,
+  creator,
+}: PromptCardProps) {
+  const variables = extractVariables(prompt.prompt);
 
   return (
-    <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-white p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
+    <div className="group relative flex flex-col rounded-lg border border-stone-200 bg-white p-4 sm:p-5 transition-all hover:border-stone-300 hover:shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:hover:border-stone-600">
       <Link
         href={`/prompts/${prompt.slug}`}
         className="absolute inset-0 z-0 rounded-lg"
       />
 
-      <div className="mb-3 flex items-start justify-between">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-xs text-stone-600 dark:bg-stone-800 dark:text-stone-300">
-            <span>{getCategoryIcon(prompt.category_slug)}</span>
-            {prompt.category_name}
-          </span>
+      <div className="mb-2 sm:mb-3 flex items-start justify-between">
+        <div className="flex flex-wrap items-center gap-2">
+          {showCategory && (
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-stone-100 px-2.5 py-1 text-xs text-stone-600 dark:bg-stone-800 dark:text-stone-300">
+              <span>{getCategoryIcon(prompt.category_slug)}</span>
+              {prompt.category_name}
+            </span>
+          )}
           {isNew(prompt.created_at) && (
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
               <Sparkles className="h-2.5 w-2.5" />
@@ -62,38 +90,55 @@ export default function PromptCard({ prompt, isSaved = false, isPurchased }: Pro
         </div>
       </div>
 
-      <h3 className="mb-2 text-base font-semibold text-stone-900 transition-colors group-hover:text-stone-600 dark:text-stone-100 dark:group-hover:text-stone-300">
+      <h3 className="mb-1 text-base font-semibold text-stone-900 transition-colors group-hover:text-stone-600 dark:text-stone-100 dark:group-hover:text-stone-300">
         {prompt.title}
       </h3>
-      <p className="mb-3 line-clamp-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
+      {creator && (creator.display_name || creator.username) && (
+        <p className="mb-2 text-xs text-stone-400 dark:text-stone-500">
+          by {creator.display_name || creator.username}
+        </p>
+      )}
+      <p className="mb-2 sm:mb-3 line-clamp-2 text-sm leading-relaxed text-stone-500 dark:text-stone-300">
         {prompt.description}
       </p>
 
-      {/* Prompt preview snippet */}
-      <p className="mb-4 line-clamp-1 rounded bg-stone-50 px-2 py-1 font-mono text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400">
-        {promptPreview}
-        {prompt.prompt.length > 80 && "..."}
-      </p>
+      {/* Variable chips — show what's customizable */}
+      {variables.length > 0 && (
+        <div className="mb-4 flex flex-wrap gap-1.5">
+          {variables.map((v) => (
+            <span
+              key={v}
+              className="rounded bg-stone-50 px-2 py-0.5 text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400"
+            >
+              {v}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div className="mt-auto flex flex-col gap-3">
         <ModelBadge model={prompt.recommended_model} icon={prompt.model_icon} />
 
         <div className="relative z-10 flex flex-wrap gap-1.5">
-          {prompt.tags.slice(0, 3).map((tag) => (
-            <TagLink key={tag} tag={tag} size="sm" />
+          {prompt.tags.slice(0, 3).map((tag, i) => (
+            <span key={tag} className={i === 2 ? "hidden sm:inline-flex" : undefined}>
+              <TagLink tag={tag} size="sm" />
+            </span>
           ))}
           {prompt.tags.length > 3 && (
-            <span className="rounded bg-stone-50 px-2 py-0.5 text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400">
+            <span className="hidden rounded bg-stone-50 px-2 py-0.5 text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400 sm:inline">
               +{prompt.tags.length - 3}
+            </span>
+          )}
+          {prompt.tags.length > 2 && (
+            <span className="rounded bg-stone-50 px-2 py-0.5 text-[11px] text-stone-400 dark:bg-stone-800 dark:text-stone-400 sm:hidden">
+              +{prompt.tags.length - 2}
             </span>
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-stone-100 pt-3 dark:border-stone-700">
+        <div className="border-t border-stone-100 pt-3 dark:border-stone-700">
           <DifficultyBadge difficulty={prompt.difficulty} />
-          <span className="flex items-center gap-1 text-xs text-stone-400 opacity-0 transition-opacity group-hover:opacity-100 dark:text-stone-500">
-            View prompt <ArrowRight className="h-3 w-3" />
-          </span>
         </div>
       </div>
     </div>

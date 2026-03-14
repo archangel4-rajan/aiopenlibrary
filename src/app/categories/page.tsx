@@ -58,7 +58,7 @@ export default async function CategoriesPage() {
         <h2 className="mb-6 text-lg font-semibold text-stone-900 dark:text-stone-100">
           Prompt Categories
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {[...categories].sort((a, b) => a.name.localeCompare(b.name)).map((category) => (
             <div key={category.slug} className="flex flex-col">
               <CategoryCard
