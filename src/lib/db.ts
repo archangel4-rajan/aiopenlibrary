@@ -116,12 +116,12 @@ export async function getPromptById(id: string): Promise<DbPrompt | null> {
 /** Returns published prompts for a category, ordered by saves descending. */
 export async function getPromptsByCategory(
   categorySlug: string
-): Promise<DbPrompt[]> {
+): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("prompts")
-      .select("*")
+      .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
       .eq("category_slug", categorySlug)
       .eq("is_published", true)
       .order("saves_count", { ascending: false });
@@ -139,12 +139,12 @@ export async function getPromptsByCategory(
 /** Returns the top N published prompts by saves count. */
 export async function getFeaturedPrompts(
   limit: number = 6
-): Promise<DbPrompt[]> {
+): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("prompts")
-      .select("*")
+      .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
       .eq("is_published", true)
       .order("saves_count", { ascending: false })
       .limit(limit);
@@ -485,12 +485,12 @@ export async function getLeaderboardPrompts(
 /** Returns the most recently published prompts. */
 export async function getRecentPrompts(
   limit: number = 6
-): Promise<DbPrompt[]> {
+): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("prompts")
-      .select("*")
+      .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
       .eq("is_published", true)
       .order("created_at", { ascending: false })
       .limit(limit);
