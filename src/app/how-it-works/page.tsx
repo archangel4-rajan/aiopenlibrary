@@ -130,7 +130,7 @@ export default function HowItWorksPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/submit"
+              href="/creator/prompts/new"
               className="inline-flex items-center gap-2 rounded-lg border border-stone-300 bg-white px-6 py-3 text-sm font-medium text-stone-700 hover:bg-stone-50 dark:border-stone-600 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
             >
               Share a Prompt

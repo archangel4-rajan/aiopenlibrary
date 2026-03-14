@@ -183,7 +183,7 @@ export default async function RootLayout({
           <ToastProvider>
             <div className="flex min-h-screen">
               <Sidebar />
-              <div className="flex flex-1 flex-col min-w-0">
+              <div className="flex flex-1 flex-col min-w-0 overflow-x-hidden">
                 <TopSearchBar />
                 <main className="flex-1">{children}</main>
                 <Footer />

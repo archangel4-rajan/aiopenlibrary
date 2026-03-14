@@ -91,7 +91,7 @@ export default function SaveButton({
     <button
       onClick={handleToggle}
       disabled={isLoading}
-      className={`flex items-center gap-1 transition-colors disabled:opacity-50 ${
+      className={`flex items-center gap-1 rounded-md px-1.5 py-1 transition-colors disabled:opacity-50 ${
         saved ? "text-stone-700 dark:text-stone-200" : "text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300"
       }`}
     >

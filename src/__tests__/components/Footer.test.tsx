@@ -29,7 +29,7 @@ describe("Footer", () => {
 
     expect(hrefs).toContain("/categories");
     expect(hrefs).toContain("/search?q=");
-    expect(hrefs).toContain("/submit");
+    expect(hrefs).toContain("/creator/prompts/new");
     expect(hrefs).toContain("/about");
   });
 

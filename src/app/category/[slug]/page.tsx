@@ -119,6 +119,8 @@ export default async function CategoryPage({
                 prompt={prompt}
                 isSaved={savedIds.includes(prompt.id)}
                 isPurchased={purchasedPromptIds.includes(prompt.id)}
+                showCategory={false}
+                creator={prompt.creator}
               />
             ))}
           </div>
@@ -128,7 +130,7 @@ export default async function CategoryPage({
               No prompts in this category yet. Be the first to contribute!
             </p>
             <Link
-              href="/submit"
+              href="/creator/prompts/new"
               className="mt-4 inline-flex rounded-lg bg-stone-900 dark:bg-stone-50 px-4 py-2 text-sm font-medium text-white dark:text-stone-900 hover:bg-stone-800 dark:hover:bg-stone-100"
             >
               Submit a Prompt
