@@ -1,3 +1,5 @@
+export const revalidate = 1800;
+
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";

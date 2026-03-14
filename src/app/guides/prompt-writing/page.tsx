@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { BookOpen, ArrowRight } from "lucide-react";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "Prompt Writing Guide — How to Write Better AI Prompts",
   description:

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, Users, Globe, Lightbulb } from "lucide-react";
 import type { Metadata } from "next";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "About AIOpenLibrary — The Wikipedia for AI Prompts",
   alternates: { canonical: "https://aiopenlibrary.com/about" },

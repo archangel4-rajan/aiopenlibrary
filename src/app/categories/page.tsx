@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import Link from "next/link";
 import { BookOpen, Sparkles } from "lucide-react";
 import { getCategories, getCategoryPromptCounts } from "@/lib/db";

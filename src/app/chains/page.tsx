@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import { Link2 } from "lucide-react";
 import { getPublishedChains, getUserSavedChainIds, getUserPurchasedChainIds } from "@/lib/db";
 import { getUser } from "@/lib/auth";

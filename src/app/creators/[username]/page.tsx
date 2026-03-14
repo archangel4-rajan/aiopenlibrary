@@ -1,3 +1,5 @@
+export const revalidate = 1800;
+
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Bookmark, Heart, FileText } from "lucide-react";

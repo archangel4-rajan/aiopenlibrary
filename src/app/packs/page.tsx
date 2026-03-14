@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import type { Metadata } from "next";
 import { getPublishedPacks } from "@/lib/db";
 import { createClient } from "@/lib/supabase/server";

@@ -1,3 +1,5 @@
+export const revalidate = 3600;
+
 import type { Metadata } from "next";
 import { getZapPackages, getZapBalance, getZapTransactions } from "@/lib/db";
 import type { ZapTransaction } from "@/lib/types";

@@ -71,6 +71,20 @@ vi.mock("@/lib/supabase/server", () => ({
     },
     rpc: (...args: unknown[]) => mockRpc(...args),
   }),
+  createAdminClient: vi.fn().mockReturnValue({
+    from: (table: string) => {
+      if (table === "prompt_chains") {
+        return {
+          select: () => ({
+            eq: () => ({
+              single: () => mockChainSingle(),
+            }),
+          }),
+        };
+      }
+      return {};
+    },
+  }),
 }));
 
 import { POST as PurchasePost } from "@/app/api/chains/[slug]/purchase/route";

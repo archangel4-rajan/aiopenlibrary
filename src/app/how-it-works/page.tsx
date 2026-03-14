@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Search, SlidersHorizontal, Sparkles, ArrowRight } from "lucide-react";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   title: "How It Works — AIOpenLibrary",
   description:

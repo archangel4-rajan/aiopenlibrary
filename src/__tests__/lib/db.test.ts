@@ -50,10 +50,17 @@ function createChain(finalData: unknown = [], finalError: unknown = null) {
 
 const mockFrom = vi.fn();
 
+const mockAdminFrom = vi.fn();
+const mockAdminRpc = vi.fn();
+
 vi.mock("@/lib/supabase/server", () => ({
   createClient: vi.fn().mockResolvedValue({
     from: (...args: unknown[]) => mockFrom(...args),
     rpc: (...args: unknown[]) => mockRpc(...args),
+  }),
+  createAdminClient: vi.fn().mockReturnValue({
+    from: (...args: unknown[]) => mockAdminFrom(...args),
+    rpc: (...args: unknown[]) => mockAdminRpc(...args),
   }),
 }));
 
@@ -120,14 +127,14 @@ describe("Database functions", () => {
 
   describe("getCategories", () => {
     it("returns categories from Supabase", async () => {
-      mockFrom.mockReturnValue(createChain([sampleCategory]));
+      mockAdminFrom.mockReturnValue(createChain([sampleCategory]));
       const categories = await getCategories();
       expect(categories).toEqual([sampleCategory]);
-      expect(mockFrom).toHaveBeenCalledWith("categories");
+      expect(mockAdminFrom).toHaveBeenCalledWith("categories");
     });
 
     it("returns empty array on error", async () => {
-      mockFrom.mockReturnValue(createChain(null, { message: "error" }));
+      mockAdminFrom.mockReturnValue(createChain(null, { message: "error" }));
       const categories = await getCategories();
       expect(categories).toEqual([]);
     });
@@ -136,14 +143,14 @@ describe("Database functions", () => {
   describe("getCategoryBySlug", () => {
     it("returns a category by slug", async () => {
       const chain = createChain(sampleCategory);
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const cat = await getCategoryBySlug("software-engineering");
       expect(cat).toEqual(sampleCategory);
     });
 
     it("returns null on error", async () => {
       const chain = createChain(null, { message: "not found" });
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const cat = await getCategoryBySlug("nonexistent");
       expect(cat).toBeNull();
     });
@@ -151,13 +158,13 @@ describe("Database functions", () => {
 
   describe("getPrompts", () => {
     it("returns prompts from Supabase", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const prompts = await getPrompts();
       expect(prompts).toEqual([samplePrompt]);
     });
 
     it("returns empty array on error", async () => {
-      mockFrom.mockReturnValue(createChain(null, { message: "error" }));
+      mockAdminFrom.mockReturnValue(createChain(null, { message: "error" }));
       const prompts = await getPrompts();
       expect(prompts).toEqual([]);
     });
@@ -166,14 +173,14 @@ describe("Database functions", () => {
   describe("getPromptBySlug", () => {
     it("returns a prompt by slug", async () => {
       const chain = createChain(samplePrompt);
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const prompt = await getPromptBySlug("test-prompt");
       expect(prompt).toEqual(samplePrompt);
     });
 
     it("returns null for missing slug", async () => {
       const chain = createChain(null, { message: "not found" });
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const prompt = await getPromptBySlug("missing");
       expect(prompt).toBeNull();
     });
@@ -182,29 +189,31 @@ describe("Database functions", () => {
   describe("getPromptById", () => {
     it("returns a prompt by id", async () => {
       const chain = createChain(samplePrompt);
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const prompt = await getPromptById("prompt-1");
       expect(prompt).toEqual(samplePrompt);
     });
   });
 
   describe("getFeaturedPrompts", () => {
-    it("returns prompts from Supabase", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+    it("returns prompts with creator data from Supabase", async () => {
+      // attachCreators does a second query to "profiles" — mock both calls
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const featured = await getFeaturedPrompts(6);
-      expect(featured).toEqual([samplePrompt]);
+      // samplePrompt has created_by: null, so creator will be null
+      expect(featured).toEqual([{ ...samplePrompt, creator: null }]);
     });
   });
 
   describe("searchPrompts", () => {
     it("returns all prompts for empty query", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const results = await searchPrompts("");
       expect(results).toEqual([samplePrompt]);
     });
 
     it("searches with non-empty query", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const results = await searchPrompts("test");
       expect(results).toEqual([samplePrompt]);
     });
@@ -286,8 +295,8 @@ describe("Database functions", () => {
 
   describe("getLeaderboardPrompts", () => {
     it("falls back to top prompts when rpc returns empty", async () => {
-      mockRpc.mockResolvedValue({ data: [], error: null });
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminRpc.mockResolvedValue({ data: [], error: null });
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const result = await getLeaderboardPrompts(10);
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]).toHaveProperty("weekly_saves");
@@ -320,56 +329,56 @@ describe("Database functions", () => {
 
   describe("getLeaderboardPromptsSorted", () => {
     it("returns prompts sorted by saves_count for 'saved'", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const result = await getLeaderboardPromptsSorted("saved", 10);
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]).toHaveProperty("weekly_saves", 0);
-      expect(mockFrom).toHaveBeenCalledWith("prompts");
+      expect(mockAdminFrom).toHaveBeenCalledWith("prompts");
     });
 
     it("returns prompts sorted by likes_count for 'liked'", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const result = await getLeaderboardPromptsSorted("liked", 10);
       expect(result.length).toBeGreaterThan(0);
-      expect(mockFrom).toHaveBeenCalledWith("prompts");
+      expect(mockAdminFrom).toHaveBeenCalledWith("prompts");
     });
 
     it("returns prompts sorted by created_at for 'newest'", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const result = await getLeaderboardPromptsSorted("newest", 10);
       expect(result.length).toBeGreaterThan(0);
     });
 
     it("uses RPC for 'trending' sort", async () => {
-      mockRpc.mockResolvedValue({ data: [{ ...samplePrompt, weekly_saves: 5 }], error: null });
+      mockAdminRpc.mockResolvedValue({ data: [{ ...samplePrompt, weekly_saves: 5 }], error: null });
       const result = await getLeaderboardPromptsSorted("trending", 10);
       expect(result.length).toBeGreaterThan(0);
-      expect(mockRpc).toHaveBeenCalledWith("get_weekly_leaderboard", { limit_count: 10 });
+      expect(mockAdminRpc).toHaveBeenCalledWith("get_weekly_leaderboard", { limit_count: 10 });
     });
 
     it("falls back to saves for 'trending' when RPC returns empty", async () => {
-      mockRpc.mockResolvedValue({ data: [], error: null });
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminRpc.mockResolvedValue({ data: [], error: null });
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       const result = await getLeaderboardPromptsSorted("trending", 10);
       expect(result.length).toBeGreaterThan(0);
       expect(result[0]).toHaveProperty("weekly_saves", 0);
     });
 
     it("returns empty array on error", async () => {
-      mockFrom.mockImplementation(() => { throw new Error("fail"); });
+      mockAdminFrom.mockImplementation(() => { throw new Error("fail"); });
       const result = await getLeaderboardPromptsSorted("saved", 10);
       expect(result).toEqual([]);
     });
 
     it("returns empty array when DB returns empty results", async () => {
-      mockFrom.mockReturnValue(createChain([]));
+      mockAdminFrom.mockReturnValue(createChain([]));
       const result = await getLeaderboardPromptsSorted("saved", 10);
       expect(result).toEqual([]);
     });
 
     it("coalesces null saves_count and likes_count to 0", async () => {
       const promptWithNulls = { ...samplePrompt, saves_count: null, likes_count: null, dislikes_count: null };
-      mockFrom.mockReturnValue(createChain([promptWithNulls]));
+      mockAdminFrom.mockReturnValue(createChain([promptWithNulls]));
       const result = await getLeaderboardPromptsSorted("saved", 10);
       expect(result[0].saves_count).toBe(0);
       expect(result[0].likes_count).toBe(0);
@@ -379,17 +388,17 @@ describe("Database functions", () => {
 
     it("handles prompts with zero likes_count", async () => {
       const promptWithZero = { ...samplePrompt, likes_count: 0 };
-      mockFrom.mockReturnValue(createChain([promptWithZero]));
+      mockAdminFrom.mockReturnValue(createChain([promptWithZero]));
       const result = await getLeaderboardPromptsSorted("liked", 10);
       expect(result[0].likes_count).toBe(0);
     });
 
     it("defaults to 'saved' sort for invalid sort param at runtime", async () => {
-      mockFrom.mockReturnValue(createChain([samplePrompt]));
+      mockAdminFrom.mockReturnValue(createChain([samplePrompt]));
       // Force invalid value past TypeScript
       const result = await getLeaderboardPromptsSorted("malicious_input" as never, 10);
       expect(result.length).toBeGreaterThan(0);
-      expect(mockFrom).toHaveBeenCalledWith("prompts");
+      expect(mockAdminFrom).toHaveBeenCalledWith("prompts");
     });
   });
 
@@ -405,14 +414,14 @@ describe("Database functions", () => {
         updated_at: "2025-01-01",
       };
       const chain = createChain(profile);
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const result = await getUserProfile("user-1");
       expect(result).toEqual(profile);
     });
 
     it("returns null on error", async () => {
       const chain = createChain(null, { message: "error" });
-      mockFrom.mockReturnValue(chain);
+      mockAdminFrom.mockReturnValue(chain);
       const result = await getUserProfile("user-1");
       expect(result).toBeNull();
     });
