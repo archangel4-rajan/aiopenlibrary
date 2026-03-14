@@ -10,6 +10,28 @@ import { createClient, createAdminClient } from "@/lib/supabase/server";
 import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor, ZapBalance, ZapTransaction, ZapPackage, PromptPack, UserPurchase, DbChain, ChainStepWithPrompt, ChainCommentWithAuthor } from "@/lib/types";
 import { sanitizeSearchQuery } from "@/lib/db-utils";
 
+type PromptWithCreator = DbPrompt & { creator?: { display_name: string | null; username: string | null } | null };
+
+/**
+ * Batch-attaches creator profiles to prompts.
+ * The admin client can't use FK joins through auth.users → profiles,
+ * so we fetch creator profiles in a separate query.
+ */
+async function attachCreators(prompts: DbPrompt[]): Promise<PromptWithCreator[]> {
+  if (!prompts.length) return [];
+  const creatorIds = [...new Set(prompts.filter(p => p.created_by).map(p => p.created_by!))] ;
+  if (!creatorIds.length) return prompts.map(p => ({ ...p, creator: null }));
+
+  const supabase = createAdminClient();
+  const { data: creators } = await supabase
+    .from("profiles")
+    .select("id, display_name, username")
+    .in("id", creatorIds);
+
+  const map = new Map((creators ?? []).map(c => [c.id, { display_name: c.display_name, username: c.username }]));
+  return prompts.map(p => ({ ...p, creator: p.created_by ? map.get(p.created_by) ?? null : null }));
+}
+
 // ============================================
 // CATEGORIES
 // ============================================
@@ -116,12 +138,12 @@ export async function getPromptById(id: string): Promise<DbPrompt | null> {
 /** Returns published prompts for a category, ordered by saves descending. */
 export async function getPromptsByCategory(
   categorySlug: string
-): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
+): Promise<PromptWithCreator[]> {
   try {
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
-      .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
+      .select("*")
       .eq("category_slug", categorySlug)
       .eq("is_published", true)
       .order("saves_count", { ascending: false });
@@ -130,7 +152,7 @@ export async function getPromptsByCategory(
       console.error("Error fetching category prompts:", error);
       return [];
     }
-    return data ?? [];
+    return attachCreators(data ?? []);
   } catch {
     return [];
   }
@@ -139,12 +161,12 @@ export async function getPromptsByCategory(
 /** Returns the top N published prompts by saves count. */
 export async function getFeaturedPrompts(
   limit: number = 6
-): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
+): Promise<PromptWithCreator[]> {
   try {
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
-      .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
+      .select("*")
       .eq("is_published", true)
       .order("saves_count", { ascending: false })
       .limit(limit);
@@ -153,7 +175,7 @@ export async function getFeaturedPrompts(
       console.error("Error fetching featured prompts:", error);
       return [];
     }
-    return data ?? [];
+    return attachCreators(data ?? []);
   } catch {
     return [];
   }
@@ -485,12 +507,12 @@ export async function getLeaderboardPrompts(
 /** Returns the most recently published prompts. */
 export async function getRecentPrompts(
   limit: number = 6
-): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
+): Promise<PromptWithCreator[]> {
   try {
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
-      .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
+      .select("*")
       .eq("is_published", true)
       .order("created_at", { ascending: false })
       .limit(limit);
@@ -499,7 +521,7 @@ export async function getRecentPrompts(
       console.error("Error fetching recent prompts:", error);
       return [];
     }
-    return data ?? [];
+    return attachCreators(data ?? []);
   } catch {
     return [];
   }
