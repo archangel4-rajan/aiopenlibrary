@@ -231,8 +231,8 @@ create policy "Admins can delete prompts"
   using (exists (select 1 from public.profiles where id = auth.uid() and role = 'admin'));
 
 -- Profiles: users see own, admins see all
-create policy "Users can view own profile"
-  on public.profiles for select using (auth.uid() = id);
+create policy "Public profiles are viewable by everyone"
+  on public.profiles for select using (true);
 
 create policy "Admins can view all profiles"
   on public.profiles for select

@@ -6,8 +6,13 @@
  */
 
 import { createServerClient } from "@supabase/ssr";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
+/**
+ * User-scoped client — respects RLS based on the logged-in user's session.
+ * Use for user-specific operations (saves, votes, profile updates).
+ */
 export async function createClient() {
   const cookieStore = await cookies();
 
@@ -37,5 +42,19 @@ export async function createClient() {
         },
       },
     }
+  );
+}
+
+/**
+ * Admin client — bypasses RLS entirely using the service role key.
+ * Use for public data queries where RLS would incorrectly restrict results
+ * (e.g., reading prompts with creator profile joins).
+ *
+ * NEVER expose this client to the browser or use it for user-mutable operations.
+ */
+export function createAdminClient() {
+  return createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 }

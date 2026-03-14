@@ -6,7 +6,7 @@
  * so callers can render gracefully without try/catch.
  */
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createAdminClient } from "@/lib/supabase/server";
 import type { DbPrompt, DbCategory, DbProfile, DbPromptVote, CommentWithAuthor, ZapBalance, ZapTransaction, ZapPackage, PromptPack, UserPurchase, DbChain, ChainStepWithPrompt, ChainCommentWithAuthor } from "@/lib/types";
 import { sanitizeSearchQuery } from "@/lib/db-utils";
 
@@ -17,7 +17,7 @@ import { sanitizeSearchQuery } from "@/lib/db-utils";
 /** Returns all categories ordered by name. */
 export async function getCategories(): Promise<DbCategory[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("categories")
       .select("*")
@@ -38,7 +38,7 @@ export async function getCategoryBySlug(
   slug: string
 ): Promise<DbCategory | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("categories")
       .select("*")
@@ -59,7 +59,7 @@ export async function getCategoryBySlug(
 /** Returns all published prompts ordered by saves descending. */
 export async function getPrompts(): Promise<DbPrompt[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
@@ -81,7 +81,7 @@ export async function getPromptBySlug(
   slug: string
 ): Promise<DbPrompt | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
@@ -99,7 +99,7 @@ export async function getPromptBySlug(
 /** Returns a single prompt by ID (including unpublished), or null. */
 export async function getPromptById(id: string): Promise<DbPrompt | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
@@ -118,7 +118,7 @@ export async function getPromptsByCategory(
   categorySlug: string
 ): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
@@ -141,7 +141,7 @@ export async function getFeaturedPrompts(
   limit: number = 6
 ): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
@@ -162,7 +162,7 @@ export async function getFeaturedPrompts(
 /** Searches published prompts by title, description, or category name. */
 export async function searchPrompts(query: string): Promise<DbPrompt[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const q = query.trim();
 
     if (!q) {
@@ -194,7 +194,7 @@ export async function searchPrompts(query: string): Promise<DbPrompt[]> {
 /** Returns the total count of published prompts. */
 export async function getPromptsCount(): Promise<number> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { count, error } = await supabase
       .from("prompts")
       .select("*", { count: "exact", head: true })
@@ -212,7 +212,7 @@ export async function getCategoryPromptCounts(): Promise<
   Record<string, number>
 > {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("category_slug")
@@ -408,7 +408,7 @@ export async function getLeaderboardPromptsSorted(
   const safeSort = validateLeaderboardSort(sort);
 
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     if (safeSort === "trending") {
       // Use the weekly leaderboard RPC for trending
@@ -452,7 +452,7 @@ export async function getLeaderboardPrompts(
   limit: number = 20
 ): Promise<LeaderboardPrompt[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase.rpc("get_weekly_leaderboard", {
       limit_count: limit,
     });
@@ -487,7 +487,7 @@ export async function getRecentPrompts(
   limit: number = 6
 ): Promise<(DbPrompt & { creator?: { display_name: string | null; username: string | null } | null })[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*, creator:profiles!prompts_created_by_fkey(display_name, username)")
@@ -519,7 +519,7 @@ export async function getRelatedPromptsByTags(
   try {
     if (tags.length === 0) return [];
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
@@ -554,7 +554,7 @@ export async function searchPromptsWithFilters(
   } = {}
 ): Promise<DbPrompt[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     let builder = supabase
       .from("prompts")
       .select("*")
@@ -602,7 +602,7 @@ export async function getUserProfile(
   userId: string
 ): Promise<DbProfile | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
@@ -625,7 +625,7 @@ export async function getCreatorByUsername(
   identifier: string
 ): Promise<DbProfile | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Try username first
     const { data, error } = await supabase
@@ -655,7 +655,7 @@ export async function getPublishedPromptsByCreator(
   userId: string
 ): Promise<DbPrompt[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
@@ -678,7 +678,7 @@ export async function getCreatorStats(
   userId: string
 ): Promise<{ totalPrompts: number; totalSaves: number; totalLikes: number }> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("saves_count, likes_count")
@@ -702,7 +702,7 @@ export async function getProfileByUsername(
   username: string
 ): Promise<DbProfile | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("profiles")
       .select("*")
@@ -747,7 +747,7 @@ export async function getTopCreators(
   limit: number = 20
 ): Promise<(DbProfile & { promptCount: number; totalSaves: number })[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Get all creators/admins with usernames
     const { data: profiles, error: profileError } = await supabase
@@ -809,7 +809,7 @@ export async function getCreatorDetailedStats(
   topPrompt: DbPrompt | null;
 }> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompts")
       .select("*")
@@ -845,7 +845,7 @@ export async function getCommentsByPromptId(
   promptId: string
 ): Promise<CommentWithAuthor[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompt_comments")
       .select("*, profiles!prompt_comments_user_id_fkey(display_name, avatar_url, username)")
@@ -937,7 +937,7 @@ export async function getZapTransactions(
 /** Returns active Zap packages ordered by sort_order. */
 export async function getZapPackages(): Promise<ZapPackage[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("zap_packages")
       .select("*")
@@ -1068,7 +1068,7 @@ export async function hasUserPurchasedPack(
 /** Returns all published packs. */
 export async function getPublishedPacks(limit?: number): Promise<PromptPack[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     let query = supabase
       .from("prompt_packs")
       .select("*")
@@ -1090,7 +1090,7 @@ export async function getPublishedPacks(limit?: number): Promise<PromptPack[]> {
 /** Returns a pack by slug, or null if not found. */
 export async function getPackBySlug(slug: string): Promise<PromptPack | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompt_packs")
       .select("*")
@@ -1107,7 +1107,7 @@ export async function getPackBySlug(slug: string): Promise<PromptPack | null> {
 /** Returns a pack by ID, or null if not found. */
 export async function getPackById(id: string): Promise<PromptPack | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompt_packs")
       .select("*")
@@ -1206,7 +1206,7 @@ export async function ensureZapBalance(userId: string): Promise<void> {
 /** Returns all published chains ordered by saves descending. */
 export async function getPublishedChains(limit?: number): Promise<DbChain[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     let query = supabase
       .from("prompt_chains")
       .select("*")
@@ -1228,7 +1228,7 @@ export async function getPublishedChains(limit?: number): Promise<DbChain[]> {
 /** Returns a single published chain by slug, or null if not found. */
 export async function getChainBySlug(slug: string): Promise<DbChain | null> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("prompt_chains")
       .select("*")
@@ -1262,7 +1262,7 @@ export async function getChainById(id: string): Promise<DbChain | null> {
 /** Returns chain steps with full prompt data, ordered by step_number. */
 export async function getChainSteps(chainId: string): Promise<ChainStepWithPrompt[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data: steps, error: stepsError } = await supabase
       .from("prompt_chain_steps")
       .select("*")
@@ -1393,7 +1393,7 @@ export async function hasUserPurchasedChain(
 /** Returns comments for a chain with author info, nested by parent. */
 export async function getChainComments(chainId: string): Promise<ChainCommentWithAuthor[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("chain_comments")
       .select("*, profiles!chain_comments_user_id_fkey(display_name, avatar_url, username)")
