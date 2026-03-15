@@ -23,6 +23,7 @@ import {
 import { getUser } from "@/lib/auth";
 import PromptCard from "@/components/PromptCard";
 import CategoryCard from "@/components/CategoryCard";
+import NewsletterCTA from "@/components/NewsletterCTA";
 
 export default async function Home() {
   const [categoriesData, featured, recentPrompts, promptsCount, user] = await Promise.all([
@@ -363,6 +364,9 @@ export default async function Home() {
           </div>
         </section>
       )}
+
+      {/* Newsletter */}
+      <NewsletterCTA user={user ? { id: user.id, email: user.email ?? '' } : null} />
 
       {/* CTA */}
       <section className="py-16 sm:py-24">
