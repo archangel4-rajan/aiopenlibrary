@@ -6,6 +6,7 @@ import TopSearchBar from "@/components/TopSearchBar";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
 import { ToastProvider } from "@/components/Toast";
+import { TrackingProvider } from "@/components/TrackingProvider";
 import { getUser, getProfile } from "@/lib/auth";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -181,14 +182,16 @@ export default async function RootLayout({
           initialProfile={profile}
         >
           <ToastProvider>
-            <div className="flex flex-col md:flex-row min-h-screen">
-              <Sidebar />
-              <div className="flex flex-1 flex-col min-w-0 overflow-x-hidden">
-                <TopSearchBar />
-                <main className="flex-1">{children}</main>
-                <Footer />
+            <TrackingProvider>
+              <div className="flex flex-col md:flex-row min-h-screen">
+                <Sidebar />
+                <div className="flex flex-1 flex-col min-w-0 overflow-x-hidden">
+                  <TopSearchBar />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
+                </div>
               </div>
-            </div>
+            </TrackingProvider>
           </ToastProvider>
         </AuthProvider>
         <Analytics />
