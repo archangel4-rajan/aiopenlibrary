@@ -577,29 +577,71 @@ export async function searchPromptsWithFilters(
 ): Promise<DbPrompt[]> {
   try {
     const supabase = createAdminClient();
+    const q = query.trim();
+
+    // Full-text search via tsvector (GIN-indexed, fast)
+    if (q) {
+      const sanitized = sanitizeSearchQuery(q);
+      // Convert query to tsquery format: "react hooks" → "react & hooks"
+      const tsQuery = q
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(w => sanitizeSearchQuery(w))
+        .join(" & ");
+
+      // Try full-text search first (uses GIN index, weighted ranking)
+      let builder = supabase
+        .from("prompts")
+        .select("*")
+        .eq("is_published", true)
+        .textSearch("search_vector", tsQuery, { type: "plain", config: "english" });
+
+      if (filters.category) builder = builder.eq("category_slug", filters.category);
+      if (filters.difficulty) builder = builder.eq("difficulty", filters.difficulty);
+      if (filters.model) builder = builder.eq("recommended_model", filters.model);
+
+      const { data, error } = await builder
+        .order("saves_count", { ascending: false })
+        .limit(50);
+
+      // If full-text search returns results, use them
+      if (!error && data && data.length > 0) {
+        return data;
+      }
+
+      // Fallback to ilike for partial/fuzzy matches (handles typos, fragments)
+      let fallback = supabase
+        .from("prompts")
+        .select("*")
+        .eq("is_published", true)
+        .or(
+          `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,tags.cs.{${sanitized}}`
+        );
+
+      if (filters.category) fallback = fallback.eq("category_slug", filters.category);
+      if (filters.difficulty) fallback = fallback.eq("difficulty", filters.difficulty);
+      if (filters.model) fallback = fallback.eq("recommended_model", filters.model);
+
+      const { data: fallbackData, error: fallbackError } = await fallback
+        .order("saves_count", { ascending: false })
+        .limit(50);
+
+      if (fallbackError) {
+        console.error("Error in fallback search:", fallbackError);
+        return [];
+      }
+      return fallbackData ?? [];
+    }
+
+    // No query — return all with filters
     let builder = supabase
       .from("prompts")
       .select("*")
       .eq("is_published", true);
 
-    const q = query.trim();
-    if (q) {
-      const sanitized = sanitizeSearchQuery(q);
-      // Search title, description, category name, category_slug, tags, and prompt text
-      builder = builder.or(
-        `title.ilike.%${sanitized}%,description.ilike.%${sanitized}%,category_name.ilike.%${sanitized}%,category_slug.ilike.%${sanitized}%,prompt.ilike.%${sanitized}%,tags.cs.{${sanitized}}`
-      );
-    }
-
-    if (filters.category) {
-      builder = builder.eq("category_slug", filters.category);
-    }
-    if (filters.difficulty) {
-      builder = builder.eq("difficulty", filters.difficulty);
-    }
-    if (filters.model) {
-      builder = builder.eq("recommended_model", filters.model);
-    }
+    if (filters.category) builder = builder.eq("category_slug", filters.category);
+    if (filters.difficulty) builder = builder.eq("difficulty", filters.difficulty);
+    if (filters.model) builder = builder.eq("recommended_model", filters.model);
 
     const { data, error } = await builder
       .order("saves_count", { ascending: false })
