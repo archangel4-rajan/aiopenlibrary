@@ -8,6 +8,13 @@
 import { createAdminClient } from "@/lib/supabase/server";
 
 // ── Event types ────────────────────────────────────────────────
+//
+// resource_id conventions (consistent within each event type):
+//   prompt.view / prompt.copy  → slug  (client-side, human-readable)
+//   prompt.save / unsave / vote → UUID (server-side, from API route params)
+//   search                     → null  (query stored in metadata)
+//   page.view                  → path  (client-side, e.g. "/prompts")
+//
 
 export const ALLOWED_EVENT_TYPES = [
   "prompt.view",
