@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { searchPromptsWithFilters } from "@/lib/db";
 import { searchLimiter, getClientIp } from "@/lib/rate-limit";
+import { trackSearch } from "@/lib/activity";
 
 export async function GET(request: Request) {
   const ip = getClientIp(request);
@@ -22,6 +23,10 @@ export async function GET(request: Request) {
     difficulty,
     model,
   });
+
+  if (query) {
+    trackSearch(query, results.length);
+  }
 
   return NextResponse.json(results);
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { saveLimiter } from "@/lib/rate-limit";
+import { trackPromptSave, trackPromptUnsave } from "@/lib/activity";
 
 export async function POST(
   request: Request,
@@ -39,6 +40,7 @@ export async function POST(
       return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
+    trackPromptSave(id, user.id);
     return NextResponse.json({ saved: true });
   } catch (err) {
     console.error("POST /api/prompts/[id]/save error:", err);
@@ -83,6 +85,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
+    trackPromptUnsave(id, user.id);
     return NextResponse.json({ saved: false });
   } catch (err) {
     console.error("DELETE /api/prompts/[id]/save error:", err);

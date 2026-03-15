@@ -10,6 +10,7 @@
 
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { trackPromptVote } from "@/lib/activity";
 
 export async function POST(
   request: Request,
@@ -59,6 +60,7 @@ export async function POST(
       return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 
+    trackPromptVote(id, voteType, user.id);
     return NextResponse.json({ vote_type: voteType });
   } catch (err) {
     console.error("POST /api/prompts/[id]/vote error:", err);
